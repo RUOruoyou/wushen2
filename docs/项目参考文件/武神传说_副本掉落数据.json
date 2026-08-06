@@ -1,0 +1,1378 @@
+{
+  "0": {
+    "name": "树林",
+    "reward_desc": "获得1000点经验，1000点潜能\n掉落或解谜奖励：\n<span cmd='look3 0 of fb_0'><wht>动物皮毛</wht></span>\n<span cmd='look3 1 of fb_0'><wht>布衣</wht></span>\n<span cmd='look3 2 of fb_0'><wht>钢刀</wht></span>\n<span cmd='look3 3 of fb_0'><wht>铁戒指</wht></span>\n<span cmd='look3 4 of fb_0'><wht>铁棍</wht></span>\n<span cmd='look3 5 of fb_0'><wht>铁剑</wht></span>\n<span cmd='look3 6 of fb_0'><wht>英雄巾</wht></span>\n<span cmd='look3 7 of fb_0'><wht>布鞋</wht></span>\n<span cmd='look3 8 of fb_0'><hig>短衣劲装</hig></span>\n<span cmd='look3 9 of fb_0'><wht>基本轻功秘籍</wht></span>",
+    "skill_drops": [
+      {
+        "color": "白",
+        "item": "基本轻功秘籍"
+      }
+    ],
+    "other_drops": [
+      {
+        "color": "白",
+        "item": "动物皮毛"
+      },
+      {
+        "color": "白",
+        "item": "布衣"
+      },
+      {
+        "color": "白",
+        "item": "钢刀"
+      },
+      {
+        "color": "白",
+        "item": "铁戒指"
+      },
+      {
+        "color": "白",
+        "item": "铁棍"
+      },
+      {
+        "color": "白",
+        "item": "铁剑"
+      },
+      {
+        "color": "白",
+        "item": "英雄巾"
+      },
+      {
+        "color": "白",
+        "item": "布鞋"
+      },
+      {
+        "color": "绿",
+        "item": "短衣劲装"
+      }
+    ]
+  },
+  "1": {
+    "name": "财主家",
+    "reward_desc": "获得1100点经验，1100点潜能\n掉落或解谜奖励：\n<span cmd='look3 0 of fb_1'><wht>家丁服</wht></span>\n<span cmd='look3 1 of fb_1'><wht>家丁鞋</wht></span>\n<span cmd='look3 2 of fb_1'><wht>东厢钥匙</wht></span>\n<span cmd='look3 3 of fb_1'><hic>崔莺莺的手镯</hic></span>\n<span cmd='look3 4 of fb_1'><hig>崔员外的戒指</hig></span>\n<span cmd='look3 5 of fb_1'><hic>小箱子</hic></span>\n<span cmd='look3 6 of fb_1'><wht>基本拳脚秘籍</wht></span>\n<span cmd='look3 7 of fb_1'><wht>基本招架秘籍</wht></span>\n<span cmd='look3 8 of fb_1'><wht>基本轻功秘籍</wht></span>",
+    "skill_drops": [
+      {
+        "color": "白",
+        "item": "基本拳脚秘籍"
+      },
+      {
+        "color": "白",
+        "item": "基本招架秘籍"
+      },
+      {
+        "color": "白",
+        "item": "基本轻功秘籍"
+      }
+    ],
+    "other_drops": [
+      {
+        "color": "白",
+        "item": "家丁服"
+      },
+      {
+        "color": "白",
+        "item": "家丁鞋"
+      },
+      {
+        "color": "白",
+        "item": "东厢钥匙"
+      },
+      {
+        "color": "青",
+        "item": "崔莺莺的手镯"
+      },
+      {
+        "color": "绿",
+        "item": "崔员外的戒指"
+      },
+      {
+        "color": "青",
+        "item": "小箱子"
+      }
+    ]
+  },
+  "2": {
+    "name": "流氓巷",
+    "reward_desc": "获得1200点经验，1200点潜能\n掉落或解谜奖励：\n<span cmd='look3 0 of fb_2'><hig>流氓巾</hig></span>\n<span cmd='look3 1 of fb_2'><hig>流氓衣</hig></span>\n<span cmd='look3 2 of fb_2'><hig>流氓鞋</hig></span>\n<span cmd='look3 3 of fb_2'><hig>流氓护腕</hig></span>\n<span cmd='look3 4 of fb_2'><hig>流氓短剑</hig></span>\n<span cmd='look3 5 of fb_2'><hig>流氓闷棍</hig></span>\n<span cmd='look3 6 of fb_2'><hig>千斤拳</hig></span>\n<span cmd='look3 7 of fb_2'><wht>基本内功秘籍</wht></span>\n<span cmd='look3 8 of fb_2'><wht>基本拳脚秘籍</wht></span>\n<span cmd='look3 9 of fb_2'><hig>太祖长拳残页</hig></span>\n<span cmd='look3 10 of fb_2'><wht>基本招架秘籍</wht></span>\n<span cmd='look3 11 of fb_2'><wht>基本轻功秘籍</wht></span>",
+    "skill_drops": [
+      {
+        "color": "白",
+        "item": "基本内功秘籍"
+      },
+      {
+        "color": "白",
+        "item": "基本拳脚秘籍"
+      },
+      {
+        "color": "绿",
+        "item": "太祖长拳残页"
+      },
+      {
+        "color": "白",
+        "item": "基本招架秘籍"
+      },
+      {
+        "color": "白",
+        "item": "基本轻功秘籍"
+      }
+    ],
+    "other_drops": [
+      {
+        "color": "绿",
+        "item": "流氓巾"
+      },
+      {
+        "color": "绿",
+        "item": "流氓衣"
+      },
+      {
+        "color": "绿",
+        "item": "流氓鞋"
+      },
+      {
+        "color": "绿",
+        "item": "流氓护腕"
+      },
+      {
+        "color": "绿",
+        "item": "流氓短剑"
+      },
+      {
+        "color": "绿",
+        "item": "流氓闷棍"
+      },
+      {
+        "color": "绿",
+        "item": "千斤拳"
+      }
+    ]
+  },
+  "3": {
+    "name": "丽春院",
+    "reward_desc": "获得1300点经验，1300点潜能\n掉落或解谜奖励：\n<span cmd='look3 0 of fb_3'><wht>基本刀法秘籍</wht></span>\n<span cmd='look3 1 of fb_3'><hig>五虎断门刀秘籍</hig></span>\n<span cmd='look3 2 of fb_3'><hig>五虎断门刀残页</hig></span>\n<span cmd='look3 3 of fb_3'><wht>基本鞭法秘籍</wht></span>\n<span cmd='look3 4 of fb_3'><hig>云龙鞭法残页</hig></span>\n<span cmd='look3 5 of fb_3'><hic>黑龙鞭</hic></span>\n<span cmd='look3 6 of fb_3'><hig>黑虎单刀</hig></span>\n<span cmd='look3 7 of fb_3'><hig>官服</hig></span>\n<span cmd='look3 8 of fb_3'><hig>韦春芳的项链</hig></span>",
+    "skill_drops": [
+      {
+        "color": "白",
+        "item": "基本刀法秘籍"
+      },
+      {
+        "color": "绿",
+        "item": "五虎断门刀秘籍"
+      },
+      {
+        "color": "绿",
+        "item": "五虎断门刀残页"
+      },
+      {
+        "color": "白",
+        "item": "基本鞭法秘籍"
+      },
+      {
+        "color": "绿",
+        "item": "云龙鞭法残页"
+      }
+    ],
+    "other_drops": [
+      {
+        "color": "青",
+        "item": "黑龙鞭"
+      },
+      {
+        "color": "绿",
+        "item": "黑虎单刀"
+      },
+      {
+        "color": "绿",
+        "item": "官服"
+      },
+      {
+        "color": "绿",
+        "item": "韦春芳的项链"
+      }
+    ]
+  },
+  "4": {
+    "name": "兵营",
+    "reward_desc": "获得1400点经验，1400点潜能\n掉落或解谜奖励：\n<span cmd='look3 0 of fb_4'><wht>基本刀法秘籍</wht></span>\n<span cmd='look3 1 of fb_4'><wht>基本剑法秘籍</wht></span>\n<span cmd='look3 2 of fb_4'><hic>将军剑</hic></span>\n<span cmd='look3 3 of fb_4'><hig>军刀</hig></span>\n<span cmd='look3 4 of fb_4'><hig>军服</hig></span>\n<span cmd='look3 5 of fb_4'><hig>齐眉棍</hig></span>\n<span cmd='look3 6 of fb_4'><hig>官服</hig></span>",
+    "skill_drops": [
+      {
+        "color": "白",
+        "item": "基本刀法秘籍"
+      },
+      {
+        "color": "白",
+        "item": "基本剑法秘籍"
+      }
+    ],
+    "other_drops": [
+      {
+        "color": "青",
+        "item": "将军剑"
+      },
+      {
+        "color": "绿",
+        "item": "军刀"
+      },
+      {
+        "color": "绿",
+        "item": "军服"
+      },
+      {
+        "color": "绿",
+        "item": "齐眉棍"
+      },
+      {
+        "color": "绿",
+        "item": "官服"
+      }
+    ]
+  },
+  "5": {
+    "name": "庄府",
+    "reward_desc": "获得1500点经验，1500点潜能\n掉落或解谜奖励：\n<span cmd='look3 0 of fb_5'><hic>神龙心法残页</hic></span>\n<span cmd='look3 1 of fb_5'><hig>意形步法残页</hig></span>\n<span cmd='look3 2 of fb_5'><hig>神龙剑残页</hig></span>",
+    "skill_drops": [
+      {
+        "color": "青",
+        "item": "神龙心法残页"
+      },
+      {
+        "color": "绿",
+        "item": "意形步法残页"
+      },
+      {
+        "color": "绿",
+        "item": "神龙剑残页"
+      }
+    ],
+    "other_drops": []
+  },
+  "6": {
+    "name": "鳌拜府",
+    "reward_desc": "获得1600点经验，1600点潜能\n掉落或解谜奖励：\n<span cmd='look3 0 of fb_6'><hic>金丝宝甲</hic></span>\n<span cmd='look3 1 of fb_6'><hic>鳌拜匕首</hic></span>\n<span cmd='look3 2 of fb_6'><hig>混元一气残页</hig></span>\n<span cmd='look3 3 of fb_6'><hig>飞檐走壁残页</hig></span>\n<span cmd='look3 4 of fb_6'><hig>伏虎拳残页</hig></span>\n<span cmd='look3 5 of fb_6'><hig>绝门棍残页</hig></span>\n<span cmd='look3 6 of fb_6'><wht>牢房钥匙</wht></span>\n<span cmd='look3 7 of fb_6'><hig>四十二章经</hig></span>",
+    "skill_drops": [
+      {
+        "color": "绿",
+        "item": "混元一气残页"
+      },
+      {
+        "color": "绿",
+        "item": "飞檐走壁残页"
+      },
+      {
+        "color": "绿",
+        "item": "伏虎拳残页"
+      },
+      {
+        "color": "绿",
+        "item": "绝门棍残页"
+      }
+    ],
+    "other_drops": [
+      {
+        "color": "青",
+        "item": "金丝宝甲"
+      },
+      {
+        "color": "青",
+        "item": "鳌拜匕首"
+      },
+      {
+        "color": "白",
+        "item": "牢房钥匙"
+      },
+      {
+        "color": "绿",
+        "item": "四十二章经"
+      }
+    ]
+  },
+  "7": {
+    "name": "天地会",
+    "reward_desc": "获得1700点经验，1700点潜能\n掉落或解谜奖励：\n<span cmd='look3 0 of fb_7'><hig>密宗心法残页</hig></span>\n<span cmd='look3 1 of fb_7'><hig>密宗大手印残页</hig></span>\n<span cmd='look3 2 of fb_7'><hig>猴拳残页</hig></span>\n<span cmd='look3 3 of fb_7'><hic>云龙剑残页</hic></span>\n<span cmd='look3 4 of fb_7'><hig>云龙身法残页</hig></span>\n<span cmd='look3 5 of fb_7'><hig>云龙心法残页</hig></span>\n<span cmd='look3 6 of fb_7'><hic>神形百变残页</hic></span>\n<span cmd='look3 7 of fb_7'><hig>秋风拂尘残页</hig></span>\n<span cmd='look3 8 of fb_7'><hic>云龙剑</hic></span>",
+    "skill_drops": [
+      {
+        "color": "绿",
+        "item": "密宗心法残页"
+      },
+      {
+        "color": "绿",
+        "item": "密宗大手印残页"
+      },
+      {
+        "color": "绿",
+        "item": "猴拳残页"
+      },
+      {
+        "color": "青",
+        "item": "云龙剑残页"
+      },
+      {
+        "color": "绿",
+        "item": "云龙身法残页"
+      },
+      {
+        "color": "绿",
+        "item": "云龙心法残页"
+      },
+      {
+        "color": "青",
+        "item": "神形百变残页"
+      },
+      {
+        "color": "绿",
+        "item": "秋风拂尘残页"
+      }
+    ],
+    "other_drops": [
+      {
+        "color": "青",
+        "item": "云龙剑"
+      }
+    ]
+  },
+  "8": {
+    "name": "神龙教",
+    "reward_desc": "获得1800点经验，1800点潜能\n掉落或解谜奖励：\n<span cmd='look3 0 of fb_8'><hic>神龙心法残页</hic></span>\n<span cmd='look3 1 of fb_8'><hig>意形步法残页</hig></span>\n<span cmd='look3 2 of fb_8'><hic>蛇岛奇功残页</hic></span>\n<span cmd='look3 3 of fb_8'><hig>神龙剑残页</hig></span>\n<span cmd='look3 4 of fb_8'><hic>化骨绵掌残页</hic></span>\n<span cmd='look3 5 of fb_8'><hic>神龙袍</hic></span>\n<span cmd='look3 6 of fb_8'><hic>神龙冠</hic></span>\n<span cmd='look3 7 of fb_8'><hic>神龙靴</hic></span>\n<span cmd='look3 8 of fb_8'><hic>神龙护腕</hic></span>\n<span cmd='look3 9 of fb_8'><hic>神龙腰带</hic></span>\n<span cmd='look3 10 of fb_8'><hic>神龙杖</hic></span>\n<span cmd='look3 11 of fb_8'><hic>神龙令</hic></span>",
+    "skill_drops": [
+      {
+        "color": "青",
+        "item": "神龙心法残页"
+      },
+      {
+        "color": "绿",
+        "item": "意形步法残页"
+      },
+      {
+        "color": "青",
+        "item": "蛇岛奇功残页"
+      },
+      {
+        "color": "绿",
+        "item": "神龙剑残页"
+      },
+      {
+        "color": "青",
+        "item": "化骨绵掌残页"
+      }
+    ],
+    "other_drops": [
+      {
+        "color": "青",
+        "item": "神龙袍"
+      },
+      {
+        "color": "青",
+        "item": "神龙冠"
+      },
+      {
+        "color": "青",
+        "item": "神龙靴"
+      },
+      {
+        "color": "青",
+        "item": "神龙护腕"
+      },
+      {
+        "color": "青",
+        "item": "神龙腰带"
+      },
+      {
+        "color": "青",
+        "item": "神龙杖"
+      },
+      {
+        "color": "青",
+        "item": "神龙令"
+      }
+    ]
+  },
+  "9": {
+    "name": "关外",
+    "reward_desc": "获得1900点经验，1900点潜能\n掉落或解谜奖励：\n<span cmd='look3 0 of fb_9'><hig>冷月神功残页</hig></span>\n<span cmd='look3 1 of fb_9'><hig>熊胆</hig></span>\n<span cmd='look3 2 of fb_9'><hic>胡家刀法残页</hic></span>\n<span cmd='look3 3 of fb_9'><hic>四象步法残页</hic></span>\n<span cmd='look3 4 of fb_9'><hiy>闯王宝刀</hiy></span>",
+    "skill_drops": [
+      {
+        "color": "绿",
+        "item": "冷月神功残页"
+      },
+      {
+        "color": "青",
+        "item": "胡家刀法残页"
+      },
+      {
+        "color": "青",
+        "item": "四象步法残页"
+      }
+    ],
+    "other_drops": [
+      {
+        "color": "绿",
+        "item": "熊胆"
+      },
+      {
+        "color": "黄",
+        "item": "闯王宝刀"
+      }
+    ]
+  },
+  "10": {
+    "name": "温府",
+    "reward_desc": "获得2000点经验，2000点潜能\n掉落或解谜奖励：\n<span cmd='look3 0 of fb_10'><hig>金蛇锥</hig></span>\n<span cmd='look3 1 of fb_10'><hic>金蛇戒</hic></span>\n<span cmd='look3 2 of fb_10'><hic>金蛇披风</hic></span>\n<span cmd='look3 3 of fb_10'><hic>温仪的香囊</hic></span>\n<span cmd='look3 4 of fb_10'><hic>八卦拳残页</hic></span>\n<span cmd='look3 5 of fb_10'><hic>八卦棍法残页</hic></span>\n<span cmd='look3 6 of fb_10'><hiy>金蛇剑法残页</hiy></span>\n<span cmd='look3 7 of fb_10'><hiy>金蛇游身掌残页</hiy></span>\n<span cmd='look3 8 of fb_10'><hiy>金蛇游身步残页</hiy></span>\n<span cmd='look3 9 of fb_10'><hiy>八卦棍</hiy></span>\n<span cmd='look3 10 of fb_10'><hiy>金蛇剑</hiy></span>",
+    "skill_drops": [
+      {
+        "color": "青",
+        "item": "八卦拳残页"
+      },
+      {
+        "color": "青",
+        "item": "八卦棍法残页"
+      },
+      {
+        "color": "黄",
+        "item": "金蛇剑法残页"
+      },
+      {
+        "color": "黄",
+        "item": "金蛇游身掌残页"
+      },
+      {
+        "color": "黄",
+        "item": "金蛇游身步残页"
+      }
+    ],
+    "other_drops": [
+      {
+        "color": "绿",
+        "item": "金蛇锥"
+      },
+      {
+        "color": "青",
+        "item": "金蛇戒"
+      },
+      {
+        "color": "青",
+        "item": "金蛇披风"
+      },
+      {
+        "color": "青",
+        "item": "温仪的香囊"
+      },
+      {
+        "color": "黄",
+        "item": "八卦棍"
+      },
+      {
+        "color": "黄",
+        "item": "金蛇剑"
+      }
+    ]
+  },
+  "11": {
+    "name": "五毒教",
+    "reward_desc": "获得2100点经验，2100点潜能\n掉落或解谜奖励：\n<span cmd='look3 0 of fb_11'><hic>五毒神功残页</hic></span>\n<span cmd='look3 1 of fb_11'><hiy>五毒烟萝步残页</hiy></span>\n<span cmd='look3 2 of fb_11'><hiy>五毒钩法残页</hiy></span>\n<span cmd='look3 3 of fb_11'><hiy>千蛛万毒手残页</hiy></span>",
+    "skill_drops": [
+      {
+        "color": "青",
+        "item": "五毒神功残页"
+      },
+      {
+        "color": "黄",
+        "item": "五毒烟萝步残页"
+      },
+      {
+        "color": "黄",
+        "item": "五毒钩法残页"
+      },
+      {
+        "color": "黄",
+        "item": "千蛛万毒手残页"
+      }
+    ],
+    "other_drops": []
+  },
+  "12": {
+    "name": "恒山",
+    "reward_desc": "获得2200点经验，2200点潜能\n掉落或解谜奖励：\n<span cmd='look3 0 of fb_12'><hic>恒山身法残页</hic></span>\n<span cmd='look3 1 of fb_12'><hiy>白云心法残页</hiy></span>\n<span cmd='look3 2 of fb_12'><hiy>恒山剑法残页</hiy></span>\n<span cmd='look3 3 of fb_12'><hiy>天长掌法残页</hiy></span>\n<span cmd='look3 4 of fb_12'><hiy>狂风快刀残页</hiy></span>\n<span cmd='look3 5 of fb_12'><hiy>狂风刀</hiy></span>\n<span cmd='look3 6 of fb_12'><hiy>田伯光的面罩</hiy></span>",
+    "skill_drops": [
+      {
+        "color": "青",
+        "item": "恒山身法残页"
+      },
+      {
+        "color": "黄",
+        "item": "白云心法残页"
+      },
+      {
+        "color": "黄",
+        "item": "恒山剑法残页"
+      },
+      {
+        "color": "黄",
+        "item": "天长掌法残页"
+      },
+      {
+        "color": "黄",
+        "item": "狂风快刀残页"
+      }
+    ],
+    "other_drops": [
+      {
+        "color": "黄",
+        "item": "狂风刀"
+      },
+      {
+        "color": "黄",
+        "item": "田伯光的面罩"
+      }
+    ]
+  },
+  "13": {
+    "name": "青城山",
+    "reward_desc": "获得2300点经验，2300点潜能\n掉落或解谜奖励：\n<span cmd='look3 0 of fb_13'><hic>踏歌行残页</hic></span>\n<span cmd='look3 1 of fb_13'><hiy>摧心掌残页</hiy></span>\n<span cmd='look3 2 of fb_13'><hiy>松风剑法残页</hiy></span>",
+    "skill_drops": [
+      {
+        "color": "青",
+        "item": "踏歌行残页"
+      },
+      {
+        "color": "黄",
+        "item": "摧心掌残页"
+      },
+      {
+        "color": "黄",
+        "item": "松风剑法残页"
+      }
+    ],
+    "other_drops": []
+  },
+  "14": {
+    "name": "衡山",
+    "reward_desc": "获得2400点经验，2400点潜能\n掉落或解谜奖励：\n<span cmd='look3 0 of fb_14'><hic>琴中剑</hic></span>\n<span cmd='look3 1 of fb_14'><hiy>曲洋的琴环</hiy></span>\n<span cmd='look3 2 of fb_14'><hiy>刘正风的茧绸袍</hiy></span>\n<span cmd='look3 3 of fb_14'><hic>穿云纵残页</hic></span>\n<span cmd='look3 4 of fb_14'><hic>流云掌残页</hic></span>\n<span cmd='look3 5 of fb_14'><hiy>镇岳诀残页</hiy></span>\n<span cmd='look3 6 of fb_14'><hiy>衡山五神剑残页</hiy></span>",
+    "skill_drops": [
+      {
+        "color": "青",
+        "item": "穿云纵残页"
+      },
+      {
+        "color": "青",
+        "item": "流云掌残页"
+      },
+      {
+        "color": "黄",
+        "item": "镇岳诀残页"
+      },
+      {
+        "color": "黄",
+        "item": "衡山五神剑残页"
+      }
+    ],
+    "other_drops": [
+      {
+        "color": "青",
+        "item": "琴中剑"
+      },
+      {
+        "color": "黄",
+        "item": "曲洋的琴环"
+      },
+      {
+        "color": "黄",
+        "item": "刘正风的茧绸袍"
+      }
+    ]
+  },
+  "15": {
+    "name": "泰山",
+    "reward_desc": "获得2500点经验，2500点潜能\n掉落或解谜奖励：\n<span cmd='look3 0 of fb_15'><hiy>泰山登山靴</hiy></span>\n<span cmd='look3 1 of fb_15'><hiy>磐石护符</hiy></span>\n<span cmd='look3 2 of fb_15'><hic>泰山拳法残页</hic></span>\n<span cmd='look3 3 of fb_15'><hiy>泰山剑法残页</hiy></span>\n<span cmd='look3 4 of fb_15'><hiy>磐石神功残页</hiy></span>",
+    "skill_drops": [
+      {
+        "color": "青",
+        "item": "泰山拳法残页"
+      },
+      {
+        "color": "黄",
+        "item": "泰山剑法残页"
+      },
+      {
+        "color": "黄",
+        "item": "磐石神功残页"
+      }
+    ],
+    "other_drops": [
+      {
+        "color": "黄",
+        "item": "泰山登山靴"
+      },
+      {
+        "color": "黄",
+        "item": "磐石护符"
+      }
+    ]
+  },
+  "16": {
+    "name": "嵩山",
+    "reward_desc": "获得2600点经验，2600点潜能\n掉落或解谜奖励：\n<span cmd='look3 0 of fb_16'><hiy>大嵩阳神掌残页</hiy></span>\n<span cmd='look3 1 of fb_16'><hiy>嵩山剑法残页</hiy></span>\n<span cmd='look3 2 of fb_16'><hiy>五岳令旗</hiy></span>\n<span cmd='look3 3 of fb_16'><hiy>盟主披风</hiy></span>\n<span cmd='look3 4 of fb_16'><HIZ>寒冰真气残页</HIZ></span>",
+    "skill_drops": [
+      {
+        "color": "黄",
+        "item": "大嵩阳神掌残页"
+      },
+      {
+        "color": "黄",
+        "item": "嵩山剑法残页"
+      },
+      {
+        "color": "紫",
+        "item": "寒冰真气残页"
+      }
+    ],
+    "other_drops": [
+      {
+        "color": "黄",
+        "item": "五岳令旗"
+      },
+      {
+        "color": "黄",
+        "item": "盟主披风"
+      }
+    ]
+  },
+  "17": {
+    "name": "云梦沼泽",
+    "reward_desc": "获得2700点经验，2700点潜能\n掉落或解谜奖励：\n<span cmd='look3 0 of fb_17'><hig>鳄鱼皮</hig></span>\n<span cmd='look3 1 of fb_17'><hig>火龙筋</hig></span>\n<span cmd='look3 2 of fb_17'><hig>玄晶</hig></span>\n<span cmd='look3 3 of fb_17'><hic>蓝宝石</hic></span>\n<span cmd='look3 4 of fb_17'><hic>红宝石</hic></span>\n<span cmd='look3 5 of fb_17'><hic>黄宝石</hic></span>\n<span cmd='look3 6 of fb_17'><hic>绿宝石</hic></span>\n<span cmd='look3 7 of fb_17'><hiy>火龙刀</hiy></span>\n<span cmd='look3 8 of fb_17'><hiy>火龙剑</hiy></span>\n<span cmd='look3 9 of fb_17'><hiy>火龙拳</hiy></span>\n<span cmd='look3 10 of fb_17'><hiy>火龙鞭</hiy></span>\n<span cmd='look3 11 of fb_17'><hiy>火龙棍</hiy></span>",
+    "skill_drops": [],
+    "other_drops": [
+      {
+        "color": "绿",
+        "item": "鳄鱼皮"
+      },
+      {
+        "color": "绿",
+        "item": "火龙筋"
+      },
+      {
+        "color": "绿",
+        "item": "玄晶"
+      },
+      {
+        "color": "青",
+        "item": "蓝宝石"
+      },
+      {
+        "color": "青",
+        "item": "红宝石"
+      },
+      {
+        "color": "青",
+        "item": "黄宝石"
+      },
+      {
+        "color": "青",
+        "item": "绿宝石"
+      },
+      {
+        "color": "黄",
+        "item": "火龙刀"
+      },
+      {
+        "color": "黄",
+        "item": "火龙剑"
+      },
+      {
+        "color": "黄",
+        "item": "火龙拳"
+      },
+      {
+        "color": "黄",
+        "item": "火龙鞭"
+      },
+      {
+        "color": "黄",
+        "item": "火龙棍"
+      }
+    ]
+  },
+  "18": {
+    "name": "桃花岛",
+    "reward_desc": "获得2800点经验，2800点潜能\n掉落或解谜奖励：\n<span cmd='look3 0 of fb_18'><hig>金雁功残页</hig></span>\n<span cmd='look3 1 of fb_18'><hic>碧波神功残页</hic></span>\n<span cmd='look3 2 of fb_18'><hiy>暗影浮香残页</hiy></span>\n<span cmd='look3 3 of fb_18'><hiy>落英神剑残页</hiy></span>\n<span cmd='look3 4 of fb_18'><HIZ>弹指神通残页</HIZ></span>\n<span cmd='look3 5 of fb_18'><HIZ>空明拳残页</HIZ></span>\n<span cmd='look3 6 of fb_18'><HIZ>玉箫</HIZ></span>\n<span cmd='look3 7 of fb_18'><HIZ>软猬甲</HIZ></span>",
+    "skill_drops": [
+      {
+        "color": "绿",
+        "item": "金雁功残页"
+      },
+      {
+        "color": "青",
+        "item": "碧波神功残页"
+      },
+      {
+        "color": "黄",
+        "item": "暗影浮香残页"
+      },
+      {
+        "color": "黄",
+        "item": "落英神剑残页"
+      },
+      {
+        "color": "紫",
+        "item": "弹指神通残页"
+      },
+      {
+        "color": "紫",
+        "item": "空明拳残页"
+      }
+    ],
+    "other_drops": [
+      {
+        "color": "紫",
+        "item": "玉箫"
+      },
+      {
+        "color": "紫",
+        "item": "软猬甲"
+      }
+    ]
+  },
+  "19": {
+    "name": "白驼山",
+    "reward_desc": "获得2900点经验，2900点潜能\n掉落或解谜奖励：\n<span cmd='look3 0 of fb_19'><HIZ>灵蛇杖法残页</HIZ></span>\n<span cmd='look3 1 of fb_19'><hic>蟾蜍步法残页</hic></span>\n<span cmd='look3 2 of fb_19'><HIZ>蛤蟆功残页</HIZ></span>\n<span cmd='look3 3 of fb_19'><HIZ>灵蛇杖</HIZ></span>",
+    "skill_drops": [
+      {
+        "color": "紫",
+        "item": "灵蛇杖法残页"
+      },
+      {
+        "color": "青",
+        "item": "蟾蜍步法残页"
+      },
+      {
+        "color": "紫",
+        "item": "蛤蟆功残页"
+      }
+    ],
+    "other_drops": [
+      {
+        "color": "紫",
+        "item": "灵蛇杖"
+      }
+    ]
+  },
+  "20": {
+    "name": "星宿海",
+    "reward_desc": "获得3000点经验，3000点潜能\n掉落或解谜奖励：\n<span cmd='look3 0 of fb_20'><hic>摘星功残页</hic></span>\n<span cmd='look3 1 of fb_20'><hic>飞星术残页</hic></span>\n<span cmd='look3 2 of fb_20'><hiy>碧磷针</hiy></span>\n<span cmd='look3 3 of fb_20'><hiy>三阴蜈蚣爪残页</hiy></span>\n<span cmd='look3 4 of fb_20'><HIZ>化功大法残页</HIZ></span>\n<span cmd='look3 5 of fb_20'><HIZ>神木王鼎</HIZ></span>",
+    "skill_drops": [
+      {
+        "color": "青",
+        "item": "摘星功残页"
+      },
+      {
+        "color": "青",
+        "item": "飞星术残页"
+      },
+      {
+        "color": "黄",
+        "item": "三阴蜈蚣爪残页"
+      },
+      {
+        "color": "紫",
+        "item": "化功大法残页"
+      }
+    ],
+    "other_drops": [
+      {
+        "color": "黄",
+        "item": "碧磷针"
+      },
+      {
+        "color": "紫",
+        "item": "神木王鼎"
+      }
+    ]
+  },
+  "21": {
+    "name": "冰火岛",
+    "reward_desc": "获得3100点经验，3100点潜能\n掉落或解谜奖励：\n<span cmd='look3 0 of fb_21'><hig>玄晶</hig></span>\n<span cmd='look3 1 of fb_21'><hic>蓝宝石</hic></span>\n<span cmd='look3 2 of fb_21'><hic>红宝石</hic></span>\n<span cmd='look3 3 of fb_21'><hic>黄宝石</hic></span>\n<span cmd='look3 4 of fb_21'><hic>绿宝石</hic></span>\n<span cmd='look3 5 of fb_21'><hic>红宝石</hic></span>\n<span cmd='look3 6 of fb_21'><hic>青蝠身法残页</hic></span>\n<span cmd='look3 7 of fb_21'><hiy>精致的蓝宝石</hiy></span>\n<span cmd='look3 8 of fb_21'><hiy>精致的黄宝石</hiy></span>\n<span cmd='look3 9 of fb_21'><hiy>精致的绿宝石</hiy></span>\n<span cmd='look3 10 of fb_21'><hiy>玲珑火芝</hiy></span>\n<span cmd='look3 11 of fb_21'><hiy>七伤拳残页</hiy></span>\n<span cmd='look3 12 of fb_21'><HIZ>离火珠</HIZ></span>\n<span cmd='look3 13 of fb_21'><hio>屠龙刀</hio></span>",
+    "skill_drops": [
+      {
+        "color": "青",
+        "item": "青蝠身法残页"
+      },
+      {
+        "color": "黄",
+        "item": "七伤拳残页"
+      }
+    ],
+    "other_drops": [
+      {
+        "color": "绿",
+        "item": "玄晶"
+      },
+      {
+        "color": "青",
+        "item": "蓝宝石"
+      },
+      {
+        "color": "青",
+        "item": "红宝石"
+      },
+      {
+        "color": "青",
+        "item": "黄宝石"
+      },
+      {
+        "color": "青",
+        "item": "绿宝石"
+      },
+      {
+        "color": "青",
+        "item": "红宝石"
+      },
+      {
+        "color": "黄",
+        "item": "精致的蓝宝石"
+      },
+      {
+        "color": "黄",
+        "item": "精致的黄宝石"
+      },
+      {
+        "color": "黄",
+        "item": "精致的绿宝石"
+      },
+      {
+        "color": "黄",
+        "item": "玲珑火芝"
+      },
+      {
+        "color": "紫",
+        "item": "离火珠"
+      },
+      {
+        "color": "橙",
+        "item": "屠龙刀"
+      }
+    ]
+  },
+  "22": {
+    "name": "移花宫",
+    "reward_desc": "获得3200点经验，3200点潜能\n掉落或解谜奖励：\n<span cmd='look3 0 of fb_22'><hic>绝情掌残页</hic></span>\n<span cmd='look3 1 of fb_22'><hiy>涟星的冰玉簪</hiy></span>\n<span cmd='look3 2 of fb_22'><hiy>邀月的手镯</hiy></span>\n<span cmd='look3 3 of fb_22'><hiy>花无缺的玉佩</hiy></span>\n<span cmd='look3 4 of fb_22'><hiy>移风剑法残页</hiy></span>\n<span cmd='look3 5 of fb_22'><hiy>碧玉血莲</hiy></span>\n<span cmd='look3 6 of fb_22'><HIZ>移花宫装</HIZ></span>\n<span cmd='look3 7 of fb_22'><HIZ>移花宫履</HIZ></span>\n<span cmd='look3 8 of fb_22'><HIZ>移花接木残页</HIZ></span>\n<span cmd='look3 9 of fb_22'><HIZ>明玉功残页</HIZ></span>\n<span cmd='look3 10 of fb_22'><hio>碧血照丹青</hio></span>",
+    "skill_drops": [
+      {
+        "color": "青",
+        "item": "绝情掌残页"
+      },
+      {
+        "color": "黄",
+        "item": "移风剑法残页"
+      },
+      {
+        "color": "紫",
+        "item": "移花接木残页"
+      },
+      {
+        "color": "紫",
+        "item": "明玉功残页"
+      }
+    ],
+    "other_drops": [
+      {
+        "color": "黄",
+        "item": "涟星的冰玉簪"
+      },
+      {
+        "color": "黄",
+        "item": "邀月的手镯"
+      },
+      {
+        "color": "黄",
+        "item": "花无缺的玉佩"
+      },
+      {
+        "color": "黄",
+        "item": "碧玉血莲"
+      },
+      {
+        "color": "紫",
+        "item": "移花宫装"
+      },
+      {
+        "color": "紫",
+        "item": "移花宫履"
+      },
+      {
+        "color": "橙",
+        "item": "碧血照丹青"
+      }
+    ]
+  },
+  "23": {
+    "name": "燕子坞",
+    "reward_desc": "获得3300点经验，3300点潜能\n掉落或解谜奖励：\n<span cmd='look3 0 of fb_23'><HIZ>阿朱的易容面具</HIZ></span>\n<span cmd='look3 1 of fb_23'><HIZ>参合指残页</HIZ></span>\n<span cmd='look3 2 of fb_23'><hio>斗转星移残页</hio></span>",
+    "skill_drops": [
+      {
+        "color": "紫",
+        "item": "参合指残页"
+      },
+      {
+        "color": "橙",
+        "item": "斗转星移残页"
+      }
+    ],
+    "other_drops": [
+      {
+        "color": "紫",
+        "item": "阿朱的易容面具"
+      }
+    ]
+  },
+  "24": {
+    "name": "黑木崖",
+    "reward_desc": "获得3400点经验，3400点潜能\n掉落或解谜奖励：\n<span cmd='look3 0 of fb_24'><hiy>上官云的披风</hiy></span>\n<span cmd='look3 1 of fb_24'><hiy>童百熊的戒指</hiy></span>\n<span cmd='look3 2 of fb_24'><hiy>杨莲亭的项圈</hiy></span>\n<span cmd='look3 3 of fb_24'><hiy>贾布的护腰锁</hiy></span>\n<span cmd='look3 4 of fb_24'><hio>辟邪剑法残页</hio></span>\n<span cmd='look3 5 of fb_24'><hio>葵花神功残页</hio></span>\n<span cmd='look3 6 of fb_24'><HIZ>东方不败的绣花针</HIZ></span>",
+    "skill_drops": [
+      {
+        "color": "橙",
+        "item": "辟邪剑法残页"
+      },
+      {
+        "color": "橙",
+        "item": "葵花神功残页"
+      }
+    ],
+    "other_drops": [
+      {
+        "color": "黄",
+        "item": "上官云的披风"
+      },
+      {
+        "color": "黄",
+        "item": "童百熊的戒指"
+      },
+      {
+        "color": "黄",
+        "item": "杨莲亭的项圈"
+      },
+      {
+        "color": "黄",
+        "item": "贾布的护腰锁"
+      },
+      {
+        "color": "紫",
+        "item": "东方不败的绣花针"
+      }
+    ]
+  },
+  "25": {
+    "name": "缥缈峰",
+    "reward_desc": "获得3500点经验，3500点潜能\n掉落或解谜奖励：\n<span cmd='look3 0 of fb_25'><hic>神剑诀残页</hic></span>\n<span cmd='look3 1 of fb_25'><hiy>天羽奇剑残页</hiy></span>\n<span cmd='look3 2 of fb_25'><HIZ>驻颜丹</HIZ></span>\n<span cmd='look3 3 of fb_25'><hio>不老长春功残页</hio></span>\n<span cmd='look3 4 of fb_25'><hio>天龙遗珠</hio></span>",
+    "skill_drops": [
+      {
+        "color": "青",
+        "item": "神剑诀残页"
+      },
+      {
+        "color": "黄",
+        "item": "天羽奇剑残页"
+      },
+      {
+        "color": "橙",
+        "item": "不老长春功残页"
+      }
+    ],
+    "other_drops": [
+      {
+        "color": "紫",
+        "item": "驻颜丹"
+      },
+      {
+        "color": "橙",
+        "item": "天龙遗珠"
+      }
+    ]
+  },
+  "26": {
+    "name": "光明顶",
+    "reward_desc": "获得3600点经验，3600点潜能\n掉落或解谜奖励：\n<span cmd='look3 0 of fb_26'><hiy>圣火神功残页</hiy></span>\n<span cmd='look3 1 of fb_26'><hic>青蝠身法残页</hic></span>\n<span cmd='look3 2 of fb_26'><hic>鹰爪功残页</hic></span>\n<span cmd='look3 3 of fb_26'><hic>圣火令法残页</hic></span>\n<span cmd='look3 4 of fb_26'><HIZ>圣火令</HIZ></span>\n<span cmd='look3 5 of fb_26'><HIZ>周芷若的手镯</HIZ></span>\n<span cmd='look3 6 of fb_26'><HIZ>杨不悔的项链</HIZ></span>\n<span cmd='look3 7 of fb_26'><HIZ>赵敏的戒指</HIZ></span>\n<span cmd='look3 8 of fb_26'><HIZ>韦一笑的逃命鞋</HIZ></span>\n<span cmd='look3 9 of fb_26'><hio>九阳神功残页</hio></span>\n<span cmd='look3 10 of fb_26'><hio>乾坤大挪移残页</hio></span>\n<span cmd='look3 11 of fb_26'><hio>倚天剑</hio></span>",
+    "skill_drops": [
+      {
+        "color": "黄",
+        "item": "圣火神功残页"
+      },
+      {
+        "color": "青",
+        "item": "青蝠身法残页"
+      },
+      {
+        "color": "青",
+        "item": "鹰爪功残页"
+      },
+      {
+        "color": "青",
+        "item": "圣火令法残页"
+      },
+      {
+        "color": "橙",
+        "item": "九阳神功残页"
+      },
+      {
+        "color": "橙",
+        "item": "乾坤大挪移残页"
+      }
+    ],
+    "other_drops": [
+      {
+        "color": "紫",
+        "item": "圣火令"
+      },
+      {
+        "color": "紫",
+        "item": "周芷若的手镯"
+      },
+      {
+        "color": "紫",
+        "item": "杨不悔的项链"
+      },
+      {
+        "color": "紫",
+        "item": "赵敏的戒指"
+      },
+      {
+        "color": "紫",
+        "item": "韦一笑的逃命鞋"
+      },
+      {
+        "color": "橙",
+        "item": "倚天剑"
+      }
+    ]
+  },
+  "27": {
+    "name": "天龙寺",
+    "reward_desc": "获得3700点经验，3700点潜能\n掉落或解谜奖励：\n<span cmd='look3 0 of fb_27'><hic>天南步残页</hic></span>\n<span cmd='look3 1 of fb_27'><hiy>段家剑残页</hiy></span>\n<span cmd='look3 2 of fb_27'><HIZ>枯木神功残页</HIZ></span>\n<span cmd='look3 3 of fb_27'><hio>六脉神剑残页</hio></span>\n<span cmd='look3 4 of fb_27'><hio>龙骨舍利</hio></span>",
+    "skill_drops": [
+      {
+        "color": "青",
+        "item": "天南步残页"
+      },
+      {
+        "color": "黄",
+        "item": "段家剑残页"
+      },
+      {
+        "color": "紫",
+        "item": "枯木神功残页"
+      },
+      {
+        "color": "橙",
+        "item": "六脉神剑残页"
+      }
+    ],
+    "other_drops": [
+      {
+        "color": "橙",
+        "item": "龙骨舍利"
+      }
+    ]
+  },
+  "28": {
+    "name": "血刀门",
+    "reward_desc": "获得3800点经验，3800点潜能\n掉落或解谜奖励：\n<span cmd='look3 0 of fb_28'><hic>身空行残页</hic></span>\n<span cmd='look3 1 of fb_28'><HIZ>神照经残页</HIZ></span>\n<span cmd='look3 2 of fb_28'><HIZ>血海魔功残页</HIZ></span>\n<span cmd='look3 3 of fb_28'><hio>血刀残页</hio></span>\n<span cmd='look3 4 of fb_28'><hio>血刀</hio></span>\n<span cmd='look3 5 of fb_28'><hio>龙血斗篷</hio></span>",
+    "skill_drops": [
+      {
+        "color": "青",
+        "item": "身空行残页"
+      },
+      {
+        "color": "紫",
+        "item": "神照经残页"
+      },
+      {
+        "color": "紫",
+        "item": "血海魔功残页"
+      },
+      {
+        "color": "橙",
+        "item": "血刀残页"
+      }
+    ],
+    "other_drops": [
+      {
+        "color": "橙",
+        "item": "血刀"
+      },
+      {
+        "color": "橙",
+        "item": "龙血斗篷"
+      }
+    ]
+  },
+  "29": {
+    "name": "古墓派",
+    "reward_desc": "获得3900点经验，3900点潜能\n掉落或解谜奖励：\n<span cmd='look3 0 of fb_29'><hiy>玉女心经残页</hiy></span>\n<span cmd='look3 1 of fb_29'><hiy>银索金铃残页</hiy></span>\n<span cmd='look3 2 of fb_29'><HIZ>冰魄银针</HIZ></span>\n<span cmd='look3 3 of fb_29'><HIZ>金铃索</HIZ></span>\n<span cmd='look3 4 of fb_29'><hio>黯然销魂掌残页</hio></span>\n<span cmd='look3 5 of fb_29'><hio>玄铁剑法残页</hio></span>\n<span cmd='look3 6 of fb_29'><hio>盘龙簪</hio></span>\n<span cmd='look3 7 of fb_29'><hio>龙骨环</hio></span>",
+    "skill_drops": [
+      {
+        "color": "黄",
+        "item": "玉女心经残页"
+      },
+      {
+        "color": "黄",
+        "item": "银索金铃残页"
+      },
+      {
+        "color": "橙",
+        "item": "黯然销魂掌残页"
+      },
+      {
+        "color": "橙",
+        "item": "玄铁剑法残页"
+      }
+    ],
+    "other_drops": [
+      {
+        "color": "紫",
+        "item": "冰魄银针"
+      },
+      {
+        "color": "紫",
+        "item": "金铃索"
+      },
+      {
+        "color": "橙",
+        "item": "盘龙簪"
+      },
+      {
+        "color": "橙",
+        "item": "龙骨环"
+      }
+    ]
+  },
+  "30": {
+    "name": "华山论剑",
+    "reward_desc": "获得4000点经验，4000点潜能\n掉落或解谜奖励：\n<span cmd='look3 0 of fb_30'><hiy>段家剑残页</hiy></span>\n<span cmd='look3 1 of fb_30'><HIZ>枯木神功残页</HIZ></span>\n<span cmd='look3 2 of fb_30'><hic>天南步残页</hic></span>\n<span cmd='look3 3 of fb_30'><hig>金雁功残页</hig></span>\n<span cmd='look3 4 of fb_30'><hiy>全真剑法残页</hiy></span>\n<span cmd='look3 5 of fb_30'><hic>蟾蜍步法残页</hic></span>\n<span cmd='look3 6 of fb_30'><hiy>暗影浮香残页</hiy></span>\n<span cmd='look3 7 of fb_30'><hic>碧波神功残页</hic></span>\n<span cmd='look3 8 of fb_30'><hiy>落英神剑残页</hiy></span>\n<span cmd='look3 9 of fb_30'><HIZ>蛤蟆功残页</HIZ></span>\n<span cmd='look3 10 of fb_30'><HIZ>灵蛇杖法残页</HIZ></span>\n<span cmd='look3 11 of fb_30'><HIZ>弹指神通残页</HIZ></span>\n<span cmd='look3 12 of fb_30'><HIZ>一阳指残页</HIZ></span>\n<span cmd='look3 13 of fb_30'><HIZ>灵蛇杖</HIZ></span>\n<span cmd='look3 14 of fb_30'><HIZ>玉箫</HIZ></span>\n<span cmd='look3 15 of fb_30'><HIZ>玉竹杖</HIZ></span>\n<span cmd='look3 16 of fb_30'><hio>九阴神功残页</hio></span>\n<span cmd='look3 17 of fb_30'><hio>天龙鞶</hio></span>",
+    "skill_drops": [
+      {
+        "color": "黄",
+        "item": "段家剑残页"
+      },
+      {
+        "color": "紫",
+        "item": "枯木神功残页"
+      },
+      {
+        "color": "青",
+        "item": "天南步残页"
+      },
+      {
+        "color": "绿",
+        "item": "金雁功残页"
+      },
+      {
+        "color": "黄",
+        "item": "全真剑法残页"
+      },
+      {
+        "color": "青",
+        "item": "蟾蜍步法残页"
+      },
+      {
+        "color": "黄",
+        "item": "暗影浮香残页"
+      },
+      {
+        "color": "青",
+        "item": "碧波神功残页"
+      },
+      {
+        "color": "黄",
+        "item": "落英神剑残页"
+      },
+      {
+        "color": "紫",
+        "item": "蛤蟆功残页"
+      },
+      {
+        "color": "紫",
+        "item": "灵蛇杖法残页"
+      },
+      {
+        "color": "紫",
+        "item": "弹指神通残页"
+      },
+      {
+        "color": "紫",
+        "item": "一阳指残页"
+      },
+      {
+        "color": "橙",
+        "item": "九阴神功残页"
+      }
+    ],
+    "other_drops": [
+      {
+        "color": "紫",
+        "item": "灵蛇杖"
+      },
+      {
+        "color": "紫",
+        "item": "玉箫"
+      },
+      {
+        "color": "紫",
+        "item": "玉竹杖"
+      },
+      {
+        "color": "橙",
+        "item": "天龙鞶"
+      }
+    ]
+  },
+  "31": {
+    "name": "侠客岛",
+    "reward_desc": "获得4100点经验，4100点潜能\n掉落或解谜奖励：\n<span cmd='look3 0 of fb_31'><HIZ>玄虚步残页</HIZ></span>\n<span cmd='look3 1 of fb_31'><hio>太玄功残页</hio></span>\n<span cmd='look3 2 of fb_31'><hio>天龙逐日靴</hio></span>\n<span cmd='look3 3 of fb_31'><hio>逆鳞手环</hio></span>",
+    "skill_drops": [
+      {
+        "color": "紫",
+        "item": "玄虚步残页"
+      },
+      {
+        "color": "橙",
+        "item": "太玄功残页"
+      }
+    ],
+    "other_drops": [
+      {
+        "color": "橙",
+        "item": "天龙逐日靴"
+      },
+      {
+        "color": "橙",
+        "item": "逆鳞手环"
+      }
+    ]
+  },
+  "32": {
+    "name": "净念禅宗",
+    "reward_desc": "获得4200点经验，4200点潜能\n掉落或解谜奖励：\n<span cmd='look3 0 of fb_32'><hio>无念禅功残页</hio></span>\n<span cmd='look3 1 of fb_32'><hio>伏魔杖残页</hio></span>\n<span cmd='look3 2 of fb_32'><hio>如来神掌残页</hio></span>\n<span cmd='look3 3 of fb_32'><hio>邪帝舍利</hio></span>\n<span cmd='look3 4 of fb_32'><hio>金刚伏魔杖</hio></span>\n<span cmd='look3 5 of fb_32'><ord>长生诀残页</ord></span>",
+    "skill_drops": [
+      {
+        "color": "橙",
+        "item": "无念禅功残页"
+      },
+      {
+        "color": "橙",
+        "item": "伏魔杖残页"
+      },
+      {
+        "color": "橙",
+        "item": "如来神掌残页"
+      },
+      {
+        "color": "金",
+        "item": "长生诀残页"
+      }
+    ],
+    "other_drops": [
+      {
+        "color": "橙",
+        "item": "邪帝舍利"
+      },
+      {
+        "color": "橙",
+        "item": "金刚伏魔杖"
+      }
+    ]
+  },
+  "33": {
+    "name": "慈航静斋",
+    "reward_desc": "获得4300点经验，4300点潜能\n掉落或解谜奖励：\n<span cmd='look3 0 of fb_33'><HIZ>彼岸剑法残页</HIZ></span>\n<span cmd='look3 1 of fb_33'><hio>灵犀步残页</hio></span>\n<span cmd='look3 2 of fb_33'><hio>飞翼剑</hio></span>\n<span cmd='look3 3 of fb_33'><hio>彼岸花</hio></span>\n<span cmd='look3 4 of fb_33'><ord>慈航剑典残页</ord></span>",
+    "skill_drops": [
+      {
+        "color": "紫",
+        "item": "彼岸剑法残页"
+      },
+      {
+        "color": "橙",
+        "item": "灵犀步残页"
+      },
+      {
+        "color": "金",
+        "item": "慈航剑典残页"
+      }
+    ],
+    "other_drops": [
+      {
+        "color": "橙",
+        "item": "飞翼剑"
+      },
+      {
+        "color": "橙",
+        "item": "彼岸花"
+      }
+    ]
+  },
+  "34": {
+    "name": "阴阳谷",
+    "reward_desc": "获得4400点经验，4400点潜能\n掉落或解谜奖励：\n<span cmd='look3 0 of fb_34'><hig>玄晶</hig></span>\n<span cmd='look3 1 of fb_34'><hio>破军</hio></span>\n<span cmd='look3 2 of fb_34'><hio>贪狼</hio></span>\n<span cmd='look3 3 of fb_34'><hio>七杀</hio></span>\n<span cmd='look3 4 of fb_34'><hio>紫薇</hio></span>\n<span cmd='look3 5 of fb_34'><hio>阴阳环</hio></span>\n<span cmd='look3 6 of fb_34'><ord>阴阳九转残页</ord></span>",
+    "skill_drops": [
+      {
+        "color": "金",
+        "item": "阴阳九转残页"
+      }
+    ],
+    "other_drops": [
+      {
+        "color": "绿",
+        "item": "玄晶"
+      },
+      {
+        "color": "橙",
+        "item": "破军"
+      },
+      {
+        "color": "橙",
+        "item": "贪狼"
+      },
+      {
+        "color": "橙",
+        "item": "七杀"
+      },
+      {
+        "color": "橙",
+        "item": "紫薇"
+      },
+      {
+        "color": "橙",
+        "item": "阴阳环"
+      }
+    ]
+  },
+  "35": {
+    "name": "战神殿",
+    "reward_desc": "获得4500点经验，4500点潜能\n掉落或解谜奖励：\n<span cmd='look3 0 of fb_35'><hio>魔龙战甲</hio></span>\n<span cmd='look3 1 of fb_35'><hio>金狴骨冠</hio></span>\n<span cmd='look3 2 of fb_35'><hio>木凤羽靴</hio></span>\n<span cmd='look3 3 of fb_35'><hio>火猊斗篷</hio></span>\n<span cmd='look3 4 of fb_35'><ord>神器碎片</ord></span>\n<span cmd='look3 5 of fb_35'><ord>战神图录残页</ord></span>",
+    "skill_drops": [
+      {
+        "color": "金",
+        "item": "战神图录残页"
+      }
+    ],
+    "other_drops": [
+      {
+        "color": "橙",
+        "item": "魔龙战甲"
+      },
+      {
+        "color": "橙",
+        "item": "金狴骨冠"
+      },
+      {
+        "color": "橙",
+        "item": "木凤羽靴"
+      },
+      {
+        "color": "橙",
+        "item": "火猊斗篷"
+      },
+      {
+        "color": "金",
+        "item": "神器碎片"
+      }
+    ]
+  }
+}

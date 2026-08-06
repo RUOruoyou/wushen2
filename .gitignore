@@ -1,0 +1,32 @@
+# 依赖
+node_modules/
+
+# 环境变量（含密钥）
+.env
+
+# 日志
+logs/
+*.log
+
+# 备份
+backups/
+
+# 部署配置
+deploy/
+
+# 运行时数据
+data/
+
+# 报告
+reports/
+
+# IDE / 编辑器
+.zcode/
+.codex/
+
+# Claude Code 会话记录
+.claude/
+
+# OS 临时文件
+.DS_Store
+Thumbs.db

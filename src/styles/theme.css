@@ -1,0 +1,655 @@
+:root {
+    --theme-bg: #f4f0e6;
+    --theme-panel: #ebe4d3;
+    --theme-surface: #ded3bd;
+    --theme-surface-2: #cfc0a5;
+    --theme-text: #24312f;
+    --theme-muted: #6b6256;
+    --theme-border: #b7a98d;
+    --theme-accent: #2f5d50;
+    --theme-active: #7a3e2c;
+    --theme-danger: #9d2933;
+    --theme-warning: #b78b26;
+    --theme-hp: #9d2933;
+    --theme-mp: #2f5d50;
+    --theme-button-text: #f8f3e8;
+    --theme-grade-0: #7c837b;
+    --theme-grade-1: #55795e;
+    --theme-grade-2: #4f7f86;
+    --theme-grade-3: #9a7a35;
+    --theme-grade-4: #80679b;
+    --theme-grade-5: #a06f3c;
+    --theme-grade-6: #a25545;
+    --popup-radius: 4px;
+}
+
+body,
+.container,
+.login-content {
+    background-color: var(--theme-bg);
+    color: var(--theme-text);
+}
+
+.dialog>.dialog-header,
+.dialog>.dialog-footer,
+.chat-panel>.channel-emotes,
+.chat-panel>.channel-box>span,
+.panel_item,
+.mypanel .bottom,
+.scroll-flag {
+    background-color: var(--theme-surface-2);
+    color: var(--theme-muted);
+    border-color: var(--theme-border);
+}
+
+.dialog>.dialog-header>.dialog-title,
+.dialog>.dialog-header>.dialog-icon,
+.room-title,
+.room_exits>.exits-item,
+.new-list>li {
+    color: var(--theme-accent);
+}
+
+.dialog>.dialog-header>.dialog-close,
+.room-title>.map-icon,
+.obj-money,
+.obj-money>span,
+.state-bar>.stop,
+.server-list li,
+.panel_item,
+.room-commands>.act-item,
+.combat-commands>.pfm-item,
+.item-commands>span,
+.confirm-count>.btn {
+    color: var(--theme-muted);
+}
+
+.dialog>.dialog-footer>.footer-item,
+.warn-dialog>.warn-content,
+.dialog-confirm>.dialog-content {
+    color: var(--theme-text);
+}
+
+.dialog>.dialog-footer>.select,
+.chat-panel>.channel-box>.selected,
+.server-list .select,
+.mypanel>ul>.active {
+    background-color: var(--theme-accent);
+    color: var(--theme-button-text);
+    border-color: var(--theme-accent);
+}
+
+.mypanel .content,
+.textbox,
+.hide_txt,
+.chat-panel>.chat-input>.sender-box {
+    background-color: var(--theme-panel);
+    color: var(--theme-text);
+    border-color: var(--theme-border);
+}
+
+.textbox::placeholder,
+.chat-panel>.chat-input>.sender-box::placeholder {
+    color: var(--theme-muted);
+}
+
+.panel_item:hover,
+.tool-bar>.tool-item:hover,
+.room-commands>.act-item:active,
+.combat-commands>.pfm-item:active,
+.item-commands>span:active,
+.confirm-count>.btn:active {
+    background-color: var(--theme-active);
+    color: var(--theme-button-text);
+}
+
+.tool-bar>.tool-item,
+.state-bar,
+.dialog-score>.score-section,
+.dialog-titles>.title-item,
+.dialog-confirm,
+.warn-dialog {
+    background-color: var(--theme-panel);
+    color: var(--theme-text);
+    border-color: var(--theme-border);
+}
+
+.room-commands>.act-item,
+.combat-commands>.pfm-item,
+.item-commands>span,
+.state-bar>.item-command,
+.confirm-count>.btn {
+    background-color: var(--theme-bg);
+    border-color: var(--theme-border);
+}
+
+.room-commands>.act-item,
+.combat-commands>.pfm-item {
+    background-image: linear-gradient(to top, var(--theme-surface-2) 0%, var(--theme-surface-2) 100%);
+}
+
+.hp>.progress-bar {
+    background-color: var(--theme-hp);
+}
+
+.mp>.progress-bar {
+    background-color: var(--theme-mp);
+}
+
+.progress,
+.dialog-score h3,
+.dialog-score2 h3,
+.setting>h3 {
+    border-color: var(--theme-border);
+}
+
+.dialog-confirm>.btn-ok,
+.chat-panel>.chat-input>.sender-btn,
+.item-status-bar>.status-item {
+    background-color: var(--theme-active);
+    color: var(--theme-button-text);
+}
+
+.item-status-bar>.downside,
+.tool-bar>.tool-item>.tag,
+.input-error {
+    background-color: var(--theme-danger);
+    color: #ffffff;
+}
+
+.input-error {
+    background-color: transparent;
+    color: var(--theme-danger);
+}
+
+.loader {
+    background-color: var(--theme-panel);
+    color: var(--theme-warning);
+    border-color: var(--theme-border);
+}
+
+line,
+line::before,
+line::after {
+    color: var(--theme-accent);
+    border-color: var(--theme-accent);
+}
+
+/* MUD text tags use theme grade colors so rarity stays distinct without glare. */
+NOR {
+    color: var(--theme-text);
+}
+
+BLK,
+HIK,
+DEL,
+opt {
+    color: var(--theme-muted);
+}
+
+WHT {
+    color: var(--theme-grade-0);
+}
+
+HIW {
+    color: var(--theme-grade-0);
+}
+
+GRE,
+GRN {
+    color: var(--theme-grade-1);
+}
+
+HIG {
+    color: var(--theme-grade-1);
+}
+
+BLU {
+    color: var(--theme-grade-2);
+}
+
+HIB {
+    color: var(--theme-grade-2);
+}
+
+CYN,
+HIC {
+    color: var(--theme-grade-2);
+}
+
+YEL,
+HIY,
+HIJ {
+    color: var(--theme-grade-3);
+}
+
+MAG,
+HIM,
+HIZ {
+    color: var(--theme-grade-4);
+}
+
+ORA,
+HIO {
+    color: var(--theme-grade-5);
+}
+
+RED,
+HIR,
+ORD {
+    color: var(--theme-grade-6);
+}
+
+.grade0 {
+    --border-color: var(--theme-grade-0);
+}
+
+.grade1 {
+    --border-color: var(--theme-grade-1);
+}
+
+.grade2 {
+    --border-color: var(--theme-grade-2);
+}
+
+.grade3 {
+    --border-color: var(--theme-grade-3);
+}
+
+.grade4 {
+    --border-color: var(--theme-grade-4);
+}
+
+.grade5 {
+    --border-color: var(--theme-grade-5);
+}
+
+.grade6 {
+    --border-color: var(--theme-grade-6);
+}
+
+BBLK,
+BWHT,
+HBWHT,
+BHIK {
+    background-color: var(--theme-panel);
+    color: var(--theme-text);
+}
+
+BBLU,
+BCYN,
+BMAG,
+HBBLU,
+HBCYN,
+HBMAG,
+HBGRN {
+    background-color: var(--theme-accent);
+    color: var(--theme-button-text);
+}
+
+BYEL,
+HBYEL {
+    background-color: var(--theme-warning);
+    color: var(--theme-button-text);
+}
+
+BRED,
+HBRED {
+    background-color: var(--theme-danger);
+    color: #f8f3e8;
+}
+
+/* Legacy color cleanup: keep the UI low-saturation and theme-aligned. */
+html,
+body,
+.container,
+.content-message,
+.content-room,
+.login-content {
+    background-color: var(--theme-bg) !important;
+    color: var(--theme-text) !important;
+}
+
+.container.dialog-open::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 20;
+    background-color: rgba(41, 34, 24, 0.16);
+    backdrop-filter: blur(12px) saturate(1.05);
+    -webkit-backdrop-filter: blur(12px) saturate(1.05);
+    pointer-events: auto;
+}
+
+.dialog,
+.dialog>.dialog-content,
+.dialog-confirm,
+.warn-dialog {
+    background-color: var(--theme-bg) !important;
+    color: var(--theme-text) !important;
+    border-color: var(--theme-border) !important;
+}
+
+.login-content .mypanel .content {
+    background-color: var(--theme-panel) !important;
+    color: var(--theme-text) !important;
+    border-color: var(--theme-border) !important;
+}
+
+.dialog {
+    background-color: color-mix(in srgb, var(--theme-bg) 92%, transparent) !important;
+    background-image: linear-gradient(145deg, rgba(255, 255, 255, 0.14), rgba(255, 255, 255, 0.03)) !important;
+    box-shadow:
+        0 1.7em 4.2em rgba(44, 35, 24, 0.18),
+        0 0.55em 1.45em rgba(44, 35, 24, 0.10),
+        0 0 0 1px rgba(255, 255, 255, 0.12) inset !important;
+    backdrop-filter: blur(8px) saturate(1.04);
+    -webkit-backdrop-filter: blur(8px) saturate(1.04);
+}
+
+.dialog>.dialog-header,
+.dialog>.dialog-footer,
+.scroll-flag,
+.chat-panel>.channel-emotes,
+.chat-panel>.channel-box>span,
+.mypanel .bottom {
+    background-color: var(--theme-surface-2) !important;
+    color: var(--theme-text) !important;
+    border-color: var(--theme-border) !important;
+}
+
+.panel_item,
+.state-bar,
+.dialog-score>.score-section,
+.dialog-titles>.title-item {
+    background-color: var(--theme-panel) !important;
+    color: var(--theme-text) !important;
+    border-color: var(--theme-border) !important;
+}
+
+.room-commands>.act-item,
+.combat-commands>.pfm-item,
+.item-commands>span,
+.state-bar>.item-command,
+.confirm-count>.btn,
+.tool-bar>.tool-item,
+.chat-panel>.channel-emotes>span {
+    background-color: var(--theme-panel) !important;
+    background-image: none !important;
+    color: var(--theme-text) !important;
+    border-color: var(--theme-border) !important;
+}
+
+.combat-commands>.pfm-item.cooldown {
+    color: var(--theme-muted) !important;
+    border-color: var(--theme-accent) !important;
+}
+
+.combat-commands>.pfm-item.cooldown>.pfm-cd-fill {
+    background-color: color-mix(in srgb, var(--theme-active) 68%, transparent) !important;
+}
+
+.combat-commands>.pfm-item.cooldown>.pfm-cd-text {
+    background-color: var(--theme-text) !important;
+    color: var(--theme-panel) !important;
+}
+
+.room-commands>.act-item:active,
+.combat-commands>.pfm-item:active,
+.item-commands>span:active,
+.state-bar>.item-command:active,
+.confirm-count>.btn:active,
+.tool-bar>.tool-item:hover,
+.panel_item:hover {
+    background-color: var(--theme-surface-2) !important;
+    color: var(--theme-text) !important;
+}
+
+.chat-panel>.channel-box>.selected,
+.server-list .select,
+.login-content .mypanel>ul>.active,
+.dialog>.dialog-footer>.select,
+.dialog-confirm>.btn-ok {
+    background-color: var(--theme-accent) !important;
+    color: var(--theme-button-text) !important;
+    border-color: var(--theme-accent) !important;
+}
+
+.login-content h3,
+.login-content label,
+.login-content table,
+.login-content td {
+    color: var(--theme-text) !important;
+}
+
+.login-content .textbox,
+.login-content .hide_txt,
+.login-content button,
+.login-content .validnum-btn {
+    background-color: var(--theme-bg) !important;
+    color: var(--theme-text) !important;
+    border-color: var(--theme-border) !important;
+}
+
+.login-content .textbox:focus,
+.login-content .hide_txt:focus {
+    border-color: var(--theme-accent) !important;
+    outline: none !important;
+}
+
+.login-content .textbox:disabled,
+.login-content .hide_txt:disabled {
+    background-color: var(--theme-surface) !important;
+    color: var(--theme-muted) !important;
+}
+
+.login-content .validnum-btn:active,
+.login-content button:active {
+    background-color: var(--theme-active) !important;
+    color: var(--theme-button-text) !important;
+}
+
+.role-list>.role-item {
+    color: var(--theme-text) !important;
+    border-left: 2px solid transparent;
+    padding-left: 0.5rem;
+}
+
+.role-list>.select {
+    background-color: var(--theme-surface) !important;
+    color: var(--theme-text) !important;
+    border-left-color: var(--theme-accent) !important;
+    border-radius: 4px;
+    list-style-type: none !important;
+}
+
+.regist-help-text {
+    margin: 0.5rem 0 0;
+}
+
+.server-badge {
+    font-size: 0.5rem;
+    line-height: 2rem;
+    height: 2rem;
+}
+
+.chat-panel>.channel-box>.close,
+.scroll-flag,
+.dialog>.dialog-header>.dialog-close,
+.dialog>.dialog-footer>.footer-item,
+.dialog>.dialog-footer>.trade_btn,
+.obj-money,
+.obj-money>span,
+.room-title>.map-icon,
+.state-bar>.stop,
+.dialog-confirm>.dialog-content,
+.warn-dialog>.warn-content,
+.dialog-titles>.empty,
+.regist-info-text,
+.regist-title-ref,
+.regist-help-text,
+.login-content .glyphicon-exclamation-sign,
+.signinfo,
+mem,
+BLK,
+HIK,
+DEL,
+opt {
+    color: var(--theme-muted) !important;
+    border-color: var(--theme-border) !important;
+}
+
+.dialog>.dialog-header>.dialog-title,
+.dialog>.dialog-header>.dialog-icon,
+.room-title,
+.room_exits>.exits-item,
+.new-list>li,
+.server-badge,
+.dialog-score2 .value,
+.dialog-titles>.title-item>.btn-noused {
+    color: var(--theme-accent) !important;
+}
+
+.dialog-titles>.selected {
+    background-color: var(--theme-surface) !important;
+    color: var(--theme-accent) !important;
+    border-color: var(--theme-accent) !important;
+}
+
+.dialog-titles>.title-item>.btn-noused {
+    background-color: var(--theme-surface) !important;
+    border-color: var(--theme-border) !important;
+}
+
+.item-status-bar>.status-item {
+    background-color: var(--theme-accent) !important;
+    color: var(--theme-button-text) !important;
+}
+
+.item-status-bar>.downside,
+.tool-bar>.tool-item>.tag,
+.input-error {
+    background-color: var(--theme-danger) !important;
+    color: #ffffff !important;
+}
+
+.input-error {
+    background-color: transparent !important;
+    color: var(--theme-danger) !important;
+}
+
+.grade0 {
+    --border-color: var(--theme-grade-0) !important;
+}
+
+.grade1 {
+    --border-color: var(--theme-grade-1) !important;
+}
+
+.grade2 {
+    --border-color: var(--theme-grade-2) !important;
+}
+
+.grade3 {
+    --border-color: var(--theme-grade-3) !important;
+}
+
+.grade4 {
+    --border-color: var(--theme-grade-4) !important;
+}
+
+.grade5 {
+    --border-color: var(--theme-grade-5) !important;
+}
+
+.grade6 {
+    --border-color: var(--theme-grade-6) !important;
+}
+
+NOR {
+    color: var(--theme-text) !important;
+}
+
+WHT {
+    color: var(--theme-grade-0) !important;
+}
+
+HIW {
+    color: var(--theme-grade-0) !important;
+}
+
+GRE,
+GRN {
+    color: var(--theme-grade-1) !important;
+}
+
+HIG {
+    color: var(--theme-grade-1) !important;
+}
+
+BLU {
+    color: var(--theme-grade-2) !important;
+}
+
+HIB {
+    color: var(--theme-grade-2) !important;
+}
+
+CYN,
+HIC {
+    color: var(--theme-grade-2) !important;
+}
+
+YEL,
+HIY,
+HIJ {
+    color: var(--theme-grade-3) !important;
+}
+
+MAG,
+HIM,
+HIZ {
+    color: var(--theme-grade-4) !important;
+}
+
+ORA,
+HIO {
+    color: var(--theme-grade-5) !important;
+}
+
+RED,
+HIR,
+ORD {
+    color: var(--theme-grade-6) !important;
+}
+
+BBLK,
+BWHT,
+HBWHT,
+BHIK {
+    background-color: var(--theme-panel) !important;
+    color: var(--theme-text) !important;
+}
+
+BBLU,
+BCYN,
+BMAG,
+HBBLU,
+HBCYN,
+HBMAG,
+HBGRN {
+    background-color: var(--theme-accent) !important;
+    color: var(--theme-button-text) !important;
+}
+
+BYEL,
+HBYEL {
+    background-color: var(--theme-warning) !important;
+    color: var(--theme-button-text) !important;
+}
+
+BRED,
+HBRED {
+    background-color: var(--theme-danger) !important;
+    color: #f8f3e8 !important;
+}

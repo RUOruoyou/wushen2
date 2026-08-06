@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>wsmud2 运营管理</title>
+</head>
+
+<body>
+    <div id="admin-root">
+        <section id="login-view" class="auth-shell">
+            <form id="login-form" class="auth-panel" autocomplete="on">
+                <div class="auth-brand">
+                    <span class="auth-mark glyphicon glyphicon-cog" aria-hidden="true"></span>
+                    <div>
+                        <h1>wsmud2 运营管理</h1>
+                        <p>公告与系统邮件</p>
+                    </div>
+                </div>
+                <label class="field-label" for="login-name">管理员账号</label>
+                <input id="login-name" name="code" type="text" maxlength="20" autocomplete="username" required />
+                <label class="field-label" for="login-password">密码</label>
+                <input id="login-password" name="pwd" type="password" maxlength="80" autocomplete="current-password" required />
+                <div id="login-error" class="form-error" role="alert"></div>
+                <button type="submit" class="button button-primary button-block">
+                    <span class="glyphicon glyphicon-log-in" aria-hidden="true"></span>
+                    <span>登录管理后台</span>
+                </button>
+            </form>
+        </section>
+
+        <section id="app-view" class="admin-shell" hidden>
+            <header class="topbar">
+                <div class="topbar-brand">
+                    <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
+                    <strong>wsmud2 运营管理</strong>
+                </div>
+                <div class="topbar-status">
+                    <span id="server-status" class="server-status"></span>
+                    <span id="actor-name" class="actor-name"></span>
+                    <button id="logout-button" type="button" class="icon-button" title="退出登录" aria-label="退出登录">
+                        <span class="glyphicon glyphicon-off" aria-hidden="true"></span>
+                    </button>
+                </div>
+            </header>
+
+            <div class="admin-layout">
+                <nav class="sidebar" aria-label="管理模块">
+                    <button type="button" class="nav-item active" data-tab="notices">
+                        <span class="glyphicon glyphicon-flag" aria-hidden="true"></span>
+                        <span>公告管理</span>
+                        <span id="notice-count" class="nav-count">0</span>
+                    </button>
+                    <button type="button" class="nav-item" data-tab="mails">
+                        <span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>
+                        <span>邮件管理</span>
+                        <span id="mail-count" class="nav-count">0</span>
+                    </button>
+                </nav>
+
+                <main class="main-content">
+                    <section id="notice-module" class="module-view">
+                        <div class="module-toolbar">
+                            <div>
+                                <h2>公告管理</h2>
+                                <span id="notice-summary" class="module-summary"></span>
+                            </div>
+                            <div class="toolbar-actions">
+                                <button type="button" class="icon-button" data-action="refresh" title="刷新" aria-label="刷新">
+                                    <span class="glyphicon glyphicon-refresh" aria-hidden="true"></span>
+                                </button>
+                                <button id="new-notice-button" type="button" class="button button-primary">
+                                    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                                    <span>新建公告</span>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="workspace">
+                            <aside class="record-pane">
+                                <div class="record-tools">
+                                    <div class="search-box">
+                                        <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+                                        <input id="notice-search" type="search" maxlength="80" placeholder="搜索公告" />
+                                    </div>
+                                    <div id="notice-filter" class="segmented" aria-label="公告状态筛选">
+                                        <button type="button" class="active" data-filter="all">全部</button>
+                                        <button type="button" data-filter="active">已发布</button>
+                                        <button type="button" data-filter="withdrawn">已撤回</button>
+                                    </div>
+                                </div>
+                                <div id="notice-list" class="record-list"></div>
+                            </aside>
+
+                            <form id="notice-form" class="editor-pane">
+                                <div class="editor-heading">
+                                    <div>
+                                        <h3 id="notice-editor-title">新建公告</h3>
+                                        <span id="notice-editor-meta" class="editor-meta"></span>
+                                    </div>
+                                    <span id="notice-editor-status" class="status-badge status-draft">草稿</span>
+                                </div>
+                                <div class="form-grid">
+                                    <label class="field field-span-2">
+                                        <span class="field-label">标题</span>
+                                        <input id="notice-title" type="text" maxlength="80" required />
+                                    </label>
+                                    <label class="field">
+                                        <span class="field-label">类型</span>
+                                        <select id="notice-category">
+                                            <option value="update">更新公告</option>
+                                            <option value="activity">活动公告</option>
+                                            <option value="maintenance">维护公告</option>
+                                            <option value="system">系统公告</option>
+                                        </select>
+                                    </label>
+                                    <label class="field field-span-2">
+                                        <span class="field-label">摘要</span>
+                                        <input id="notice-summary-input" type="text" maxlength="200" />
+                                    </label>
+                                    <label class="field field-span-2">
+                                        <span class="field-label">正文</span>
+                                        <textarea id="notice-content" maxlength="20000" required></textarea>
+                                    </label>
+                                </div>
+                                <div class="editor-actions">
+                                    <button id="notice-withdraw-button" type="button" class="button button-danger" hidden>
+                                        <span class="glyphicon glyphicon-ban-circle" aria-hidden="true"></span>
+                                        <span>撤回</span>
+                                    </button>
+                                    <div class="action-spacer"></div>
+                                    <button id="notice-save-button" type="submit" class="button button-primary">
+                                        <span class="glyphicon glyphicon-send" aria-hidden="true"></span>
+                                        <span>发布公告</span>
+                                    </button>
+                                    <button id="notice-publish-button" type="button" class="button button-success" hidden>
+                                        <span class="glyphicon glyphicon-refresh" aria-hidden="true"></span>
+                                        <span>重新发布</span>
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </section>
+
+                    <section id="mail-module" class="module-view" hidden>
+                        <div class="module-toolbar">
+                            <div>
+                                <h2>邮件管理</h2>
+                                <span id="mail-summary" class="module-summary"></span>
+                            </div>
+                            <div class="toolbar-actions">
+                                <button type="button" class="icon-button" data-action="refresh" title="刷新" aria-label="刷新">
+                                    <span class="glyphicon glyphicon-refresh" aria-hidden="true"></span>
+                                </button>
+                                <button id="new-mail-button" type="button" class="button button-primary">
+                                    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                                    <span>新建邮件</span>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="workspace">
+                            <aside class="record-pane">
+                                <div class="record-tools">
+                                    <div class="search-box">
+                                        <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+                                        <input id="mail-search" type="search" maxlength="80" placeholder="搜索邮件" />
+                                    </div>
+                                    <div id="mail-filter" class="segmented" aria-label="邮件状态筛选">
+                                        <button type="button" class="active" data-filter="all">全部</button>
+                                        <button type="button" data-filter="active">有效</button>
+                                        <button type="button" data-filter="withdrawn">已撤回</button>
+                                    </div>
+                                </div>
+                                <div id="mail-list" class="record-list"></div>
+                            </aside>
+
+                            <form id="mail-form" class="editor-pane">
+                                <div class="editor-heading">
+                                    <div>
+                                        <h3 id="mail-editor-title">新建邮件</h3>
+                                        <span id="mail-editor-meta" class="editor-meta"></span>
+                                    </div>
+                                    <span id="mail-editor-status" class="status-badge status-draft">草稿</span>
+                                </div>
+
+                                <div class="form-grid">
+                                    <div class="field field-span-2">
+                                        <span class="field-label">收件范围</span>
+                                        <div id="mail-target-type" class="segmented target-segmented">
+                                            <label><input type="radio" name="target-type" value="all" checked /><span>全部角色</span></label>
+                                            <label><input type="radio" name="target-type" value="role" /><span>指定角色</span></label>
+                                        </div>
+                                    </div>
+                                    <div id="role-field" class="field field-span-2" hidden>
+                                        <span class="field-label">收件角色</span>
+                                        <div class="multi-picker">
+                                            <button id="role-picker-toggle" type="button" class="picker-toggle" aria-expanded="false">
+                                                <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+                                                <span id="role-picker-label">请选择收件玩家</span>
+                                                <span class="glyphicon glyphicon-menu-down picker-caret" aria-hidden="true"></span>
+                                            </button>
+                                            <div id="role-dropdown" class="picker-dropdown" hidden>
+                                                <div class="search-box picker-search">
+                                                    <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+                                                    <input id="role-search" type="search" maxlength="40" placeholder="搜索角色名或角色 ID" autocomplete="off" />
+                                                </div>
+                                                <div class="picker-actions">
+                                                    <span id="role-result-summary">0 名玩家</span>
+                                                    <button id="select-visible-roles" type="button" class="text-button">全选当前</button>
+                                                    <button id="clear-selected-roles" type="button" class="text-button">清空</button>
+                                                </div>
+                                                <div id="role-results" class="picker-options"></div>
+                                            </div>
+                                            <div id="selected-roles" class="selected-chips" hidden></div>
+                                        </div>
+                                    </div>
+                                    <label class="field">
+                                        <span class="field-label">发件人</span>
+                                        <input id="mail-from" type="text" maxlength="30" value="系统" required />
+                                    </label>
+                                    <label class="field field-span-2">
+                                        <span class="field-label">标题</span>
+                                        <input id="mail-title" type="text" maxlength="80" required />
+                                    </label>
+                                    <label class="field field-span-2">
+                                        <span class="field-label">摘要</span>
+                                        <input id="mail-summary-input" type="text" maxlength="200" />
+                                    </label>
+                                    <label class="field field-span-2">
+                                        <span class="field-label">正文</span>
+                                        <textarea id="mail-content" maxlength="20000" required></textarea>
+                                    </label>
+                                    <div class="field field-span-2 attachment-field">
+                                        <div class="attachment-heading">
+                                            <span class="field-label">附件</span>
+                                        </div>
+                                        <div id="attachment-lock" class="field-state" hidden></div>
+                                        <div class="multi-picker attachment-picker">
+                                            <button id="attachment-picker-toggle" type="button" class="picker-toggle" aria-expanded="false">
+                                                <span class="glyphicon glyphicon-paperclip" aria-hidden="true"></span>
+                                                <span id="attachment-picker-label">选择附件</span>
+                                                <span class="glyphicon glyphicon-menu-down picker-caret" aria-hidden="true"></span>
+                                            </button>
+                                            <div id="attachment-dropdown" class="picker-dropdown attachment-dropdown" hidden>
+                                                <div class="attachment-filters">
+                                                    <select id="attachment-category" aria-label="附件分类"></select>
+                                                    <div class="search-box picker-search">
+                                                        <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+                                                        <input id="attachment-search" type="search" maxlength="60" placeholder="搜索附件名称或路径" autocomplete="off" />
+                                                    </div>
+                                                </div>
+                                                <div class="picker-actions">
+                                                    <span id="attachment-result-summary">0 种物品</span>
+                                                    <button id="clear-selected-attachments" type="button" class="text-button">清空</button>
+                                                </div>
+                                                <div id="attachment-options" class="picker-options attachment-options"></div>
+                                            </div>
+                                        </div>
+                                        <div id="attachment-list" class="attachment-list"></div>
+                                    </div>
+                                </div>
+
+                                <div id="mail-stats" class="mail-stats" hidden></div>
+                                <div class="editor-actions">
+                                    <button id="mail-withdraw-button" type="button" class="button button-danger" hidden>
+                                        <span class="glyphicon glyphicon-ban-circle" aria-hidden="true"></span>
+                                        <span>撤回邮件</span>
+                                    </button>
+                                    <div class="action-spacer"></div>
+                                    <button id="mail-save-button" type="submit" class="button button-primary">
+                                        <span class="glyphicon glyphicon-send" aria-hidden="true"></span>
+                                        <span>发送邮件</span>
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </section>
+                </main>
+            </div>
+        </section>
+    </div>
+
+    <div id="confirm-backdrop" class="modal-backdrop" hidden>
+        <div class="confirm-dialog" role="dialog" aria-modal="true" aria-labelledby="confirm-title">
+            <div class="confirm-icon"><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span></div>
+            <div>
+                <h3 id="confirm-title">确认操作</h3>
+                <p id="confirm-message"></p>
+            </div>
+            <div class="confirm-actions">
+                <button id="confirm-cancel" type="button" class="button">取消</button>
+                <button id="confirm-submit" type="button" class="button button-danger">确认</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
+    <script type="module" src="./admin.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,40 @@
+this.inherits(FAMILY_AREA);
+this.set({
+    name: "全真教",
+    id: "quanzhen",
+    desc: "全真教位于终南山重阳宫，乃天下道家玄门正宗。教中弟子以内功心法为根基，剑法端严，轻功灵动，讲究清静无为而不失侠义担当。",
+    sp: "内功均衡，剑掌兼修，善闪避与招架",
+    is_area: true,
+    first: "quanzhen/damen",
+    index: 10,
+    room_path: "quanzhen/",
+    family: "QUANZHEN"
+});
+this.map = [
+    { n: "终南山脚", id: "quanzhen/shanlu", p: [0, 3], exits: ["n", "e", "w"] },
+    { n: "松林", id: "quanzhen/songlin", p: [-1, 3], exits: ["e"] },
+    { n: "剑泉", id: "quanzhen/jianquan", p: [1, 3], exits: ["w"] },
+    { n: "重阳宫大门", id: "quanzhen/damen", p: [0, 2], exits: ["s", "n"] },
+    { n: "照壁", id: "quanzhen/zhaobi", p: [0, 1], exits: ["s", "n"] },
+    { n: "广场", id: "quanzhen/guangchang", p: [0, 0], exits: ["s", "n", "e", "w"] },
+    { n: "练功房", id: "quanzhen/liangong", p: [-1, 0], exits: ["e", "w"] },
+    { n: "剑坪", id: "quanzhen/jianping", p: [-2, 0], exits: ["e"] },
+    { n: "七星坛", id: "quanzhen/qixingtan", p: [1, 0], exits: ["w", "e"] },
+    { n: "观星台", id: "quanzhen/guanxingtai", p: [2, 0], exits: ["w"] },
+    { n: "重阳宫大殿", id: "quanzhen/datang", p: [0, -1], exits: ["s", "n", "e", "w"] },
+    { n: "静修室", id: "quanzhen/jingxiushi", p: [-1, -1], exits: ["e", "w"] },
+    { n: "藏经阁", id: "quanzhen/cangjingge", p: [-2, -1], exits: ["e"] },
+    { n: "玉真宫", id: "quanzhen/yuzhengong", p: [1, -1], exits: ["w", "e"] },
+    { n: "丹房", id: "quanzhen/danfang", p: [2, -1], exits: ["w"] },
+    { n: "老君殿", id: "quanzhen/laojundian", p: [0, -2], exits: ["s", "n", "e", "w"] },
+    { n: "会真堂", id: "quanzhen/huizhentang", p: [-1, -2], exits: ["e"] },
+    { n: "侍卫室", id: "quanzhen/shiweishi", p: [1, -2], exits: ["w", "e"] },
+    { n: "祖师堂", id: "quanzhen/zushitang", p: [2, -2], exits: ["w"] },
+    { n: "万物堂", id: "quanzhen/wanwutang", p: [0, -3], exits: ["s", "n", "w"] },
+    { n: "北斗坛", id: "quanzhen/beidoutan", p: [-1, -3], exits: ["e"] },
+    { n: "后山石阶", id: "quanzhen/shijie", p: [0, -4], exits: ["s", "n"] },
+    { n: "后山", id: "quanzhen/houshan", p: [0, -5], exits: ["s", "n", "e", "w"] },
+    { n: "桃源", id: "quanzhen/taoyuan", p: [-1, -5], exits: ["e"] },
+    { n: "莲花洞", id: "quanzhen/lianhuadong", p: [1, -5], exits: ["w"] },
+    { n: "重阳宫深处", id: "quanzhen/chongyang", p: [0, -6], exits: ["s"] }
+];
