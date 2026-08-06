@@ -423,7 +423,8 @@ const FBS = {
     "lw": 0, "cuifu": 1, "lmw": 2, "lcy": 3,
     "by": 4, "zhuang": 5, "ao": 6, "tdh": 7,
     "shenlong": 8, "guanwai": 9, "longmai": 10,
-    "wenfu": 11, "wudu": 12, "hengshan": 13, "qingcheng": 14, "hengshan2": 15
+    "wenfu": 11, "wudu": 12, "hengshan": 13, "qingcheng": 14, "hengshan2": 15,
+    "lcj": 16
 }
 const FB_AREAS = {};
 const JDS = {
