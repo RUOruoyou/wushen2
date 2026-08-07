@@ -302,6 +302,10 @@ CHARACTER.prototype.damage = function (sh, from, diff_fy, par) {
     if (sh > 0 && this.query_dao_damage_taken) {
         sh = this.query_dao_damage_taken(sh, from, par);
     }
+    //固定数值吸收护盾：与装备方式无关，任意技能施加的护盾都生效
+    if (sh > 0 && this.query_shield) {
+        sh = this.query_shield(sh, from, par);
+    }
 
     if (sh > 0) {
         sh = parseInt(sh);
@@ -341,6 +345,28 @@ CHARACTER.prototype.damage3 = function (sh, from) {
     }
     return sh;
 }
+//固定数值吸收护盾：用 set_temp("shield", 值, 时长) 施加，
+//受伤时优先扣除护盾值，扣完才扣真实气血。与装备方式无关。
+CHARACTER.prototype.query_shield = function (sh, from, par) {
+    var shield = this.query_temp("shield");
+    if (!(shield > 0)) return sh;
+    var absorb = Math.min(shield, sh);
+    var left = shield - absorb;
+    if (left > 0) {
+        //保留原过期时间：读取后再按剩余时长写回
+        var item = this.temp && this.temp["shield"];
+        var expire = item && item.e ? item.e - Date.now() : 0;
+        if (expire > 0) {
+            this.set_temp("shield", left, expire);
+        } else {
+            this.set_temp("shield", left);
+        }
+    } else {
+        this.remove_temp("shield");
+        this.send_room("<hiy>$N身上的护盾被击碎。</hiy>");
+    }
+    return sh - absorb;
+};
 
 
 var catch_hunt_msg = [
