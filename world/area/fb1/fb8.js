@@ -44,5 +44,9 @@ this.quick_drops = [
     }, {
         obj: "eq/lv2/yunlongjian",
         odds: 1000
+    }, {
+        obj: "st/xuanjing",
+        min: 1,
+        max: 3
     }
 ];

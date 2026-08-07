@@ -20,12 +20,13 @@ this.skill_map(
     ["force", 420],
     ["unarmed", 450],
     ["sword", 450],
-    ["baguaquan", 450, "unarmed"]);
+    ["baguaquan", 450, "unarmed"],
+    ["songfengjianfa", 450, "sword"]);
 this.set_drop({
     obj: "money/silver",
     min: 4,
     max: 13
 }, {
-    obj: ["book/bc#baguaquan", "book/book#sword", "eq/lv2/qc_cloth"],
+    obj: ["book/bc#baguaquan", "book/bc#songfengjianfa", "book/book#sword", "eq/lv2/qc_cloth", "eq/lv2/qc_head"],
     odds: 3600
 });

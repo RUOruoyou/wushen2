@@ -24,8 +24,10 @@ this.map = [
 ];
 this.drops = [
     "book/bc#liuyunzhang", "book/bc#kuangfengkuaijian",
+    "book/bc#chuanyunzong", "book/bc#zhenyuejue", "book/bc#hengshanwushenjian",
     "eq/lv2/hs_qin", "eq/lv2/hs2_cloth", "eq/lv2/hs2_shoes", "eq/lv2/hs2_ring",
-    "book/book#sword", "book/book#unarmed"
+    "eq/lv2/qyhuan", "eq/lv2/lzjpao",
+    "book/book#sword", "book/book#unarmed", "st/xuanjing"
 ];
 this.query_drops = function () {
     return [[
@@ -34,14 +36,18 @@ this.query_drops = function () {
             min: 16,
             max: 36
         }, {
-            obj: ["book/bc#liuyunzhang", "book/bc#kuangfengkuaijian"],
+            obj: ["book/bc#liuyunzhang", "book/bc#kuangfengkuaijian", "book/bc#chuanyunzong", "book/bc#zhenyuejue", "book/bc#hengshanwushenjian"],
             odds: 4200
         }, {
             obj: ["book/book#sword", "book/book#unarmed"],
             odds: 1800
         }, {
-            obj: ["eq/lv2/hs_qin", "eq/lv2/hs2_cloth", "eq/lv2/hs2_shoes", "eq/lv2/hs2_ring"],
+            obj: ["eq/lv2/hs_qin", "eq/lv2/hs2_cloth", "eq/lv2/hs2_shoes", "eq/lv2/hs2_ring", "eq/lv2/qyhuan", "eq/lv2/lzjpao"],
             odds: 2200
+        }, {
+            obj: "st/xuanjing",
+            min: 1,
+            max: 3
         }
     ]];
 }

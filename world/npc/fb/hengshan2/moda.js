@@ -23,15 +23,18 @@ this.skill_map(
     ["sword", 600],
     ["throwing", 560],
     ["liuyunzhang", 580, "unarmed"],
-    ["kuangfengkuaijian", 600, ["sword", "dodge"]]);
+    ["kuangfengkuaijian", 600, ["sword", "dodge"]],
+    ["zhenyuejue", 560, "force"],
+    ["hengshanwushenjian", 600, "sword"],
+    ["chuanyunzong", 600, "dodge"]);
 this.set_drop({
     obj: "money/silver",
     min: 8,
     max: 24
 }, {
-    obj: ["book/bc#liuyunzhang", "book/bc#kuangfengkuaijian"],
+    obj: ["book/bc#liuyunzhang", "book/bc#kuangfengkuaijian", "book/bc#chuanyunzong", "book/bc#zhenyuejue", "book/bc#hengshanwushenjian"],
     odds: 5200
 }, {
-    obj: ["eq/lv2/hs_qin", "eq/lv2/hs2_cloth", "eq/lv2/hs2_shoes", "eq/lv2/hs2_ring"],
+    obj: ["eq/lv2/hs_qin", "eq/lv2/hs2_cloth", "eq/lv2/hs2_shoes", "eq/lv2/hs2_ring", "eq/lv2/qyhuan", "eq/lv2/lzjpao"],
     odds: 2800
 });

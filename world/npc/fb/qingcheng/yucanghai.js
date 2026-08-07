@@ -21,16 +21,20 @@ this.skill_map(
     ["force", 540],
     ["unarmed", 580],
     ["club", 580],
+    ["sword", 560],
     ["baguaquan", 580, "unarmed"],
-    ["baguagun", 580, "club"]);
+    ["baguagun", 580, "club"],
+    ["cuixinzhang", 560, "unarmed"],
+    ["songfengjianfa", 560, "sword"],
+    ["tagehang", 560, "dodge"]);
 this.set_drop({
     obj: "money/silver",
     min: 8,
     max: 24
 }, {
-    obj: ["book/bc#baguaquan", "book/bc#baguagun"],
+    obj: ["book/bc#baguaquan", "book/bc#baguagun", "book/bc#tagehang", "book/bc#cuixinzhang", "book/bc#songfengjianfa"],
     odds: 5200
 }, {
-    obj: ["eq/lv2/qc_gun", "eq/lv2/qc_cloth", "eq/lv2/qc_ring", "book/book#club", "book/book#unarmed"],
+    obj: ["eq/lv2/qc_gun", "eq/lv2/qc_cloth", "eq/lv2/qc_ring", "eq/lv2/qc_blade", "eq/lv2/qc_head", "book/book#club", "book/book#unarmed", "book/book#sword"],
     odds: 2600
 });

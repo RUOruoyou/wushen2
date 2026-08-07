@@ -20,12 +20,13 @@ this.skill_map(
     ["force", 500],
     ["unarmed", 500],
     ["baiyunxinfa", 500, "force"],
-    ["tianchangzhang", 500, "unarmed"]);
+    ["tianchangzhang", 500, "unarmed"],
+    ["hengshanshenfa", 480, "dodge"]);
 this.set_drop({
     obj: "money/silver",
     min: 6,
     max: 16
 }, {
-    obj: ["book/bc#baiyunxinfa", "book/bc#tianchangzhang", "drug/yulu", "eq/lv2/hsn_zhu"],
+    obj: ["book/bc#baiyunxinfa", "book/bc#tianchangzhang", "book/bc#hengshanshenfa", "drug/yulu", "eq/lv2/hsn_zhu"],
     odds: 4200
 });

@@ -24,8 +24,10 @@ this.map = [
 ];
 this.drops = [
     "book/bc#baiyunxinfa", "book/bc#tianchangzhang",
-    "eq/lv2/hsn_cloth", "eq/lv2/hsn_shoes", "eq/lv2/hsn_zhu",
-    "book/book#force", "book/book#unarmed", "drug/yulu"
+    "book/bc#hengshanshenfa", "book/bc#hengshanjianfa", "book/bc#kuangfengkuaidao",
+    "eq/lv2/hsn_cloth", "eq/lv2/hsn_shoes", "eq/lv2/hsn_zhu", "eq/lv2/hsn_ring",
+    "eq/lv2/kuangfengdao", "eq/lv2/tbguang",
+    "book/book#force", "book/book#unarmed", "book/book#sword", "drug/yulu", "st/xuanjing"
 ];
 this.query_drops = function () {
     return [[
@@ -34,17 +36,21 @@ this.query_drops = function () {
             min: 14,
             max: 32
         }, {
-            obj: ["book/bc#baiyunxinfa", "book/bc#tianchangzhang"],
+            obj: ["book/bc#baiyunxinfa", "book/bc#tianchangzhang", "book/bc#hengshanshenfa", "book/bc#hengshanjianfa", "book/bc#kuangfengkuaidao"],
             odds: 4200
         }, {
-            obj: ["book/book#force", "book/book#unarmed"],
+            obj: ["book/book#force", "book/book#unarmed", "book/book#sword"],
             odds: 1800
         }, {
-            obj: ["eq/lv2/hsn_cloth", "eq/lv2/hsn_shoes", "eq/lv2/hsn_zhu"],
+            obj: ["eq/lv2/hsn_cloth", "eq/lv2/hsn_shoes", "eq/lv2/hsn_zhu", "eq/lv2/hsn_ring", "eq/lv2/kuangfengdao", "eq/lv2/tbguang"],
             odds: 2200
         }, {
             obj: "drug/yulu",
             odds: 1600
+        }, {
+            obj: "st/xuanjing",
+            min: 1,
+            max: 3
         }
     ]];
 }

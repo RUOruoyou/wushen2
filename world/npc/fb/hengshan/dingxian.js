@@ -20,16 +20,19 @@ this.skill_map(
     ["parry", 560],
     ["force", 580],
     ["unarmed", 580],
+    ["sword", 540],
     ["baiyunxinfa", 580, "force"],
-    ["tianchangzhang", 580, "unarmed"]);
+    ["tianchangzhang", 580, "unarmed"],
+    ["hengshanjianfa", 540, "sword"],
+    ["hengshanshenfa", 560, "dodge"]);
 this.set_drop({
     obj: "money/silver",
     min: 8,
     max: 22
 }, {
-    obj: ["book/bc#baiyunxinfa", "book/bc#tianchangzhang"],
+    obj: ["book/bc#baiyunxinfa", "book/bc#tianchangzhang", "book/bc#hengshanjianfa", "book/bc#kuangfengkuaidao"],
     odds: 5200
 }, {
-    obj: ["eq/lv2/hsn_cloth", "eq/lv2/hsn_shoes", "eq/lv2/hsn_zhu", "drug/yulu"],
+    obj: ["eq/lv2/hsn_cloth", "eq/lv2/hsn_shoes", "eq/lv2/hsn_zhu", "eq/lv2/hsn_ring", "eq/lv2/kuangfengdao", "eq/lv2/tbguang", "drug/yulu"],
     odds: 2600
 });

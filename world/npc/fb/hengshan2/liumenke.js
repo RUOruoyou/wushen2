@@ -20,12 +20,13 @@ this.skill_map(
     ["force", 430],
     ["unarmed", 470],
     ["sword", 450],
-    ["liuyunzhang", 470, "unarmed"]);
+    ["liuyunzhang", 470, "unarmed"],
+    ["chuanyunzong", 460, "dodge"]);
 this.set_drop({
     obj: "money/silver",
     min: 4,
     max: 13
 }, {
-    obj: ["book/bc#liuyunzhang", "book/book#unarmed", "eq/lv2/hs2_cloth"],
+    obj: ["book/bc#liuyunzhang", "book/bc#chuanyunzong", "book/book#unarmed", "eq/lv2/hs2_cloth"],
     odds: 3600
 });

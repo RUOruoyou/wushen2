@@ -27,8 +27,8 @@ this.drops = ["eq/lv1/lm_head", "eq/lv1/lm_cloth", "eq/lv1/lm_shoes", "eq/lv1/lm
 this.quick_drops = [
     {
         obj: "money/silver",
-        min: 1,
-        max: 10
+        min: 2,
+        max: 14
     }, {
         obj: [
             "eq/lv0/cloth",
@@ -49,5 +49,8 @@ this.quick_drops = [
     {
         obj: ["book/book#force", "book/book#unarmed", "book/bc#taizuchangquan", "book/book#parry", "book/book#dodge"],
         odds: 2000
+    }, {
+        obj: "st/xuanjing",
+        odds: 400
     }
 ];

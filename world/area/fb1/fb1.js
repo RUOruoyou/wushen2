@@ -29,5 +29,35 @@ this.drops = ["res/pimao1",
     "eq/lv0/jin",
     "eq/lv0/shoes",
     "eq/lv0/duanyi",
-    "book/book#dodge"];
+    "book/book#dodge", "book/book#unarmed", "book/book#parry"];
+
+this.quick_drops = [
+    {
+        obj: "money/silver",
+        min: 1,
+        max: 8
+    }, {
+        obj: ["res/pimao1"],
+        min: 1,
+        max: 3
+    }, {
+        obj: [
+            "eq/lv0/cloth",
+            "eq/lv0/dao",
+            "eq/lv0/ring",
+            "eq/lv0/tiegun",
+            "eq/lv0/jian",
+            "eq/lv0/jin",
+            "eq/lv0/shoes",
+            "eq/lv0/duanyi"
+        ],
+        odds: 8000
+    }, {
+        obj: ["book/book#dodge", "book/book#unarmed", "book/book#parry"],
+        odds: 2000
+    }, {
+        obj: "st/xuanjing",
+        odds: 200
+    }
+];
 
