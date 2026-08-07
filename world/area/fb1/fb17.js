@@ -9,8 +9,8 @@ this.set({
     is_copy: true,
     expend: 10,
     record_index: 16,
-    exp: 16000,
-    pot: 11000,
+    exp: 19000,
+    pot: 12000,
     is_multi: false,
     room_path: "fb/lcj/",
     ss_title: "铁骨孤心"

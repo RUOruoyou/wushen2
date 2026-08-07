@@ -9,8 +9,8 @@ this.set({
     is_copy: true,
     expend: 10,
     record_index: 17,
-    exp: 2500,
-    pot: 2500,
+    exp: 16000,
+    pot: 10500,
     is_multi: false,
     room_path: "fb/taishan/",
     ss_title: "泰山登顶"

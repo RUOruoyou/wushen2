@@ -9,8 +9,8 @@ this.set({
     is_copy: true,
     expend: 10,
     record_index: 18,
-    exp: 2600,
-    pot: 2600,
+    exp: 17000,
+    pot: 11000,
     is_multi: false,
     room_path: "fb/songshan/",
     ss_title: "嵩山盟主"

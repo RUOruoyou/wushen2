@@ -9,8 +9,8 @@ this.set({
     is_copy: true,
     expend: 10,
     record_index: 19,
-    exp: 2700,
-    pot: 2700,
+    exp: 18000,
+    pot: 11500,
     is_multi: true,
     room_path: "fb/yunmeng/",
     ss_title: "云梦猎火"
