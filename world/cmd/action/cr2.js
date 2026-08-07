@@ -10,7 +10,7 @@ this.enter = function (me, index, diff) {
     let area = AREA.FBS[index];
     if (!area || area.no_fb || !area.is_copy || !DIFFS[diff])
         return me.send('你要看哪个副本？');
-    index = area.fb_index;
+    index = area.query_record_index();
     let key = "fb_first_" + (index + 1) + "_" + diff;
     let name = WORLD.DATA.query_temp(key);
     let fbname = area.name + DIFFS[diff] + "模式";
@@ -41,10 +41,11 @@ this.set_fb_first = function (me) {
         fbs[item.family] = item;
     }
     let str = [];
-    for (let i = 0; i < 18; i++) {
+    for (let i = 0; i < AREA.FBS.length; i++) {
         let area = AREA.FBS[i];
         if (!area || !area.is_copy || area.not_fb) continue;
-        let fbs = data[i] ?? {};
+        const recordIndex = area.query_record_index();
+        let fbs = data[recordIndex] ?? {};
         for (let item of FAMS_TATAS) {
             if (!fbs[item]) {
                 if (FB_MAX[item] <= i) continue;
@@ -53,7 +54,7 @@ this.set_fb_first = function (me) {
                 }
             }
             let fam = FAMILIES[item];
-            let key = "fb_first_" + item + "_" + (i + 1) + "_0"; //每个门派的
+            let key = "fb_first_" + item + "_" + (recordIndex + 1) + "_0"; //每个门派的
             WORLD.DATA.set_temp(key, fbs[item].name);
             str.push(area.name, fam.name, '设置首通', fbs[item].name, '\n');
         }

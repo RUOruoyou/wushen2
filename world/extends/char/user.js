@@ -1,4 +1,30 @@
 
+function migrateQyhuanEquipment(user) {
+    const necklaceIndex = EQUIP_TYPE.NECKLACE;
+    const ringIndex = EQUIP_TYPE.RING;
+    const qyhuan = user.equipment && user.equipment[necklaceIndex];
+    if (!qyhuan || qyhuan.path !== "eq/lv2/qyhuan") return;
+
+    const ring = user.equipment[ringIndex];
+    user.equipment[necklaceIndex] = null;
+    if (ring && ring !== qyhuan) {
+        if (user.push_item) user.push_item(ring);
+        else {
+            if (!user.items) user.items = [];
+            user.items.push(ring);
+        }
+    }
+    user.equipment[ringIndex] = qyhuan;
+}
+
+if (!USER.MIGRATE_QYHUAN_LOAD_DATA) {
+    USER.MIGRATE_QYHUAN_LOAD_DATA = USER.prototype.loadData;
+    USER.prototype.loadData = function (role) {
+        USER.MIGRATE_QYHUAN_LOAD_DATA.call(this, role);
+        migrateQyhuanEquipment(this);
+    };
+}
+
 USER.prototype.recount = function () {
     const forceDao = SKILL.get("force");
     const dodgeDao = SKILL.get("dodge");

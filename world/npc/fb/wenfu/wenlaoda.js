@@ -19,14 +19,17 @@ this.skill_map(
     ["parry", 420],
     ["force", 400],
     ["unarmed", 400],
+    ["sword", 400],
     ["club", 430],
     ["baguagun", 430, "club"],
-    ["baguaquan", 400, "unarmed"]);
+    ["baguaquan", 400, "unarmed"],
+    ["jinshejianfa", 400, "sword"],
+    ["jinsheyoushenbu", 400, "dodge"]);
 this.set_drop({
     obj: "money/silver",
     min: 5,
     max: 14
 }, {
-    obj: ["book/bc#baguagun", "book/bc#baguaquan", "eq/lv2/js_pifeng"],
+    obj: ["book/bc#baguagun", "book/bc#baguaquan", "book/bc#jinshejianfa", "book/bc#jinsheyoushenbu", "eq/lv2/js_pifeng", "eq/lv3/baguagun", "eq/lv3/jinshejian"],
     odds: 3200
 });

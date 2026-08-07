@@ -39,7 +39,7 @@ this.set_drop({
     min: 10,
     max: 30
 }, {
-    obj: ["eq/lv0/cloth", "eq/lv0/dao", "eq/lv0/jian"],
+    obj: ["eq/lv0/cloth", "eq/lv0/dao", "eq/lv0/jian", "eq/lv4/chuangwangdao"],
     odds: 8000
 });
 this.on_accept = function (me, obj, count) {

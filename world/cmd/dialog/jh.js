@@ -21,12 +21,13 @@ function fb_expend_desc(me, fb, can_sweep) {
 }
 this.enter = function (me, type, arg, isstart) {
     if (!me.is_player) return;
-    var unlock = me.query_temp("fb", 0);
     var unlock2 = me.query_temp("fb2", 0);
     var is_admin = !!(WORLD.is_admin && WORLD.is_admin(me));
     if (!this.map_json) {
         this.map_json = this.getAllMaps();
     }
+    AREA.ensure_record_indexes(me);
+    var unlock = me.query_temp("fb", 0);
     if (is_admin && this.fbs && this.fbs.length) {
         unlock = this.fbs.length - 1;
     }
@@ -59,6 +60,8 @@ this.enter = function (me, type, arg, isstart) {
 
             if (type == "fb") {
                 var fb = this.fbs[index];
+                if (!fb || !fb.id) return me.notify("没有这个副本。");
+                const recordIndex = fb.query_record_index();
                 if (fb.is_lock) {
                     return me.notify("暂未开放，正在修复");
                 }
@@ -74,21 +77,15 @@ this.enter = function (me, type, arg, isstart) {
                 if (!me.environment) return me.notify("你不知道在哪。");
                 if (me.environment.is_fb()) return me.notify("你现在正在副本区域。");
 
-                if (!fb || !fb.id) return me.notify("没有这个副本。");
-
                 if (fb.start_room && !me.is_in(fb.start_room))
                     return me.notify('你要进入哪个副本？');
                 if (isstart == "start1") {
                     //  if (me.team) return me.notify("你目前处于队伍当中，无法进入单人副本。");
-                    var count = me.query_temp("fbc_0_" + fb.fb_index, 0);
+                    var count = me.query_temp("fbc_0_" + recordIndex, 0);
                     me.notify("即将进入副本(" + fb.name + ")区域" + fb_count_desc(me, fb, count)
                         + fb_expend_desc(me, fb, true));
                     let can_sd = is_admin;
-                    if (fb.unlock_index) {
-                        can_sd = can_sd || me.query_temp('fb_sao' + index, 0) === 1;
-                    } else if (!can_sd) {
-                        can_sd = me.query_temp('fb_sao0') >= index;
-                    }
+                    can_sd = can_sd || me.query_temp('fb_sao' + recordIndex, 0) >= 1;
                     if (can_sd) {
                         return me.send_commands('cr ' + fb.id, "进入副本", "cr " + fb.id + " 0 1", "扫荡一次",
                             "cr " + fb.id + " 0 10", "扫荡十次");
@@ -97,15 +94,11 @@ this.enter = function (me, type, arg, isstart) {
                     }
                 } else if (isstart == "start2") {
                     //   if (me.team) return me.notify("你目前处于队伍当中，无法进入单人副本。");
-                    let count = me.query_temp("fbc_1_" + fb.fb_index, 0);
+                    let count = me.query_temp("fbc_1_" + recordIndex, 0);
                     me.notify("即将进入副本(" + fb.name + ")<hir>困难区域</hir>" + fb_count_desc(me, fb, count)
                         + fb_expend_desc(me, fb, true));
                     let can_sd = is_admin;
-                    if (fb.unlock_index) {
-                        can_sd = can_sd || me.query_temp('fb_sao' + fb.index, 0) === 2;
-                    } else if (!can_sd) {
-                        can_sd = me.query_temp('fb_sao1') >= index;
-                    }
+                    can_sd = can_sd || me.query_temp('fb_sao' + recordIndex, 0) >= 2;
                     if (can_sd) {
                         return me.send_commands('cr ' + fb.id + " 1 0", "进入副本", "cr " + fb.id + " 1 1",
                             "扫荡一次", "cr " + fb.id + " 1 10", "扫荡十次");
@@ -124,7 +117,7 @@ this.enter = function (me, type, arg, isstart) {
                     }
 
 
-                    var count = me.query_temp("fbc_2_" + fb.fb_index, 0);
+                    var count = me.query_temp("fbc_2_" + recordIndex, 0);
                     me.send("即将组队进入副本(" + fb.name + ")区域" + fb_count_desc(me, fb, count)
                         + "，本次副本需要消耗" + fb.expend + "点精力。\n当前精力：" + me.query_jingli() + "/100");
                     return me.send_commands('cr ' + fb.id + " 2 0", "进入副本");
@@ -168,13 +161,14 @@ this.enter = function (me, type, arg, isstart) {
 }
 
 this.enter_ar_fb = function (me, fb, diff = 0) {
+    const recordIndex = fb.query_record_index();
     var count =
-        me.query_temp(fb.count_key ?? ("fbc_0_" + fb.fb_index), 0);
+        me.query_temp(fb.count_key ?? ("fbc_0_" + recordIndex), 0);
 
     me.notify("即将进入禁地副本(" + fb.name + ")区域" + fb_count_desc(me, fb, count)
         + "，本次副本需要消耗<hic>" + fb.expend
         + "</hic>点精力。\n当前精力：" + me.query_jingli());
-    let can_sd = me.query_temp('fb_sao' + fb.fb_index, 0) === 1;
+    let can_sd = me.query_temp('fb_sao' + recordIndex, 0) === 1;
 
     if (can_sd) {
         let sd_diff = diff;
@@ -324,7 +318,7 @@ this.fb_drops = function (fb) {
 
 this.fb_status = function (fb) {
     let status = [];
-    let fblock = fb.fb_index + 1;
+    let fblock = fb.query_record_index() + 1;
     let fb_key = "fb_first_" + fblock + "_0";
     let ss_0 = WORLD.DATA.query_temp(fb_key);
     if (ss_0) {
@@ -424,7 +418,8 @@ const FBS = {
     "by": 4, "zhuang": 5, "ao": 6, "tdh": 7,
     "shenlong": 8, "guanwai": 9, "longmai": 10,
     "wenfu": 11, "wudu": 12, "hengshan": 13, "qingcheng": 14, "hengshan2": 15,
-    "lcj": 16
+    "taishan": 16, "songshan": 17, "yunmeng": 18,
+    "lcj": 19
 }
 const FB_AREAS = {};
 const JDS = {

@@ -25,13 +25,13 @@ this.learn_condition = {
 this.query_enable_prop = function (lv) {
     return {
         sword: {
-            gj: parseInt(lv * 1.5) + 15,
-            str: parseInt(lv / 10),
-            mz: parseInt(lv * 1.4) + 10
+            gj: parseInt(lv * 1.51),
+            str: parseInt(lv * 0.168),
+            mz: parseInt(lv * 1.51)
         }, parry: {
-            zj: parseInt(lv * 1.5) + 12,
-            str: parseInt(lv / 10),
-            fy: parseInt(lv * 1.0) + 8
+            zj: parseInt(lv * 1.51),
+            str: parseInt(lv * 0.168),
+            fy: parseInt(lv * 1.51)
         }
     };
 }
@@ -62,7 +62,7 @@ this.pfm = {
         weapon_type: WEAPON_TYPE.SWORD,
         mp: 20,
         use: function (me, target, lv) {
-            var per = 110 + parseInt(lv / 40) + me.query_prop('hswsj_per');
+            var per = 110 + parseInt(lv / 100) + me.query_prop('hswsj_per');
             me.send_room("<hir>$N长剑连挥，五神齐出，「祝融、石廪、芙蓉、鹤翔、天柱」五道剑气依次刺向$n</hir>", target);
             for (var i = 0; i < 5; i++) {
                 me.do_attack({
@@ -76,7 +76,7 @@ this.pfm = {
             me.end_attack(target);
         },
         query_desc: function (me, lv) {
-            var per = 110 + parseInt(lv / 40);
+            var per = 110 + parseInt(lv / 100);
             return "瞬间对敌人攻击5次，每次造成" + per + "%伤害";
         }
     },

@@ -26,6 +26,6 @@ this.set_drop({
     min: 2,
     max: 8
 }, {
-    obj: ["eq/lv0/cloth", "eq/lv0/mugun", "book/bc#baguagun"],
+    obj: ["eq/lv0/cloth", "eq/lv0/mugun", "book/bc#baguagun", "eq/lv3/baguagun"],
     odds: 4500
 });

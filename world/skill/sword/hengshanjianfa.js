@@ -14,7 +14,7 @@ this.attack_actions = [
 this.parry_actions = SKILL.get("parry").parry_actions;
 this.desc = "恒山派剑法，绵密严谨，长于守御，而往往是在最令人出其不意之处突出杀招。";
 //<$1>$2</$1>
-this.can_enables = ["sword", "parry"];
+this.can_enables = ["sword"];
 this.learn_condition = {
     max_mp: 3000,
     skill: {
@@ -24,11 +24,8 @@ this.learn_condition = {
 this.query_enable_prop = function (lv) {
     return {
         sword: {
-            gj: parseInt(lv * 1.3) + 15,
-            mz: parseInt(lv * 1.5) + 10,
-            fy: parseInt(lv * 1.0) + 8
-        }, parry: {
-            zj: parseInt(lv * 1.2) + 10
+            gj: parseInt(lv * 1.02),
+            mz: parseInt(lv * 1.7)
         }
     };
 }
@@ -58,7 +55,7 @@ this.pfm = {
         weapon_type: WEAPON_TYPE.SWORD,
         mp: 20,
         use: function (me, target, lv) {
-            var per = 55 + parseInt(lv / 50) + me.query_prop('hsjf_ly_per');
+            var per = 55 + parseInt(lv / 125) + me.query_prop('hsjf_ly_per');
             me.send_room("<hir>$N手中$w连挥，行云流水般使出「流云七剑」，剑光如云涛般涌向$n</hir>", target);
             for (var i = 0; i < 7; i++) {
                 me.do_attack({
@@ -72,7 +69,7 @@ this.pfm = {
             me.end_attack(target);
         },
         query_desc: function (me, lv) {
-            var per = 55 + parseInt(lv / 50);
+            var per = 55 + parseInt(lv / 125);
             return "行云流水般连出七招，每招造成你攻击力" + per + "%的伤害";
         }
     },
@@ -85,8 +82,8 @@ this.pfm = {
         weapon_type: WEAPON_TYPE.SWORD,
         mp: 20,
         use: function (me, target, lv) {
-            var per = 75 + parseInt(lv / 40);
-            var per2 = 150 + parseInt(lv / 30) + me.query_prop('hsjf_mz_per');
+            var per = 75 + parseInt(lv / 125);
+            var per2 = 150 + parseInt(lv / 60) + me.query_prop('hsjf_mz_per');
             me.send_room("<hiw>$N示弱于敌，$w虚晃一记，正是「绵里藏针」，看准$n破绽蓄势待发</hiw>", target);
             var hit = me.do_attack({
                 target: target,
@@ -105,8 +102,8 @@ this.pfm = {
             }
         },
         query_desc: function (me, lv) {
-            var per = 75 + parseInt(lv / 40);
-            var per2 = 150 + parseInt(lv / 30);
+            var per = 75 + parseInt(lv / 125);
+            var per2 = 150 + parseInt(lv / 60);
             return "先手示弱对敌人造成" + per + "%的伤害，如果未命中，后手会增加你" + per2 + "%的伤害和命中";
         }
     }

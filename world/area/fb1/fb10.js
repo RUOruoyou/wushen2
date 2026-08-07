@@ -24,7 +24,7 @@ this.map = [
 ];
 this.drops = [
     "book/bc#hujiadaofa", "book/bc#sixiangbu", "book/bc#lengyueshengong",
-    "sp/bj/yanji", "drug/xiongdan"
+    "sp/bj/yanji", "drug/xiongdan", "eq/lv4/chuangwangdao"
 ];
 this.query_drops = function () {
     return [[
@@ -39,6 +39,9 @@ this.query_drops = function () {
         }, {
             obj: ["book/bc#hujiadaofa", "book/bc#sixiangbu", "book/bc#lengyueshengong"],
             odds: 4500
+        }, {
+            obj: "eq/lv4/chuangwangdao",
+            odds: 900
         }, {
             obj: "drug/xiongdan",
             odds: 1200

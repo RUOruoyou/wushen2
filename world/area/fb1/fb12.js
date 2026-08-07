@@ -23,8 +23,10 @@ this.map = [
     { n: "密室", id: "fb/wenfu/mishi", p: [0, -4] }
 ];
 this.drops = [
-    "book/bc#jinshezhang", "book/bc#wuduyanluobu", "eq/lv1/jinshezhui",
-    "eq/lv2/js_zhui", "eq/lv2/js_ring", "eq/lv2/js_pifeng", "eq/lv2/js_nang"
+    "book/bc#jinshezhang", "book/bc#wuduyanluobu", "book/bc#baguaquan",
+    "book/bc#baguagun", "book/bc#jinshejianfa", "book/bc#jinsheyoushenbu",
+    "eq/lv1/jinshezhui", "eq/lv2/js_zhui", "eq/lv2/js_ring", "eq/lv2/js_pifeng", "eq/lv2/js_nang",
+    "eq/lv3/baguagun", "eq/lv3/jinshejian"
 ];
 this.query_drops = function () {
     return [[
@@ -33,10 +35,10 @@ this.query_drops = function () {
             min: 12,
             max: 28
         }, {
-            obj: ["book/bc#jinshezhang", "book/bc#wuduyanluobu"],
+            obj: ["book/bc#jinshezhang", "book/bc#wuduyanluobu", "book/bc#baguaquan", "book/bc#baguagun", "book/bc#jinshejianfa", "book/bc#jinsheyoushenbu"],
             odds: 4200
         }, {
-            obj: ["eq/lv1/jinshezhui", "eq/lv2/js_zhui", "eq/lv2/js_ring", "eq/lv2/js_pifeng", "eq/lv2/js_nang"],
+            obj: ["eq/lv1/jinshezhui", "eq/lv2/js_zhui", "eq/lv2/js_ring", "eq/lv2/js_pifeng", "eq/lv2/js_nang", "eq/lv3/baguagun", "eq/lv3/jinshejian"],
             odds: 2400
         }, {
             obj: "st/xuanjing",

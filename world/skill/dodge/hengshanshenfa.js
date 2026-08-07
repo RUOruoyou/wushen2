@@ -12,8 +12,6 @@ this.dodge_actions = [
     "$n足尖连点，一式<GRN>「苍松迎客」</GRN>，斜斜飘出丈余，落定在$N身侧。"
 ];
 this.desc = "恒山派的轻功身法，绵密严谨，长于腾挪躲闪。";
-//"(\w+)"(.+?)"NOR"
-//<$1>$2</$1>
 this.can_enables = ["dodge"];
 this.learn_condition = {
     max_mp: 1000,
@@ -24,8 +22,8 @@ this.learn_condition = {
 this.query_enable_prop = function (lv) {
     return {
         dodge: {
-            ds: parseInt(lv * 1.2) + 10,
-            fy: parseInt(lv * 1.0) + 8
+            ds: parseInt(lv * 1.1),
+            fy: parseInt(lv * 1.2)
         }
     };
 }
@@ -55,8 +53,8 @@ this.pfm = {
         release_time: 500,
         use: function (me, target, lv) {
             var per = 15 + Math.min(parseInt(lv / 200), 10);
-            var time = 8000 + lv * 2;
-            if (time > 15000) time = 15000;
+            var time = 9000 + lv * 2;
+            if (time > 11000) time = 11000;
             me.send_room("<hiw>$N足尖轻点，运起恒山身法「灵虚」，身形忽地化作数道白云般飘忽不定。</hiw>", target);
             me.add_status({
                 id: "dodge",
@@ -72,8 +70,8 @@ this.pfm = {
         },
         query_desc: function (me, lv) {
             var per = 15 + Math.min(parseInt(lv / 200), 10);
-            var time = 8000 + lv * 2;
-            if (time > 15000) time = 15000;
+            var time = 9000 + lv * 2;
+            if (time > 11000) time = 11000;
             return "" + (time / 1000) + "秒内增加你" + per + "%的躲闪和防御";
         }
     }

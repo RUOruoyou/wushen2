@@ -17,8 +17,11 @@ this.set_objects(["eq/lv0/cloth", 1, 1]);
 this.skill_map(
     ["dodge", 430],
     ["parry", 430],
+    ["sword", 400],
     ["force", 400],
+    ["wudushengong", 400, "force"],
     ["unarmed", 450],
+    ["wudugoufa", 450, "sword"],
     ["qianzhuwandushou", 450, ["unarmed", "parry"]],
     ["wuduyanluobu", 430, "dodge"]);
 this.set_drop({
@@ -26,6 +29,6 @@ this.set_drop({
     min: 4,
     max: 12
 }, {
-    obj: ["book/bc#qianzhuwandushou", "book/bc#wuduyanluobu", "drug/dushe", "eq/lv2/wd_ring"],
+    obj: ["book/bc#qianzhuwandushou", "book/bc#wuduyanluobu", "book/bc#wudushengong", "book/bc#wudugoufa", "drug/dushe", "eq/lv2/wd_ring"],
     odds: 4200
 });

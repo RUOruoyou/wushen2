@@ -45,13 +45,13 @@ this.on_attack_over = function (me, target, par) {
 this.query_enable_prop = function (lv) {
     return {
         sword: {
-            gj: parseInt(lv * 1.5) + 15,
-            mz: parseInt(lv * 1.4) + 10,
-            dex: parseInt(lv / 12)
+            gj: parseInt(lv * 1.52),
+            mz: parseInt(lv * 1.42),
+            dex: parseInt(lv / 8) + 2
         }, parry: {
-            zj: parseInt(lv * 1.4) + 10,
-            max_hp: lv * 6,
-            dex: parseInt(lv / 12)
+            zj: parseInt(lv * 1.41),
+            max_hp: parseInt(lv * 5.01),
+            dex: parseInt(lv / 8) + 2
         }
     };
 }

@@ -32,7 +32,7 @@ this.set_drop({
     min: 8,
     max: 24
 }, {
-    obj: ["book/bc#liuyunzhang", "book/bc#kuangfengkuaijian", "book/bc#chuanyunzong", "book/bc#zhenyuejue", "book/bc#hengshanwushenjian"],
+    obj: ["book/bc#liuyunzhang", "book/bc#chuanyunzong", "book/bc#zhenyuejue", "book/bc#hengshanwushenjian"],
     odds: 5200
 }, {
     obj: ["eq/lv2/hs_qin", "eq/lv2/hs2_cloth", "eq/lv2/hs2_shoes", "eq/lv2/hs2_ring", "eq/lv2/qyhuan", "eq/lv2/lzjpao"],

@@ -25,6 +25,6 @@ this.set_drop({
     min: 5,
     max: 15
 }, {
-    obj: ["book/bc#kuangfengkuaijian", "book/bc#zhenyuejue", "book/book#sword", "st/xuanjing", "eq/lv2/hs2_shoes"],
+    obj: ["book/bc#zhenyuejue", "book/book#sword", "st/xuanjing", "eq/lv2/hs2_shoes"],
     odds: 4200
 });

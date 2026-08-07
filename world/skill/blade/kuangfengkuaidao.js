@@ -14,7 +14,7 @@ this.attack_actions = [
 this.parry_actions = SKILL.get("parry").parry_actions;
 this.desc = "采花大盗田伯光的成名刀法，刀势如狂风骤雨，以快制敌。";
 //<$1>$2</$1>
-this.can_enables = ["blade", "parry"];
+this.can_enables = ["blade"];
 this.learn_condition = {
     max_mp: 3000,
     skill: {
@@ -24,11 +24,9 @@ this.learn_condition = {
 this.query_enable_prop = function (lv) {
     return {
         blade: {
-            gj: parseInt(lv * 1.6) + 15,
-            bj_per: parseInt(lv / 80) + 2,
-            dex: parseInt(lv / 12)
-        }, parry: {
-            zj: parseInt(lv * 1.1) + 8
+            gj: parseInt(lv * 1.51),
+            bj_per: parseInt(lv / 250),
+            dex: parseInt(lv / 5)
         }
     };
 }
@@ -71,7 +69,7 @@ this.pfm = {
                 desc: "狂风快刀之狂风，大幅增加你的攻速",
                 duration: 5000,
                 prop: {
-                    gjsd_per: 80 + me.query_prop('kfkd_gjsd')
+                    gjsd_per: 100 + me.query_prop('kfkd_gjsd')
                 },
                 finish_msg: "$N的狂风刀势渐渐平复。"
             });
@@ -97,7 +95,7 @@ this.pfm = {
             );
         },
         query_desc: function (me, lv) {
-            return "快速攻击敌方21招，攻击期间增加你80%的攻速";
+            return "快速攻击敌方21招，攻击期间增加你100%的攻速";
         }
     }
 };

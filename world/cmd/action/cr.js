@@ -5,6 +5,7 @@ this.allow_fight = true;
 //this.allow_busy = true;
 this.enter = function (me, arg) {
     if (!me.environment) return;
+    AREA.ensure_record_indexes(me);
 
     if (!arg) {
         fb_confirm_over(me);
@@ -100,14 +101,9 @@ function fb_saodang(me, path, isdiff, count) {
     if (me.is_full() && !has_filter) return me.notify("你身上东西太多了!");
     var area = next_room.parent;
     if (!is_admin) {
-        var unlock_name = isdiff ? "fb_sao1" : "fb_sao0";
-        if (area.unlock_index) {
-            if (me.query_temp('fb_sao' + area.fb_index, 0) !== (isdiff ? 2 : 1))
-                return me.notify("你需要" + area.name + (isdiff ? "(困难)" : "(普通)") + "单人模式完成100%才可以扫荡副本!");
-        } else {
-            if (area.fb_index >= (me.query_temp(unlock_name) || 0))
-                return me.notify("你需要" + area.name + (isdiff ? "(困难)" : "(普通)") + "单人模式完成100%才可以扫荡副本!");
-        }
+        const sweepLevel = parseInt(me.query_temp('fb_sao' + area.query_record_index(), 0)) || 0;
+        if (sweepLevel < (isdiff ? 2 : 1))
+            return me.notify("你需要" + area.name + (isdiff ? "(困难)" : "(普通)") + "单人模式完成100%才可以扫荡副本!");
     }
 
     count = parseInt(count);
@@ -156,7 +152,7 @@ function fb_quick(me, area, isdiff) {
     var diff = isdiff ? 1 : 0;
     if (area.is_record(diff)) {
         ''
-        me.add_temp("fbc_" + diff + "_" + area.fb_index, 1);
+        me.add_temp("fbc_" + diff + "_" + area.query_record_index(), 1);
     }
     for (var j = 0; j < drops.length; j++) {
         var items = OBJ.create_by_odds(drops[j]);
@@ -364,21 +360,15 @@ function fb_over(me) {
         var unlock = me.query_temp("fb", 0);
         if (p >= 100) {
             let is_first_k = false;
-            if (fb.parent.unlock_index) {
-                if (!me.team && diff === 0) {
-                    if (!me.query_temp("fb_sao" + fb.parent.fb_index, 0)) {
-                        me.notify("<hic>单人(普通)模式扫荡解锁。</hic>");
-                        me.set_temp("fb_sao" + fb.parent.fb_index, 1);
-                        is_first_k = true;
-                    }
-                } else if (!me.team && diff === 1) {
-                    if (!me.query_temp("fb_sao" + fb.parent.fb_index, 0)) {
-                        me.notify("<hic>单人(困难)模式扫荡解锁。</hic>");
-                        me.set_temp("fb_sao" + fb.parent.fb_index, 2);
-                        is_first_k = true;
-                    }
-                }
-            } else {
+            const recordIndex = fb.parent.query_record_index();
+            const sweepLevel = !me.team && diff === 1 ? 2 : (!me.team && diff === 0 ? 1 : 0);
+            const sweepKey = "fb_sao" + recordIndex;
+            if (sweepLevel > (parseInt(me.query_temp(sweepKey, 0)) || 0)) {
+                me.notify("<hic>单人(" + (diff === 1 ? "困难" : "普通") + ")模式扫荡解锁。</hic>");
+                me.set_temp(sweepKey, sweepLevel);
+                is_first_k = true;
+            }
+            if (!fb.parent.unlock_index) {
                 if (unlock === fb.parent.fb_index) {
                     me.set_temp("fb", unlock + 1);
                     me.notify("<hig>完成度100%，解锁下个副本。</hig>");
@@ -387,17 +377,12 @@ function fb_over(me) {
                 }
                 if (!me.team && diff === 0) {
                     if (me.query_temp("fb_sao0", 0) <= fb.parent.fb_index) {
-                        me.notify("<hic>单人(普通)模式扫荡解锁。</hic>");
-
                         me.set_temp("fb_sao0", fb.parent.fb_index + 1);
-                        is_first_k = true;
                     }
 
                 } else if (!me.team && diff === 1) {
                     if (me.query_temp("fb_sao1", 0) <= fb.parent.fb_index) {
-                        me.notify("<hic>单人(困难)模式扫荡解锁。</hic>");
                         me.set_temp("fb_sao1", fb.parent.fb_index + 1);
-                        is_first_k = true;
                     }
                 }
             }
@@ -419,7 +404,7 @@ function fb_over(me) {
             }
         }
         if (fb.parent.is_record(diff)) {
-            me.add_temp("fbc_" + diff + "_" + fb.parent.fb_index, 1);
+            me.add_temp("fbc_" + diff + "_" + fb.parent.query_record_index(), 1);
         }
 
         if (me.team && me.team.length == 2 && me.query_temp("tudi")) {
@@ -454,7 +439,8 @@ function fb_first_check(me, fb, area, diff) {
     }
     if (!WORLD.is_server(me)) return;
 
-    const fblock = fb.parent.fb_index + 1;
+    const recordIndex = area.query_record_index();
+    const fblock = recordIndex + 1;
     const famkey = actor.family.id;
     const fb_key = "fb_first_" + fblock + "_" + diff;//存全服第一个通过
     let fb_fam_key = "fb_first_" + famkey + "_" + fblock + "_" + diff; //每个门派的
@@ -485,7 +471,7 @@ function fb_first_check(me, fb, area, diff) {
     }
     if (area.ss_title && !me.team) {
         if ((diff == 0 && !area.is_diffi) || (diff == 1 && area.is_diffi)) {
-            actor.add_title(area.ss_title, "fb_" + fb.parent.fb_index);
+            actor.add_title(area.ss_title, "fb_" + recordIndex);
             actor.send("<hig>你获得了称号【" + area.ss_title + "】。</hig>");
         }
     }

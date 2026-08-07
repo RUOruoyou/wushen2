@@ -28,7 +28,9 @@ this.map = [
 ];
 this.drops = [
     "book/bc#shenlongxinfa", "book/bc#yixingbufa", "book/bc#shedaoqigong",
-    "book/bc#shenlongjian", "book/bc#huagumianzhang", "eq/lv2/sl_ling"
+    "book/bc#shenlongjian", "book/bc#huagumianzhang",
+    "eq/lv2/sl_cloth", "eq/lv2/sl_tou", "eq/lv2/sl_shoes", "eq/lv2/sl_shou",
+    "eq/lv2/sl_yao", "eq/lv2/sl_zhang", "eq/lv2/sl_ling"
 ];
 this.query_drops = function () {
     return [[

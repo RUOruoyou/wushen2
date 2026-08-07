@@ -23,7 +23,7 @@ this.map = [
     { n: "神殿", id: "fb/wudu/shendian", p: [0, -4] }
 ];
 this.drops = [
-    "book/bc#qianzhuwandushou", "book/bc#wuduyanluobu",
+    "book/bc#qianzhuwandushou", "book/bc#wuduyanluobu", "book/bc#wudushengong", "book/bc#wudugoufa",
     "eq/lv2/wd_shou", "eq/lv2/wd_tou", "eq/lv2/wd_pifeng", "eq/lv2/wd_ring",
     "drug/dushe", "res/shexue", "st/xuanjing"
 ];
@@ -38,7 +38,7 @@ this.query_drops = function () {
             min: 1,
             max: 3
         }, {
-            obj: ["book/bc#qianzhuwandushou", "book/bc#wuduyanluobu"],
+            obj: ["book/bc#qianzhuwandushou", "book/bc#wuduyanluobu", "book/bc#wudushengong", "book/bc#wudugoufa"],
             odds: 4200
         }, {
             obj: ["eq/lv2/wd_shou", "eq/lv2/wd_tou", "eq/lv2/wd_pifeng", "eq/lv2/wd_ring"],

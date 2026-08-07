@@ -24,8 +24,8 @@ this.learn_condition = {
 this.query_enable_prop = function (lv) {
     return {
         unarmed: {
-            gj: parseInt(lv * 1.5) + 15,
-            mz: parseInt(lv * 1.4) + 10
+            gj: parseInt(lv * 1.52),
+            mz: parseInt(lv * 1.42)
         }
     };
 }
@@ -53,7 +53,7 @@ this.pfm = {
         enable_skill: "unarmed",
         mp: 20,
         use: function (me, target, lv) {
-            var per = 180 + parseInt(lv / 30) + me.query_prop('cxz_per');
+            var per = 150 + parseInt(lv / 20) + me.query_prop('cxz_per');
             me.send_room("<hir>$N运起摧心掌，双掌泛起幽幽绿光，一招「摧心」直印$n心口</hir>", target);
             var hit = me.do_attack({
                 target: target,
@@ -89,7 +89,7 @@ this.pfm = {
             }
         },
         query_desc: function (me, lv) {
-            var per = 180 + parseInt(lv / 30);
+            var per = 150 + parseInt(lv / 20);
             return "对敌人造成你" + per + "%伤害，并使敌人受到阴毒伤害，7秒后毒发昏迷4秒";
         }
     }

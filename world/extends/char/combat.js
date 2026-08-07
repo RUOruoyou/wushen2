@@ -236,6 +236,7 @@ CHARACTER.prototype.do_attack = function (par) {
                     target.parry_skill.on_parry_over(target, this, par);
         }
         if (!par.no_append) {
+            weapon && weapon.on_attack_over && weapon.on_attack_over(this, target, par, sh);
             attackskill.on_attack_over && attackskill.on_attack_over(this, target, par, sh);
             this.force_skill.on_force_over &&
                 this.force_skill.on_force_over(this, target, par, sh);

@@ -16,9 +16,10 @@ this.learn_condition = {
 this.query_enable_prop = function (lv) {
     return {
         force: {
-            fy: parseInt(lv * 1.3) + 15,
-            max_hp: lv * 12,
-            limit_mp: lv * 110,
+            fy: parseInt(lv * 1.31),
+            max_hp: parseInt(lv * 10) + 50,
+            fy_per: 6,
+            limit_mp: parseInt(lv * 103),
             desc: "唯一：将你内力的77%转化为气血"
         }
     };
@@ -50,7 +51,7 @@ this.pfm = {
         release_time: 500,
         use_type: 2,
         use: function (me, target, lv) {
-            var str = 200 + Math.floor(lv / 5) + me.query_prop('zyj_str');
+            var str = parseInt(lv / 3) + me.query_prop('zyj_str');
             var time = 25000 + lv * 5;
             if (time > 35000) time = 35000;
             me.send_room("<hiw>$N凝神运气，运起镇岳诀，浑身真气凝重如山，气势陡增</hiw>", target);
@@ -66,7 +67,7 @@ this.pfm = {
             });
         },
         query_desc: function (me, lv) {
-            var str = 200 + Math.floor(lv / 5);
+            var str = parseInt(lv / 3);
             var time = 25000 + lv * 5;
             if (time > 35000) time = 35000;
             return "使用镇岳诀增加你" + str + "的臂力，持续" + (time / 1000) + "秒";

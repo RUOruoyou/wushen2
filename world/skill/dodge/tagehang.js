@@ -25,8 +25,8 @@ this.learn_condition = {
 this.query_enable_prop = function (lv) {
     return {
         dodge: {
-            ds: parseInt(lv * 1.3) + 12,
-            dex: parseInt(lv / 9)
+            ds: parseInt(lv * 1.34),
+            dex: parseInt(lv / 8) + 1
         }
     };
 }
@@ -56,10 +56,10 @@ this.pfm = {
         mp: 20,
         release_time: 500,
         use: function (me, target, lv) {
-            var gjAdd = 1500 + parseInt(lv * 2);
-            var dsAdd = 2000 + parseInt(lv * 2) + me.query_prop('tgh_ds');
-            var time = 16000 + lv * 2;
-            if (time > 22000) time = 22000;
+            var gjAdd = 1000 + parseInt(lv);
+            var dsAdd = 1500 + parseInt(lv) + me.query_prop('tgh_ds');
+            var time = 18000 + lv * 2;
+            if (time > 20000) time = 20000;
             me.send_room("<hiy>$N朗声高歌，运起踏歌行，歌声过处，攻防灵动，气势陡增</hiy>", target);
             me.add_status({
                 id: "dodge",
@@ -74,10 +74,10 @@ this.pfm = {
             });
         },
         query_desc: function (me, lv) {
-            var gjAdd = 1500 + parseInt(lv * 2);
-            var dsAdd = 2000 + parseInt(lv * 2);
-            var time = 16000 + lv * 2;
-            if (time > 22000) time = 22000;
+            var gjAdd = 1000 + parseInt(lv);
+            var dsAdd = 1500 + parseInt(lv);
+            var time = 18000 + lv * 2;
+            if (time > 20000) time = 20000;
             return "" + (time / 1000) + "秒内，提升自身攻击力" + gjAdd + "点，躲闪" + dsAdd + "点";
         }
     }

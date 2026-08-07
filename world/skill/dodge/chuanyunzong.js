@@ -25,8 +25,8 @@ this.learn_condition = {
 this.query_enable_prop = function (lv) {
     return {
         dodge: {
-            ds: parseInt(lv * 1.4) + 12,
-            dex: parseInt(lv / 8)
+            ds: parseInt(lv * 1.6),
+            dex: parseInt(lv * 0.152)
         }
     };
 }

@@ -8,6 +8,7 @@ this.set({
     first: "fb/lcj/jingzhou",
     is_copy: true,
     expend: 10,
+    record_index: 16,
     exp: 16000,
     pot: 11000,
     is_multi: false,

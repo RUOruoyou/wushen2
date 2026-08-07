@@ -6,22 +6,9 @@ this.set({
     value: 10000,
     eq_type: EQUIP_TYPE.RING,
     grade: 2,
-    hole_count:1
-});
-this.prop = {
-    gj: 16,
-    bj_per: 2
-};
-this.group_name = "js2";
-this.group_prop = function (count) {
-    if (count == 2) {
-        return {
-            mz: 10
-        };
-    } else if (count == 4) {
-        return {
-            dex: 3,
-            add_sh_per: 1
-        };
+    hole_count: 1,
+    prop: {
+        gj: 12,
+        bj_per: 2
     }
-}
+});

@@ -23,7 +23,7 @@ this.map = [
     { n: "掌门居", id: "fb/hengshan2/zhangmenju", p: [0, -5] }
 ];
 this.drops = [
-    "book/bc#liuyunzhang", "book/bc#kuangfengkuaijian",
+    "book/bc#liuyunzhang",
     "book/bc#chuanyunzong", "book/bc#zhenyuejue", "book/bc#hengshanwushenjian",
     "eq/lv2/hs_qin", "eq/lv2/hs2_cloth", "eq/lv2/hs2_shoes", "eq/lv2/hs2_ring",
     "eq/lv2/qyhuan", "eq/lv2/lzjpao",
@@ -36,7 +36,7 @@ this.query_drops = function () {
             min: 16,
             max: 36
         }, {
-            obj: ["book/bc#liuyunzhang", "book/bc#kuangfengkuaijian", "book/bc#chuanyunzong", "book/bc#zhenyuejue", "book/bc#hengshanwushenjian"],
+            obj: ["book/bc#liuyunzhang", "book/bc#chuanyunzong", "book/bc#zhenyuejue", "book/bc#hengshanwushenjian"],
             odds: 4200
         }, {
             obj: ["book/book#sword", "book/book#unarmed"],

@@ -11,6 +11,33 @@ AREA.prototype.query_owner = function (me) {
 AREA.prototype.is_record = function (diff) {
     return this["record_" + diff] !== false;
 }
+AREA.prototype.query_record_index = function () {
+    return this.record_index ?? this.fb_index;
+}
+AREA.ensure_record_indexes = function (me) {
+    if (!me || me.query_temp("fb_record_index_v1", 0)) return;
+    if (!AREA.FBS || !AREA.FBS.length) return;
+    const unlocked = parseInt(me.query_temp("fb", 0)) || 0;
+    const normalSweep = parseInt(me.query_temp("fb_sao0", 0)) || 0;
+    const difficultSweep = parseInt(me.query_temp("fb_sao1", 0)) || 0;
+    let migratedUnlock = unlocked;
+    for (const area of AREA.FBS || []) {
+        if (!area) continue;
+        const recordIndex = area.query_record_index();
+        if (recordIndex <= unlocked && area.fb_index > migratedUnlock) {
+            migratedUnlock = area.fb_index;
+        }
+        let sweepLevel = 0;
+        if (recordIndex < normalSweep) sweepLevel = 1;
+        if (recordIndex < difficultSweep) sweepLevel = 2;
+        const key = "fb_sao" + recordIndex;
+        if (sweepLevel > (parseInt(me.query_temp(key, 0)) || 0)) {
+            me.set_temp(key, sweepLevel);
+        }
+    }
+    if (migratedUnlock > unlocked) me.set_temp("fb", migratedUnlock);
+    me.set_temp("fb_record_index_v1", 1);
+}
 AREA.prototype.fb_daily_limit = 50;
 AREA.prototype.query_daily_fb_count = function (me) {
     if (!me) return 0;
