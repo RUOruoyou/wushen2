@@ -1,0 +1,1 @@
+this.inherits(ROOM); this.name = "忘忧谷"; this.desc = "忘忧谷中血刀余党阻拦去路。"; this.exits = { south: "fb/xuedaomen/dongkou", north: "fb/xuedaomen/shangu" }; this.set_npc("fb/xuedaomen/luohua"); this.on_leave = function (me, dir) { if (dir === "north" && !this.query_temp(me, "fb/xuedaomen/shift3", 0)) { me.notify("第三次转移尚未完成。"); return false; } };

@@ -54,7 +54,10 @@ this.run = function () {
         if (!list[i]) continue;
         let level = i + 1;
         let bs = this.create_boss(level);
-        if (!bs) return console.log("boss 创建失败");
+        if (!bs) {
+            console.log(BOSS_LEVELS[level] + "BOSS创建失败，继续处理其他等级。");
+            continue;
+        }
         this.boss.push(bs);
         bs.event_id = 'boss' + level;
         var rm = ROOM.RANDOM(); //ROOM.Get("yz/nanmen");
@@ -94,7 +97,7 @@ this.check_users = function () {
     for (var i = 0; i < WORLD.USERS.length; i++) {
         var user = WORLD.USERS[i];
         if (!user.level) continue;
-        if (user.level > 5 && this.create_boss2(user)) continue;
+        if (user.level > 5 && typeof this.create_boss2 === "function" && this.create_boss2(user)) continue;
         if (!user.socket) continue;
         if (user.query_temp("bcc", 0) >= 5) continue;
         var lv = user.level - 1;
@@ -108,10 +111,13 @@ this.check_users = function () {
     return list;
 }
 this.create_boss = function (player_level) {
-    var max_level = this.boss_levels[WORLD.DATA.query_temp("fb_index", 0)];
+    var fb_index = WORLD.DATA.query_temp("fb_index", 0);
+    var boss_level_index = Math.min(Math.max(parseInt(fb_index) || 0, 0), this.boss_levels.length - 1);
+    var max_level = this.boss_levels[boss_level_index];
     if (player_level) {
-        var boss_max = this.level_max[player_level][1];
-        var boss_min = this.level_max[player_level][0];
+        var level_range = this.level_max[player_level] || this.level_max[this.level_max.length - 1];
+        var boss_max = level_range[1];
+        var boss_min = level_range[0];
         if (max_level > boss_max) max_level = boss_max;
     } else {
         boss_max = 0;
@@ -120,7 +126,10 @@ this.create_boss = function (player_level) {
 
     var level = this.random(max_level - boss_min) + boss_min;
 
-    if (!this.paths[level]) return console.log(level, max_level, " boss 创建失败");
+    if (!this.paths[level]) {
+        console.log(level, max_level, fb_index, " boss 创建失败");
+        return;
+    }
     var diff_level = this.levels[level];
     var boss = NPC.CLONE(this.paths[level]);
     if (!boss) return;

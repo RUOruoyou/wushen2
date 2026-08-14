@@ -305,8 +305,8 @@
 
 .room-commands,
 .combat-commands {
-    white-space: nowrap;
-    overflow-x: auto;
+    white-space: normal;
+    overflow: hidden;
     display: block;
     line-height: 2em;
     margin-bottom: 0.25em;
@@ -588,6 +588,54 @@
     line-height: 6em;
     display: flex;
     flex-direction: row;
+}
+
+.dialog-confirm-mask {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.55);
+    z-index: 98;
+}
+
+.dialog-confirm.popup {
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: min(24rem, calc(100% - 1rem));
+    height: auto;
+    max-height: 80vh;
+    line-height: 1.6em;
+    border: 1px solid #333;
+    border-left: 4px solid #108ee9;
+    border-radius: 6px;
+    box-shadow: 0 0.4em 1.4em rgba(0, 0, 0, 0.5);
+    flex-direction: column;
+    overflow-y: hidden;
+}
+
+.dialog-confirm.popup>.dialog-content {
+    flex: 1;
+    overflow-y: auto;
+    min-height: 0;
+    padding: 1em 1em 0.4em 1em;
+    white-space: normal;
+}
+
+.dialog-confirm.popup>.dialog-btn {
+    flex: 0 0 auto;
+    height: 2.8em;
+    line-height: 2.8em;
+    text-align: center;
+    border-top: 1px solid #333;
+}
+
+.dialog-confirm.popup>.btn-ok {
+    width: 100%;
+    padding-left: 0;
 }
 
 .dialog-confirm>.dialog-btn>.btn-icon {

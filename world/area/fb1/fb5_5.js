@@ -47,7 +47,7 @@ this.quick_drops = [
         ]
     },
     {
-        obj: ["book/bc#shenxingbaibian", "book/bc#huashanjianfa", "book/bc#shenlongjian",
+        obj: ["book/bc#shenxingbaibian", "book/bc#shenlongjian",
             "book/bc#shenlongxinfa", "book/bc#yixingbufa", "book/bc#shenlongjian"],
         odds: 5000
     }, {

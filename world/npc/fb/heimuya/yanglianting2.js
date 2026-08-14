@@ -1,0 +1,20 @@
+this.inherits(NPC);
+this.set({ name: "杨莲亭", desc: "杨莲亭守在东方闺房外。", title: "杨莲亭", gender: 1, age: 35, hp: 130000, max_hp: 130000, mp: 20000, max_mp: 20000, score: 0, prop: { gj: 4600, mz: 3600, ds: 2800, fy: 3500 }, no_refresh: true });
+this.skill_map(["dodge", 2400], ["parry", 2400], ["force", 2400], ["unarmed", 2400]);
+this.set_drop({ obj: "money/silver", min: 50, max: 90 });
+this.on_died = function (killer) {
+    if (!killer || !killer.is_player || !killer.environment || !killer.environment.is_fb()) return;
+    const room = killer.environment;
+    room.grant_fb_milestone(killer, "杨莲亭二", 10);
+    if (room.query_temp(killer, "fb/heimuya/dongfang_frenzy", 0)) return;
+    room.set_temp(killer, "fb/heimuya/dongfang_frenzy", 1);
+    const base = ROOM.Get("fb/heimuya/dongfang");
+    const target = base && base.copy_rooms && base.copy_rooms[room.owner];
+    const dongfang = target && target.find_obj_bypath("fb/heimuya/dongfangbubai");
+    if (!dongfang || typeof dongfang.add_combat_prop !== "function") return;
+    dongfang.add_combat_prop("gj_per", 50);
+    dongfang.add_combat_prop("mz_per", 50);
+    dongfang.recount();
+    if (typeof dongfang.call_out === "function") dongfang.call_out(dongfang.clear_combat_prop, 30000);
+    killer.notify("杨莲亭倒下后，东方不败陷入持续三十秒的狂暴。");
+};

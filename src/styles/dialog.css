@@ -161,14 +161,14 @@
 
 
 .dialog>.dialog-footer {
-    flex: 0 0 2.5em;
+    flex: 0 0 auto;
+    display: flow-root;
     background-color: #222;
-    white-space: nowrap;
-    height: 2.5em;
+    white-space: normal;
+    min-height: 2.5em;
     user-select: none;
     line-height: 2.5em;
-    overflow-x: auto;
-    overflow-y: hidden;
+    overflow: hidden;
 }
 
 .dialog>.dialog-footer>.item-commands {
@@ -349,4 +349,165 @@
     color: gray;
     padding-left: 1.4em;
     line-height: 2em;
+}
+
+.dialog-meridian {
+    min-width: 360px;
+    height: 100%;
+    min-height: 0;
+    overflow-y: auto;
+    padding: 0.5em;
+    box-sizing: border-box;
+    color: var(--theme-text);
+}
+
+.meridian-summary,
+.meridian-card {
+    border: 1px solid var(--theme-border);
+    border-radius: 6px;
+    background-color: var(--theme-panel);
+    margin-bottom: 0.6em;
+    padding: 0.65em;
+    box-sizing: border-box;
+}
+
+.meridian-summary {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.4em 0.8em;
+}
+
+.meridian-room {
+    grid-column: 1 / -1;
+    padding-top: 0.35em;
+    border-top: 1px solid var(--theme-border);
+}
+
+.meridian-practicing {
+    grid-column: 1 / -1;
+    padding-top: 0.35em;
+    color: var(--theme-accent);
+}
+
+.meridian-room.allowed,
+.meridian-complete,
+.meridian-full-reward {
+    color: var(--theme-grade-1);
+}
+
+.meridian-room.blocked,
+.meridian-reason,
+.meridian-risk-text,
+.meridian-confirm-risk {
+    color: var(--theme-danger, #ff6b6b);
+}
+
+.meridian-card.locked {
+    opacity: 0.7;
+}
+
+.meridian-card-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 0.45em;
+    border-bottom: 1px solid var(--theme-border);
+}
+
+.meridian-card-head strong {
+    color: var(--theme-accent);
+    font-size: 1.08em;
+}
+
+.meridian-effects,
+.meridian-next,
+.meridian-reason,
+.meridian-complete {
+    line-height: 1.55em;
+    margin-top: 0.45em;
+}
+
+.meridian-holes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35em;
+    margin-top: 0.55em;
+    max-height: 9em;
+    overflow-y: auto;
+}
+
+.meridian-hole {
+    display: inline-block;
+    border: 1px solid var(--theme-border);
+    border-radius: 4px;
+    padding: 0.25em 0.45em;
+    background-color: var(--theme-bg);
+    color: var(--theme-muted);
+    white-space: nowrap;
+}
+
+.meridian-hole.done {
+    border-color: var(--theme-grade-1);
+    color: var(--theme-grade-1);
+}
+
+.meridian-hole.current {
+    border-color: var(--theme-accent);
+    color: var(--theme-accent);
+    background-color: var(--theme-surface);
+}
+
+.meridian-hole.locked {
+    opacity: 0.55;
+}
+
+.meridian-practice {
+    width: 100%;
+    margin-top: 0.65em;
+    padding: 0.55em;
+    border: 1px solid var(--theme-accent);
+    border-radius: 4px;
+    background-color: var(--theme-accent);
+    color: var(--theme-button-text);
+    cursor: pointer;
+}
+
+.meridian-practice:disabled,
+.meridian-practice.loading,
+.meridian-practice.practicing {
+    cursor: not-allowed;
+    opacity: 0.55;
+}
+
+.meridian-confirm-content {
+    line-height: 1.65em;
+}
+
+.meridian-confirm-title {
+    color: var(--theme-accent);
+    font-weight: bold;
+    margin-bottom: 0.35em;
+}
+
+@media (max-width: 480px) {
+    .dialog-meridian {
+        min-width: 0;
+        padding: 0.35em;
+    }
+
+    .meridian-summary {
+        grid-template-columns: 1fr;
+    }
+
+    .meridian-room {
+        grid-column: auto;
+    }
+
+    .meridian-card {
+        padding: 0.5em;
+    }
+
+    .meridian-holes {
+        max-height: 11em;
+    }
 }

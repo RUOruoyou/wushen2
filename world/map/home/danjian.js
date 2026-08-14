@@ -1,4 +1,5 @@
 ﻿this.inherits(ROOM);
+this.can_practice_meridian = true;
 this.name = "卧室"
 this.desc = "这是你的卧室，房间不大陈设也不多，但是收拾的干净整洁，房间里面除了一张楠木大床，一张书桌，一个箱子就没别的东西了。";
 this.exits = { "out": "yz/home" };

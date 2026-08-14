@@ -1,6 +1,7 @@
 
 import Util from '../utils/util.js';
 import { ReceiveMessage } from '../client.js';
+import Setting from '../setting.js';
 
 export default {
     types: [
@@ -29,10 +30,12 @@ export default {
         // }
     ],
     init: function (elem) {
-        elem.on('click', '[ecmd]', this.onButtonClick);
-        elem.on('click', '.setting-item', this.onClickRow);
-        elem.on("click", ".switch", this.switchClick);
-        elem.on("change", "select", this.selectChanged);
+        elem.off(".dialogExtend");
+        elem.on('click.dialogExtend', '[ecmd]', this.onButtonClick);
+        elem.on('click.dialogExtend', '.setting-item', this.onClickRow);
+        elem.on("click.dialogExtend", ".switch", this.switchClick);
+        elem.on("change.dialogExtend", "select", this.selectChanged);
+        elem.on("change.dialogExtend", ".auto-recovery-input", this.autoRecoveryChanged);
         if (this.element) return;
         this.element = elem;
         let html = [];
@@ -49,7 +52,32 @@ export default {
         this.append_settings(html);
         this.list_elem.html(html.join(""));
     },
+    syncAutoRecoveryControls: function () {
+        if (!this.element) return;
+        const toggle = this.element.find('.auto-recovery-toggle>.switch');
+        toggle.toggleClass("on", !!Setting.auto_recovery);
+        toggle.find(".switch-text").text(Setting.auto_recovery ? "开" : "关");
+        this.element.find('[data-setting="auto_recovery_hp"]')
+            .val(this.normalizeRecoveryValue(Setting.auto_recovery_hp, 80));
+        this.element.find('[data-setting="auto_recovery_mp"]')
+            .val(this.normalizeRecoveryValue(Setting.auto_recovery_mp, 60));
+    },
     append_settings: function (html) {
+        html.push('<section class="auto-recovery-settings">');
+        html.push('<div class="setting-item auto-recovery-toggle" data-setting="auto_recovery">');
+        html.push('<span class="title">任务间自动恢复</span>');
+        html.push('<span class="switch ', Setting.auto_recovery ? "on" : "", '">');
+        html.push('<span class="switch-button"></span><span class="switch-text">',
+            Setting.auto_recovery ? "开" : "关", '</span></span></div>');
+        html.push('<div class="auto-recovery-thresholds">');
+        html.push('<label><span>气血</span><input class="auto-recovery-input" data-setting="auto_recovery_hp"',
+            ' type="number" inputmode="numeric" min="1" max="100" step="1" value="',
+            this.normalizeRecoveryValue(Setting.auto_recovery_hp, 80), '"><span>%</span></label>');
+        html.push('<label><span>内力</span><input class="auto-recovery-input" data-setting="auto_recovery_mp"',
+            ' type="number" inputmode="numeric" min="1" max="100" step="1" value="',
+            this.normalizeRecoveryValue(Setting.auto_recovery_mp, 60), '"><span>%</span></label>');
+        html.push('</div></section>');
+        html.push('<div class="extend-section-title">自定义扩展</div>');
         let items = this.setting, index = 0;
         for (let item of items) {
             html.push(this.create_item(item, index++));
@@ -138,6 +166,10 @@ export default {
                 Dialog.extend.stop_record();
             }
         } else {
+            if (elem.parent().attr("data-setting") === "auto_recovery") {
+                Setting.save("auto_recovery", is_selected ? 1 : 0);
+                return false;
+            }
             let item = Dialog.extend.setting[elem.parent().attr("sid")];
             if (item) {
                 if (!item.on) item.on = {};
@@ -151,6 +183,20 @@ export default {
         }
 
         return false;
+    },
+    normalizeRecoveryValue: function (value, fallback) {
+        value = parseInt(value);
+        if (!Number.isInteger(value)) value = fallback;
+        return Math.max(1, Math.min(100, value));
+    },
+    autoRecoveryChanged: function () {
+        const elem = $(this);
+        const key = elem.attr("data-setting");
+        if (key !== "auto_recovery_hp" && key !== "auto_recovery_mp") return;
+        const fallback = key === "auto_recovery_hp" ? 80 : 60;
+        const value = Dialog.extend.normalizeRecoveryValue(elem.val(), fallback);
+        elem.val(value);
+        Setting.save(key, value);
     },
     start_record: function () {
         if (this.is_record) return;
@@ -250,6 +296,7 @@ export default {
     },
     show: function (elem) {
         this.init(elem);
+        this.syncAutoRecoveryControls();
         if (!this.footer_buttons) {//<button ecmd="add">添加新的扩展</button>
             this.footer_buttons = $('<div class="obj-money"><span for="import" class="footer-item">导入</span><span for="export" class="footer-item">导出</span><span for="add" class="footer-item">添加扩展</span></div>');
         }

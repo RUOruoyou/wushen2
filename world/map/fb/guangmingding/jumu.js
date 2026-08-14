@@ -1,0 +1,1 @@
+this.inherits(ROOM); this.name = "巨木旗"; this.desc = "闻苍松守在巨木旗。"; this.exits = { east: "fb/guangmingding/houtu", west: "fb/guangmingding/ruijin" }; this.set_npc("fb/guangmingding/wencangsong"); this.on_leave = function (me, dir) { if (dir === "west" && this.find_obj_bypath("fb/guangmingding/wencangsong")) { me.notify("闻苍松挡住了西路。"); return false; } };

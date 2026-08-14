@@ -97,6 +97,10 @@ this.query_desc = function (player) {
 };
 
 this.start = function (player) {
+    if (WORLD.is_auto_recovery_pending && WORLD.is_auto_recovery_pending(player)) {
+        player.notify("<mem>正在自动恢复状态，完成后将继续当前自动任务。</mem>");
+        return true;
+    }
     if (!player.family || !CONFIG.isSupportedFamily(player.family)) {
         return player.notify("你当前没有可以接取师门任务的正式门派。");
     }
@@ -332,7 +336,10 @@ this.check = function (npc, killer) {
         + "，下一名敌人难度" + formatRatio(CONFIG.queryDifficultyRatio(streak)) + "。</hic>");
     if (remain > 0) {
         killer.notify("<mem>师门任务将继续下一名目标。</mem>");
-        this.call_out(this.continue_ring, AUTO_CONTINUE_DELAY, killer);
+        if (!WORLD.queue_auto_recovery
+            || !WORLD.queue_auto_recovery(killer, "family_ring", null, AUTO_CONTINUE_DELAY)) {
+            this.call_out(this.continue_ring, AUTO_CONTINUE_DELAY, killer);
+        }
         killer.send_commands("family_task auto", "继续师门任务", "family_task giveup", "放弃师门任务");
     } else {
         killer.notify("<hiy>今日20次师门任务已经完成。</hiy>");
@@ -497,6 +504,9 @@ this.fail = function (player, message) {
 
 this.giveup = function (player, notice) {
     if (notice === undefined) notice = true;
+    if (WORLD.is_auto_recovery_pending && WORLD.is_auto_recovery_pending(player, "family_ring")) {
+        WORLD.cancel_auto_recovery(player);
+    }
     const state = this.ensure_day(player);
     const hadProgress = !!this.query_request(player) || !!player.query_temp(KEY_ACTIVE)
         || state.ringStep > 0 || state.streak > 0;

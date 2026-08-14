@@ -1,0 +1,1 @@
+this.inherits(ROOM); this.name = "山洞"; this.desc = "血刀老祖和落花流水守在山洞。"; this.exits = { south: "fb/xuedaomen/entry", north: "fb/xuedaomen/dongkou" }; this.set_npc("fb/xuedaomen/xuedaolaozu", ["fb/xuedaomen/luohua", 1]); this.on_leave = function (me, dir) { if (dir === "north" && !this.query_temp(me, "fb/xuedaomen/shift1", 0)) { me.notify("落花流水尚未触发第一次转移。"); return false; } };

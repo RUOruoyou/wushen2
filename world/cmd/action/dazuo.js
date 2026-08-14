@@ -19,6 +19,8 @@ this.enter = function (me) {
         on_stop: function (me, isauto) {
             me.notify("<hiy>你运功完毕，深深吸了口气，站了起来。</hiy>");
             me.send_message(me.name + "运功完毕，站了起来。");
+            if (WORLD.on_auto_recovery_state_stop
+                && WORLD.on_auto_recovery_state_stop(me, "dazuo", isauto)) return;
             if (isauto && me.query_setting('auto_work')) {
                 return WORLD.check_user_next(me);
             }
@@ -67,6 +69,8 @@ function do_dazuo(me) {
         v = WORLD.apply_admin_test_multiplier(me, "dazuo", v);
         me.notify("<hig>你的内力恢复了" + v + "点。</hig>");
         me.add_mp(v);
+        if (WORLD.should_finish_auto_recovery_state
+            && WORLD.should_finish_auto_recovery_state(me, "dazuo")) return false;
     } else {
         if (max > me.max_mp) {
             let v = count_speed(me);

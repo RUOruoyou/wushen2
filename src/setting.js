@@ -43,11 +43,17 @@ const Setting = {
     action_wrap: 0,
     off_hp: 0,
     show_damage: 0,
+    auto_recovery: 0,
+    auto_recovery_hp: 80,
+    auto_recovery_mp: 60,
     auto_get_filter: "",
     no_master: 0,
     no_team: 0,
     no_load: true,
     load: function (data) {
+        this.auto_recovery = 0;
+        this.auto_recovery_hp = 80;
+        this.auto_recovery_mp = 60;
         Dialog.keys.init_key();
         Dialog.extend.init_extend();
         if (!data) {
@@ -67,6 +73,7 @@ const Setting = {
             this.set_prop(key, data[key]);
         }
         if (hasTheme) this.apply_theme();
+        if (Dialog.extend.syncAutoRecoveryControls) Dialog.extend.syncAutoRecoveryControls();
     }, set_prop: function (key, value) {
         switch (key) {
             case "theme":

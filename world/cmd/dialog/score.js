@@ -28,6 +28,14 @@ this.enter = function (me, arg) {
             str.push("]}");
             return me.send(str.join(""));
         }
+        if (arg === "meridian") {
+            if (!me.query_meridian_view) return me.notify("经脉系统尚未加载。");
+            return me.send(JSON.stringify({
+                type: "dialog",
+                dialog: "score",
+                meridians: me.query_meridian_view()
+            }));
+        }
         target = me.find_obj(arg, me.environment);
         if (!target && me.user_level > 1) {
             target = WORLD.getUser(arg);

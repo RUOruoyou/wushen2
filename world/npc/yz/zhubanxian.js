@@ -111,9 +111,13 @@ this.tellResult = function (me) {
                 check[sk] = true;
             }
         }
-        if (check["force"] && check["unarmed"] && (check["sword"] || check["blade"] || check["club"] || check["whip"] || check["staff"]) && check["parry"] && check["dodge"]
-            && me.max_mp >= 100000) {
-            if (me.query_temp("rdem")) {
+        const skillReady = check["force"] && check["unarmed"]
+            && (check["sword"] || check["blade"] || check["club"] || check["whip"] || check["staff"])
+            && check["parry"] && check["dodge"];
+        const renComplete = me.is_meridian_complete && me.is_meridian_complete("ren");
+        const duComplete = me.is_meridian_complete && me.is_meridian_complete("du");
+        if (skillReady && me.max_mp >= 100000) {
+            if (renComplete && duComplete) {
                 me.notify("金古易对你说道：恭喜" + me.call() + "成为一代宗师，但要切记，习武之路荆棘满地，唯有戒骄戒躁继续努力方能更进一步！");
                 this.do_command("chat", "哈哈，不错，不错，恭喜" + me.name + "成为一代宗师！");
 
@@ -129,14 +133,17 @@ this.tellResult = function (me) {
                     me.add_title('武馆馆主', 'sr');
                     WORLD.DATA.set_temp('first_sr', 1);
                 }
+            } else if (renComplete) {
+                me.notify("金古易对你说道：你的任脉已通，只需再贯通督脉，便可叩开宗师之门。");
+            } else if (duComplete) {
+                me.notify("金古易对你说道：你的督脉已通，只需再贯通任脉，便可叩开宗师之门。");
             } else {
-                me.notify("金古易对你说道：这位" + me.call() + "，你只需打通任督二脉就可以提升到宗师境界了。");
+                me.notify("金古易对你说道：这位小师父，欲入宗师之境，需先将任督二脉尽数贯通。");
             }
-
-
+        } else if (skillReady && renComplete && duComplete && me.max_mp < 100000) {
+            me.notify("金古易对你说道：你的任督二脉虽已贯通，但内力尚未恢复至十万，需再静心打坐，稳固根基。");
         } else {
             me.notify("金古易对你说道：这位" + me.call() + "，等你特殊内功，特殊轻功，特殊招架，特殊拳脚，和任意一种特殊武器技能练到800级，内力到100000，打通任督二脉就可以提升到宗师境界了。");
-
         }
     } else if (me.level == 3) {
         var check = {};

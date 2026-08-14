@@ -23,10 +23,13 @@ this.enter = function (me) {
         desc: '[]',
         //"你只觉丹田处一股热流，慢慢涌向全身经脉。","你只觉你的内息游遍了你全身，身上的伤口渐渐愈合。"
         on_stop: function (me, isauto) {
+            const handled = WORLD.on_auto_recovery_state_stop
+                && WORLD.on_auto_recovery_state_stop(me, "liaoshang", isauto);
             if (!isauto) {
                 me.notify("<hiy>你停止疗伤，深深吸了口气，站了起来。</hiy>");
                 me.send_message(me.name + "停止疗伤站了起来，脸色看起来好了很多。");
             }
+            if (handled) return;
         }
     });
     return true;
@@ -47,6 +50,8 @@ function do_dazuo(me) {
         }
         v = me.do_recover(v);
         me.notify("<hig>你的气血恢复了" + v + "点。</hig>");
+        if (WORLD.should_finish_auto_recovery_state
+            && WORLD.should_finish_auto_recovery_state(me, "liaoshang")) return false;
     }
     if (diff_hp <= 0) {
         me.notify("<hiy>你疗伤完毕，深深吸了口气，脸色看起来好了很多。</hiy>");

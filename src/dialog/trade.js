@@ -72,7 +72,9 @@ export default {
                 html.push('"');
 
                 html.push(" oindex='" + item.id + "'>");
+                html.push("<span class='obj-name'>");
                 html.push(item.name);
+                html.push("</span>");
                 if (item.count > 1) {
                     html.push("<span class='obj-value'>");
                     html.push(item.count);

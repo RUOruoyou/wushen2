@@ -739,6 +739,7 @@ PERFORM.prototype.query_mp = function (me, lv) {
     var mp = this.mp || 0;
 
     mp = mp + lv * mp / 20;
+    mp = mp - me.query_prop("expend_mp");
     if (this.expend_mp_per_key) {
         mp = mp - mp * (me.query_prop("expend_mp_per")
             + me.query_prop(this.expend_mp_per_key)) / 100;

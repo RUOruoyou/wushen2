@@ -42,6 +42,15 @@ this.enter = function (me, key, value) {
             value = parseInt(value);
             if (value !== 0 && value !== 1) return me.notify("无效设定值。");
 
+        } else if (setting_item.type === 'Integer') {
+            if (!/^\d{1,3}$/.test(String(value || ""))) return me.notify("无效设定值。");
+            value = Number(value);
+            if (!Number.isInteger(value)
+                || (setting_item.min !== undefined && value < setting_item.min)
+                || (setting_item.max !== undefined && value > setting_item.max)) {
+                return me.notify("无效设定值。");
+            }
+
         }
         if (setting_item.on_setting) {
             if (setting_item.on_setting(me, value) === false) return;
@@ -67,6 +76,9 @@ this.enter = function (me, key, value) {
                 } else {
                     me.notify("<cyn>已关闭" + setting_item.desc + "</cyn>");
                 }
+
+            } else if (setting_item.type === 'Integer') {
+                me.notify("<hic>已设置" + setting_item.desc + "为" + value + "%</hic>");
 
             }
 
@@ -298,6 +310,22 @@ const setting_keys = {
     'auto_get': {
         type: "Boolean",
         desc: "击杀NPC后自动拾取战利品"
+
+    }, 'auto_recovery': {
+        type: "Boolean",
+        desc: "自动任务间恢复"
+
+    }, 'auto_recovery_hp': {
+        type: "Integer",
+        min: 1,
+        max: 100,
+        desc: "自动恢复气血比例"
+
+    }, 'auto_recovery_mp': {
+        type: "Integer",
+        min: 1,
+        max: 100,
+        desc: "自动恢复内力比例"
 
     }, 'auto_get_filter': {
         type: "String",

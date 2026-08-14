@@ -1,0 +1,1 @@
+CREATE_FB_EQUIPMENT(this, { name: "碧血照丹青", unit: "柄", grade: 5, eqType: EQUIP_TYPE.WEAPON, weaponType: WEAPON_TYPE.SWORD, value: 520000, holeCount: 4, prop: { gj: 480, mz: 150, mz_per: 10, diff_fy_per: 10 } });

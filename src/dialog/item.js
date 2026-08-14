@@ -86,15 +86,16 @@ const itemCss = `
 .dialog-item-subdialog-actions {
     flex: 0 0 auto;
     display: flex;
+    flex-wrap: wrap;
     justify-content: flex-end;
     align-items: center;
     gap: 0.25em;
     min-height: 2.5em;
     margin: 0;
     padding: 0.2em 0.4em;
-    overflow-x: auto;
-    overflow-y: hidden;
-    white-space: nowrap;
+    max-width: 100%;
+    overflow: hidden;
+    white-space: normal;
     border-top: 1px solid var(--theme-border);
     background-color: var(--theme-surface);
 }
@@ -110,13 +111,15 @@ const itemCss = `
 .dialog-item-actions {
     float: none;
     display: inline-flex;
+    flex-wrap: wrap;
     flex: 0 0 auto;
+    max-width: 100%;
     align-items: center;
     gap: 0.25em;
-    min-width: max-content;
+    justify-content: flex-end;
     margin-left: auto;
     text-align: right;
-    white-space: nowrap;
+    white-space: normal;
     padding: 0;
 }
 
@@ -128,6 +131,7 @@ const itemCss = `
 
 .dialog.dialog-item-dialog>.dialog-footer {
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
     padding: 0 0.25em;
 }

@@ -7,14 +7,21 @@ const Combat = {
     actions: null,
     room_actions: null,
     object_actions: null,
+    AutoOpened: false,
+    AutoClosedRoomPath: null,
     Scroll: function (e) {
         let div = $(this)[0];
         div.scrollLeft += e.originalEvent.deltaY;
     },
-    Show: function () {
-        if (Combat.IsShow) return Combat.Hide();
+    Show: function (isAuto) {
+        if (Combat.IsShow) {
+            if (isAuto) return;
+            return Combat.Hide(false);
+        }
         if (!this.object_actions) SendCommand("actions");
         Combat.IsShow = true;
+        Combat.AutoOpened = Boolean(isAuto);
+        if (!isAuto) Combat.AutoClosedRoomPath = null;
         if (!Setting.off_hp) {
             $(".room-item>.item-status").show();
         }
@@ -23,8 +30,11 @@ const Combat = {
         Process.message.scroll2end();
         // $(".right-bar")[0].style.bottom = ($(".combat-panel").height() + $(".bottom-bar").height()) + "px";
     },
-    Hide: function () {
+    Hide: function (isAuto) {
+        if (isAuto && !Combat.AutoOpened) return;
         Combat.IsShow = false;
+        if (!isAuto && Combat.room) Combat.AutoClosedRoomPath = Combat.room.path;
+        Combat.AutoOpened = false;
         if (!Setting.off_hp) {
             $(".room-item>.item-status").hide();
         }
@@ -34,6 +44,13 @@ const Combat = {
 
         this.room = room;
         this.room_actions = room.commands;
+        const hasRoomActions = Array.isArray(this.room_actions)
+            && this.room_actions.some(function (item) { return item && item.cmd !== "cr"; });
+        if (hasRoomActions && !Combat.IsShow && Combat.AutoClosedRoomPath !== room.path) {
+            Combat.Show(true);
+        } else if (!hasRoomActions && Combat.IsShow && Combat.AutoOpened) {
+            Combat.Hide(true);
+        }
         if (!Combat.IsShow) return;
         this.refActions();
         // let panel = $(".room-commands");

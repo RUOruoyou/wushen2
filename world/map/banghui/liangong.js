@@ -1,4 +1,5 @@
 ﻿this.inherits(ROOM);
+this.can_practice_meridian = true;
 this.name = "练功房"
 this.desc = "这是你的帮派的练功房，房间的北面各种武器玲琅满目，刀枪剑棍，十八般兵器在这里都能找到，四周石墙的青砖已经被刻满剑痕刀伤，看来经常有人在这里练功。";
 this.exits = { "south": "banghui/yuanzi" };

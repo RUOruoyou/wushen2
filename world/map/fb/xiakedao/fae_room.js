@@ -1,0 +1,1 @@
+this.inherits(ROOM); this.name = "罚恶石室"; this.desc = "沿线石室通往两位岛主。"; this.exits = { west: "fb/xiakedao/fae", east: "fb/xiakedao/island1" }; this.set_npc("fb/xiakedao/guard"); this.on_leave = function (me, dir) { if (dir === "east" && this.find_obj_bypath("fb/xiakedao/guard")) { me.notify("沿线守卫尚未清理。"); return false; } };

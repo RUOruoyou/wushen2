@@ -7,6 +7,9 @@ const MAX_TIMER_DELAY = 2147480000;
 const CONFIG = {
     dailyCount: [10, 60],
     batchCount: [1, 5],
+    minBatchTotal: 10,
+    activeHours: [8, 23],
+    scheduleJitter: 10 * 60 * 1000,
     lifetime: 10 * 60 * 1000,
     attributeRatio: [0.7, 0.8],
     skillRatio: [0.4, 1.2],
@@ -101,6 +104,50 @@ function queryDayKey(date) {
     return date.getFullYear() + "-" + padNumber(date.getMonth() + 1) + "-" + padNumber(date.getDate());
 }
 
+function createBatchCounts(total) {
+    const minBatches = Math.min(total, CONFIG.minBatchTotal);
+    const requiredBatches = Math.ceil(total / CONFIG.batchCount[1]);
+    const batchTotal = Math.max(minBatches, requiredBatches);
+    const counts = new Array(batchTotal).fill(CONFIG.batchCount[0]);
+    let remaining = total - batchTotal * CONFIG.batchCount[0];
+    while (remaining > 0) {
+        const available = [];
+        for (let i = 0; i < counts.length; i++) {
+            if (counts[i] < CONFIG.batchCount[1]) available.push(i);
+        }
+        if (!available.length) break;
+        const index = available[randomInt(0, available.length - 1)];
+        counts[index]++;
+        remaining--;
+    }
+    return shuffle(counts);
+}
+
+function createBatchTimes(date, batchTotal) {
+    const now = date.getTime();
+    const dayEnd = new Date(date.getFullYear(), date.getMonth(), date.getDate() + 1).getTime();
+    const activeStart = new Date(date.getFullYear(), date.getMonth(), date.getDate(), CONFIG.activeHours[0]).getTime();
+    const activeEnd = new Date(date.getFullYear(), date.getMonth(), date.getDate(), CONFIG.activeHours[1]).getTime();
+    const minAt = Math.min(Math.max(now + 60000, activeStart), dayEnd - 1000);
+    const maxAt = Math.max(minAt, Math.min(activeEnd, dayEnd - 1000));
+    if (batchTotal <= 1 || maxAt <= minAt) return [minAt];
+
+    const interval = (maxAt - minAt) / (batchTotal - 1);
+    const jitter = Math.min(CONFIG.scheduleJitter, Math.floor(interval / 4));
+    const times = [];
+    for (let i = 0; i < batchTotal; i++) {
+        let at;
+        if (i === 0) at = minAt;
+        else if (i === batchTotal - 1) at = maxAt;
+        else at = Math.round(minAt + interval * i + randomInt(-jitter, jitter));
+
+        const earliest = times.length ? times[times.length - 1] + 60000 : minAt;
+        const latest = maxAt - (batchTotal - i - 1) * 60000;
+        times.push(Math.min(Math.max(at, earliest), latest));
+    }
+    return times;
+}
+
 function queryReferenceNumber(reference, key, fallback) {
     const value = Number(reference && reference[key]);
     return Number.isFinite(value) && value > 0 ? value : fallback;
@@ -172,34 +219,20 @@ this.ensure_schedule = function (now) {
 
 this.create_schedule = function (date) {
     const now = date.getTime();
-    const dayEnd = new Date(date.getFullYear(), date.getMonth(), date.getDate() + 1).getTime();
     const total = randomInt(CONFIG.dailyCount[0], CONFIG.dailyCount[1]);
-    const batchCounts = [];
-    let remaining = total;
-    while (remaining > 0) {
-        const count = Math.min(remaining, randomInt(CONFIG.batchCount[0], CONFIG.batchCount[1]));
-        batchCounts.push(count);
-        remaining -= count;
-    }
-
-    const minAt = Math.min(now + 60000, dayEnd - 1000);
-    const maxAt = Math.max(minAt, dayEnd - 1000);
-    const usedTimes = {};
+    const batchCounts = createBatchCounts(total);
+    const batchTimes = createBatchTimes(date, batchCounts.length);
     const batches = [];
     for (let i = 0; i < batchCounts.length; i++) {
-        let at = randomInt(minAt, maxAt);
-        while (usedTimes[at] && at < maxAt) at++;
-        usedTimes[at] = true;
         batches.push({
             id: queryDayKey(date).replace(/-/g, "") + "_" + (i + 1),
-            at: at,
+            at: batchTimes[i],
             count: batchCounts[i],
             status: "pending"
         });
     }
-    batches.sort((a, b) => a.at - b.at);
     return {
-        version: 1,
+        version: 2,
         date: queryDayKey(date),
         total: total,
         createdAt: now,

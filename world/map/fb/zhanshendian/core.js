@@ -1,0 +1,1 @@
+this.inherits(ROOM); this.name = "神殿核心"; this.desc = "蚩尤守在神殿核心。"; this.exits = { south: "fb/zhanshendian/guard3" }; this.set_npc("fb/zhanshendian/chiyou"); this.on_leave = function (me, dir) { if (dir === "north") { const state = this.query_fb_state(me); if (!state || !state.milestones["蚩尤"]) { me.notify("蚩尤尚未倒下。"); return false; } } };

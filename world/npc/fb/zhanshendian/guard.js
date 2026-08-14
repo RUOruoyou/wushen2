@@ -1,0 +1,26 @@
+this.inherits(NPC);
+this.set({ name: "战神殿守卫", hp: 140000, max_hp: 140000, mp: 22000, max_mp: 22000, score: 0, prop: { gj: 4800, mz: 4000, ds: 3000, fy: 3700 }, no_refresh: true });
+this.skill_map(["dodge", 2700], ["parry", 2700], ["force", 2700], ["unarmed", 2700]);
+this.on_died = function (killer) {
+    if (this.fbWaveResolved || !killer || !killer.is_player || !killer.environment || !killer.environment.is_fb()) return;
+    const room = killer.environment;
+    const state = room.query_fb_state(killer);
+    if (state && state.failed) return;
+    const wave = Number((room.path.match(/guard([123])$/) || [])[1]);
+    if (!wave || room.query_temp(killer, "fb/zhanshendian/guard_done_" + wave, 0)) return;
+    this.fbWaveResolved = true;
+    const key = "fb/zhanshendian/guard_count_" + wave;
+    const count = (room.query_temp(killer, key, 0) || 0) + 1;
+    room.set_temp(killer, key, count);
+    const required = wave === 3 ? 8 : 5;
+    if (count < required) return;
+    const diff = room.query_temp(killer, "diff", 0) || 0;
+    const started = room.query_temp(killer, "fb/zhanshendian/guard_start_" + wave, 0);
+    const limit = diff === 1 ? 60000 : 120000;
+    if (!started || Date.now() - started > limit) return room.fail_fb_route(killer, "第" + wave + "波守卫未在时限内清理");
+    const score = diff === 1 ? 5 : 10;
+    room.set_temp(killer, "fb/zhanshendian/guard_done_" + wave, 1);
+    if (wave === 1) room.grant_fb_milestone(killer, "守卫一", score);
+    if (wave === 2) room.grant_fb_milestone(killer, "守卫二", score);
+    if (wave === 3) room.grant_fb_milestone(killer, "守卫三", score);
+};

@@ -46,6 +46,9 @@ async function require_os() {
 }
 require_os()
     .then(() => WORLD.startup(process.argv[2]))
+    .then(() => {
+        if (process.env.WSMUD_VALIDATE_RESOURCES === "1") process.exit(0);
+    })
     .catch((error) => {
         console.error("启动失败:", error);
         process.exit(1);

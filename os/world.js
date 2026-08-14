@@ -110,7 +110,12 @@ WORLD = {
         if (sid) {
             sid = parseInt(sid);
             this.SERVERS = await db.getServers();
+            // Resolve the requested server from the freshly loaded list while
+            // preserving the existing persisted server contract.
             this.SERVER = this.getServer(sid);
+            if (!this.SERVER && this.SERVERS.length === 0 && Number(__CONFIG.def_server.id) === sid) {
+                this.SERVER = __CONFIG.def_server;
+            }
         } else {
             this.SERVER = __CONFIG.def_server;
         }
@@ -120,6 +125,60 @@ WORLD = {
 
         await db.initDataDir();
         loadResource();
+        if (process.env.WSMUD_VALIDATE_RESOURCES === "1") {
+            if (process.env.WSMUD_VALIDATE_DROPS === "1") {
+                const failures = [];
+                for (const [id, skill] of Object.entries(WORLD.SKILLS)) {
+                    if (!skill || !skill.grade || skill.type === SKILL_TYPES.BASE) continue;
+                    try {
+                        const page = OBJ.CREATE("book/bc#" + id);
+                        if (!page || page.skill !== id) failures.push(id);
+                    } catch (error) {
+                        failures.push(id + ":" + error.message);
+                    }
+                }
+                const dropPaths = new Set();
+                const collectDropPaths = (value) => {
+                    if (!value) return;
+                    if (typeof value === "string") {
+                        if (value.includes("/")) dropPaths.add(value);
+                        return;
+                    }
+                    if (Array.isArray(value)) {
+                        for (const item of value) collectDropPaths(item);
+                        return;
+                    }
+                    if (typeof value === "object") {
+                        if (typeof value.obj === "string") collectDropPaths(value.obj);
+                        else if (Array.isArray(value.obj)) collectDropPaths(value.obj);
+                    }
+                };
+                for (const area of WORLD.AREAS || []) {
+                    if (!area || !area.is_copy) continue;
+                    collectDropPaths(area.drops);
+                    for (const diff of [0, 1, 2]) {
+                        try {
+                            collectDropPaths(area.query_drops && area.query_drops(diff, null));
+                        } catch (error) {
+                            failures.push((area.id || "area") + ":query_drops(" + diff + "):" + error.message);
+                        }
+                    }
+                }
+                for (const dropPath of dropPaths) {
+                    try {
+                        if (!OBJ.CREATE(dropPath)) failures.push(dropPath);
+                    } catch (error) {
+                        failures.push(dropPath + ":" + error.message);
+                    }
+                }
+                if (failures.length) throw new Error("资源掉落校验失败: " + failures.join(","));
+                console.log("武学残页资源校验通过，共" + Object.keys(WORLD.SKILLS).length + " 项技能。");
+                console.log("副本掉落对象校验通过，共" + dropPaths.size + " 个对象路径。");
+            }
+            await this.DB.close();
+            console.log("资源校验模式完成，未加载或保存运行数据，数据库连接已关闭。");
+            return;
+        }
         await this.DATA.load();
         await this.LISTENER.start(this.SERVER.port);
         console.log("服务", this.SERVER.name, "(" + this.SERVERID + ")启动");
@@ -137,6 +196,10 @@ WORLD = {
         for (var i = 0; i < WORLD.USERS.length; i++) {
             WORLD.USERS[i].send(msg);
         }
+    },
+    getServer: function (sid) {
+        const servers = Array.isArray(this.SERVERS) ? this.SERVERS : [];
+        return servers.find(server => Number(server.id) === Number(sid));
     },
     getUser: function (id) {
         if (!id) return;

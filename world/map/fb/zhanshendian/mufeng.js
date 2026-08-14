@@ -1,0 +1,1 @@
+this.inherits(ROOM); this.name = "木凤巢"; this.desc = "木凤守着渡河所需的鸟窝。"; this.exits = { north: "fb/zhanshendian/molong" }; this.set_npc("fb/zhanshendian/mufeng"); this.on_leave = function (me, dir) { if (dir === "north" && this.find_obj_bypath("fb/zhanshendian/mufeng")) { me.notify("木凤尚未退去。"); return false; } };

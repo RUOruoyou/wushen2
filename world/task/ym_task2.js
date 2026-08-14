@@ -226,6 +226,10 @@ this.refresh_actions = function (player) {
 }
 
 this.start = function (player, mode) {
+    if (WORLD.is_auto_recovery_pending && WORLD.is_auto_recovery_pending(player)) {
+        player.notify("<mem>正在自动恢复状态，完成后将继续当前自动任务。</mem>");
+        return true;
+    }
     let request = this.query_request(player);
     if (player.query_temp("ym_task") && request) {
         player.notify("程药发对你说道：你不是在追捕吗？ 好好干。");
@@ -482,7 +486,10 @@ this.check = function (npc, killer, corpse) {
         + "，今日剩余成功次数" + remain + "/" + DAILY_LIMIT + "。</hic>");
     if (remain > 0) {
         player.notify("<mem>自动追捕将继续下一名逃犯。</mem>");
-        this.call_out(this.continue_ring, AUTO_CONTINUE_DELAY, player, mode);
+        if (!WORLD.queue_auto_recovery
+            || !WORLD.queue_auto_recovery(player, "yamen2", mode, AUTO_CONTINUE_DELAY)) {
+            this.call_out(this.continue_ring, AUTO_CONTINUE_DELAY, player, mode);
+        }
         player.send_commands("yamen auto", "继续自动追捕", "yamen giveup", "放弃追捕");
     } else {
         player.notify("<hiy>今日追捕成功次数已用完，明日再来吧。</hiy>");
@@ -577,6 +584,9 @@ this.clear = function (player, npc) {
 this.giveup = function (player, resetRing, notice) {
     if (resetRing === undefined) resetRing = true;
     if (notice === undefined) notice = true;
+    if (WORLD.is_auto_recovery_pending && WORLD.is_auto_recovery_pending(player, "yamen2")) {
+        WORLD.cancel_auto_recovery(player);
+    }
 
     const hadRequest = !!this.query_request(player);
     const hadRing = player.query_temp("ym_ring_step", 0) > 0 || player.query_temp("ym_ring_mode");

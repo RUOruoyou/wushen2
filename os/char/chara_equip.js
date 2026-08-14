@@ -37,10 +37,10 @@ CHARACTER.prototype.set_objects = function () {
 
 CHARACTER.prototype.unequip = function (obj, notsend, recover_time = 0) {
     if (!obj || !obj.is_equipment || !this.equipment) return;
+    if (obj != this.equipment[obj.eq_type]) return;
     if (obj.uneq(this, notsend) == false) {
         return false;
     }
-    if (obj != this.equipment[obj.eq_type]) return;
     if (!this.items) this.items = [];
     this.items.push(obj);
     this.equipment[obj.eq_type] = null;

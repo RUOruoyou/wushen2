@@ -1,0 +1,1 @@
+CREATE_FB_EQUIPMENT(this, { name: "金铃索", unit: "条", grade: 4, eqType: EQUIP_TYPE.WEAPON, weaponType: WEAPON_TYPE.WHIP, value: 260000, holeCount: 3, prop: { gj: 230, mz: 130, diff_fy_per: 8, busy_time: 10 } });

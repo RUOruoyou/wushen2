@@ -77,13 +77,25 @@ export default {
         } else if (data.xqdesc) {
             var str = [];
             str.push(data.xqdesc);
-            str.push("<span class='item-commands'>");
-            for (var i = 0; i < data.stones.length; i++) {
-                var st = data.stones[i];
-                str.push('<span cmd="' + this.command_before + 'xiangqian ' + data.id + ' '
-                    + st.id + '">镶嵌' + st.name + '</span><br/>');
+            var stones = data.stones || [];
+            if (stones.length) {
+                str.push("<div class='xq-stone-list'>");
+                for (var i = 0; i < stones.length; i++) {
+                    var st = stones[i];
+                    str.push("<div class='xq-stone-item grade", st.grade || 0,
+                        "' cmd=\"", this.command_before, "xiangqian ", data.id, " ", st.id, "\">");
+                    str.push("<span class='xq-stone-name'>", st.name, "</span>");
+                    if (st.count > 1) {
+                        str.push("<span class='xq-stone-count'>×", st.count, "</span>");
+                    }
+                    str.push("<div class='xq-stone-prop'>", st.prop || "无特殊功效", "</div>");
+                    str.push("</div>");
+                }
+                str.push("</div>");
+                str.push("<div class='xq-stone-tip'>点击宝石即可镶嵌</div>");
+            } else {
+                str.push("<div class='xq-stone-empty'>身上没有可以镶嵌的宝石</div>");
             }
-            str.push("</span>");
             this.show_sub(str.join(""), this.get_sub_title(data, "镶嵌"));
         }
         else if (data.desc) {
@@ -415,7 +427,9 @@ export default {
                 html.push('<div class="obj-item ', item.is_lock ? "lock " : "", 'grade', item.grade, '" oindex="');
                 html.push(item.id);
                 html.push('">');
+                html.push("<span class='obj-name'>");
                 html.push(item.name);
+                html.push("</span>");
                 if (this.show_type == 1) {
                     html.push("<span class='obj-value'>");
                     html.push("每");
@@ -553,6 +567,7 @@ const packet_css = `
 
 .dialog.dialog-pack-dialog>.dialog-footer.pack-footer {
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
     justify-content: flex-end;
     gap: 0.35em;
@@ -719,6 +734,69 @@ const packet_css = `
     white-space: nowrap;
 }
 
+.xq-stone-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(11em, 1fr));
+    gap: 0.4em;
+    margin: 0.5em 0 0;
+}
+
+.xq-stone-item {
+    border: 1px solid var(--border-color, gray);
+    border-radius: 0.4em;
+    background-color: var(--theme-panel);
+    color: var(--theme-text);
+    padding: 0.4em 0.5em;
+    cursor: pointer;
+    user-select: none;
+    box-sizing: border-box;
+}
+
+.xq-stone-item:hover {
+    background-color: var(--theme-surface);
+}
+
+.xq-stone-item:active {
+    background-color: var(--theme-surface-2);
+}
+
+.xq-stone-item>* {
+    pointer-events: none;
+}
+
+.xq-stone-item>.xq-stone-name {
+    font-weight: bold;
+    word-break: break-all;
+}
+
+.xq-stone-item>.xq-stone-count {
+    float: right;
+    color: var(--theme-muted);
+    font-size: 0.86em;
+    margin-left: 0.35em;
+}
+
+.xq-stone-item>.xq-stone-prop {
+    color: var(--theme-muted);
+    font-size: 0.86em;
+    line-height: 1.45em;
+    margin-top: 0.15em;
+    word-break: break-all;
+}
+
+.xq-stone-tip {
+    color: var(--theme-muted);
+    font-size: 0.82em;
+    text-align: center;
+    margin-top: 0.5em;
+}
+
+.xq-stone-empty {
+    color: var(--theme-muted);
+    text-align: center;
+    padding: 1em 0;
+}
+
 .obj-desc-panel>.obj-desc-footer>.item-commands {
     display: inline-flex;
     align-items: center;
@@ -805,7 +883,7 @@ const packet_css = `
     border-radius: 4px;
 }
 
-.obj-list>.lock:before {
+.obj-item.lock>.obj-name:before {
     content: "\e033";
     font-family: 'Glyphicons Halflings';
     font-size: 0.8em;
@@ -923,11 +1001,24 @@ const packet_css = `
         overflow-y: auto;
     }
 
-    .obj-list>.obj-item {
-        min-height: 2.25em;
+    .obj-list>.obj-item,
+    .trade-list>.obj-item {
+        min-height: 3.6em;
         margin-bottom: 0;
         padding: 0.45em 0.5em;
         line-height: 1.25em;
+    }
+
+    .cleanup>.obj-item {
+        min-height: 2.25em;
+    }
+
+    .obj-item>.obj-name {
+        display: block;
+        min-width: 0;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
     }
 
     .obj-item>.obj-count,
@@ -936,7 +1027,7 @@ const packet_css = `
         display: block;
         margin: 0.15em 0 0;
         font-size: 0.86em;
-        line-height: 1.2em;
+        line-height: 1.45em;
     }
 
     .dialog.dialog-pack-dialog .obj-desc {
@@ -1036,7 +1127,7 @@ const list_css = `
     border-radius: 4px;
 }
 
-.trade-list>.lock:before {
+.trade-list>.obj-item.lock>.obj-name:before {
     content: "\e033";
     font-family: 'Glyphicons Halflings';
     font-size: 0.8em;

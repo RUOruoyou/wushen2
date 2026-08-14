@@ -55,6 +55,11 @@ function onClientConnect(socket) {
         } else {
             var header = readHeader(data);
             socket.requestHeader = header;
+            // Node/browser clients are allowed to vary HTTP header casing.
+            // Keep the historical canonical names for the handshake code.
+            if (!header["Sec-WebSocket-Key"] && header["sec-websocket-key"]) {
+                header["Sec-WebSocket-Key"] = header["sec-websocket-key"];
+            }
             if (header["Sec-WebSocket-Key"]) {
                 socket.protocol = protocols.var1;
             } else if (header["Sec-WebSocket-Key1"]) {
@@ -257,7 +262,7 @@ var protocols = {
 
                 isread = true;
 
-                server.onTcpReceive(msg, socket);
+                server.onReceive(msg, socket);
 
                 start = index + length;
 
@@ -337,4 +342,4 @@ var FrameTypes =
 //%x8 代表连接关闭
 //%x9 代表ping
 //%xA 代表pong
-//%xB-F 保留用于未来的控制帧 
+//%xB-F 保留用于未来的控制帧

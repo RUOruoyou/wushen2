@@ -1,0 +1,1 @@
+CREATE_FB_EQUIPMENT(this, { name: "倚天剑", unit: "柄", grade: 5, eqType: EQUIP_TYPE.WEAPON, weaponType: WEAPON_TYPE.SWORD, value: 520000, holeCount: 4, prop: { gj: 500, int: 60, sh_per: 6, bj_per: 4, diff_fy_per: 5 } });

@@ -40,6 +40,7 @@ export default {
     previewData: null,
     token: null,
     executing: false,
+    awaitingConfirm: false,
     actionStates: null,
     loading: false,
     pendingOpen: false,
@@ -51,6 +52,9 @@ export default {
         Dialog.injectStyle(packManageCss);
         this.element = $("<div class='dialog-packmanage'></div>");
         this.element.on("click", ".packmanage-tab", this.onTabClick.bind(this));
+        this.element.on("click", ".packmanage-dropdown-btn", this.onDropdownToggle.bind(this));
+        this.element.on("click", ".packmanage-dropdown-all,.packmanage-dropdown-none", this.onDropdownFilterSet.bind(this));
+        this.element.on("click", this.onDropdownDismiss.bind(this));
         this.element.on("change", ".packmanage-category input", this.onCategoryChange.bind(this));
         this.element.on("change", ".packmanage-quality input", this.onQualityChange.bind(this));
         this.element.on("input", ".packmanage-search", this.onSearch.bind(this));
@@ -58,8 +62,7 @@ export default {
         this.element.on("change", ".packmanage-item-exclude", this.onExcludeChange.bind(this));
         this.element.on("click", ".packmanage-select-all", this.selectVisible.bind(this));
         this.element.on("click", ".packmanage-clear", this.clearSelection.bind(this));
-        this.element.on("click", ".packmanage-preview-btn", this.requestPreview.bind(this));
-        this.element.on("click", ".packmanage-execute-btn", this.confirmExecute.bind(this));
+        this.element.on("click", ".packmanage-run-btn", this.onRunClick.bind(this));
         this.element.on("click", ".packmanage-refresh-btn", this.refresh.bind(this));
     },
 
@@ -274,6 +277,11 @@ export default {
         if (data.phase === "preview") {
             this.updateActionResponse(data.action, data, data.token);
             this.ensureOpen();
+            this.updateSelectionSummary();
+            if (this.awaitingConfirm && data.token && (!data.action || data.action === this.action)) {
+                this.awaitingConfirm = false;
+                this.showConfirmDialog();
+            }
             return;
         }
         if (data.phase === "result") {
@@ -284,6 +292,8 @@ export default {
             this.updateActionResponse(data.action, data, null);
             this.storage = data.storage;
             this.ensureOpen();
+            if (data.action && data.action !== this.action) return;
+            this.showResultDialog(data);
         }
     },
 
@@ -393,14 +403,14 @@ export default {
         const input = $(event.currentTarget);
         const value = input.val();
         input.prop("checked") ? this.categoryFilters.add(value) : this.categoryFilters.delete(value);
-        this.invalidatePreview();
+        this.refreshFilterViews();
     },
 
     onQualityChange: function (event) {
         const input = $(event.currentTarget);
         const value = input.val();
         input.prop("checked") ? this.qualityFilters.add(value) : this.qualityFilters.delete(value);
-        this.invalidatePreview();
+        this.refreshFilterViews();
     },
 
     onSearch: function (event) {
@@ -442,6 +452,59 @@ export default {
         this.previewData = null;
         this.token = null;
         this.render();
+    },
+
+    filterSummary: function (options, selected, byKey) {
+        if (!selected.size || selected.size >= options.length) return "全部";
+        const names = [];
+        for (const option of options) {
+            const key = byKey ? qualityKey(option.id) : String(option.id);
+            if (selected.has(key)) names.push(option.name);
+            if (names.length >= 2) break;
+        }
+        const label = names.join("、");
+        return selected.size > 2 ? label + " 等" + selected.size + "项" : label;
+    },
+
+    refreshFilterViews: function () {
+        this.previewData = null;
+        this.token = null;
+        this.element.find(".packmanage-item-list").html(this.renderItems());
+        this.updateSelectionSummary();
+        const categoryDropdown = this.element.find(".packmanage-dropdown[data-filter='category'] .packmanage-dropdown-summary");
+        if (categoryDropdown.length) categoryDropdown.text(this.filterSummary(this.categories, this.categoryFilters));
+        const qualityDropdown = this.element.find(".packmanage-dropdown[data-filter='quality'] .packmanage-dropdown-summary");
+        if (qualityDropdown.length) qualityDropdown.text(this.filterSummary(this.qualities, this.qualityFilters, true));
+    },
+
+    onDropdownToggle: function (event) {
+        const dropdown = $(event.currentTarget).closest(".packmanage-dropdown");
+        const isOpen = dropdown.hasClass("open");
+        this.element.find(".packmanage-dropdown").removeClass("open");
+        if (!isOpen) dropdown.addClass("open");
+        return false;
+    },
+
+    onDropdownFilterSet: function (event) {
+        const button = $(event.currentTarget);
+        const dropdown = button.closest(".packmanage-dropdown");
+        const selectAll = button.hasClass("packmanage-dropdown-all");
+        const filter = dropdown.data("filter");
+        if (filter === "category") {
+            this.categoryFilters.clear();
+            if (selectAll) for (const category of this.categories) this.categoryFilters.add(String(category.id));
+        } else {
+            this.qualityFilters.clear();
+            if (selectAll) for (const quality of this.qualities) this.qualityFilters.add(qualityKey(quality.id));
+        }
+        this.refreshFilterViews();
+        return false;
+    },
+
+    onDropdownDismiss: function (event) {
+        const target = $(event.target);
+        if (target.closest(".packmanage-dropdown").length) return;
+        this.element.find(".packmanage-dropdown").removeClass("open");
     },
 
     filteredItems: function () {
@@ -495,21 +558,67 @@ export default {
         };
         this.previewData = { loading: true };
         this.token = null;
-        this.render();
+        this.updateSelectionSummary();
+        const runBtn = this.element.find(".packmanage-run-btn");
+        if (runBtn.length) runBtn.prop("disabled", true).html("<span class='glyphicon glyphicon-refresh'></span> 正在校验...");
         SendCommand("packmanage preview " + JSON.stringify(payload));
     },
 
-    confirmExecute: function (event) {
+    onRunClick: function (event) {
         if (event) {
             event.preventDefault();
             event.stopPropagation();
         }
+        if (this.executing) return;
+        if (!this.selectedIds.size) {
+            ReceiveMessage("<yel>请先选择需要整理的物品。</yel>");
+            return;
+        }
+        if (this.token && this.previewData && this.previewData.phase === "preview") {
+            this.showConfirmDialog();
+            return;
+        }
+        this.awaitingConfirm = true;
+        this.requestPreview();
+    },
+
+    renderSummaryHtml: function (summary, isResult) {
+        summary = summary || {};
+        const html = [];
+        if (isResult) {
+            html.push("<div class='packmanage-result-ok'><span class='glyphicon glyphicon-ok-circle'></span> 成功处理 ", summary.succeeded || 0, " 项</div>");
+        } else {
+            html.push("<div class='packmanage-summary-row'><span>物品种类</span><strong>", summary.itemKinds || 0, "</strong></div>",
+                "<div class='packmanage-summary-row'><span>物品数量</span><strong>", summary.itemCount || 0, "</strong></div>");
+        }
+        if (this.action === "sell") {
+            html.push("<div class='packmanage-summary-row'><span>", isResult ? "实际获得" : "预计获得",
+                "</span><strong>", Util.moneyToStr(summary.money || 0), "</strong></div>");
+        } else if (this.action === "store") {
+            html.push("<div class='packmanage-summary-row'><span>", isResult ? "新增仓库格" : "新增仓库格", "</span><strong>", summary.requiredSlots || 0, "</strong></div>",
+                "<div class='packmanage-summary-row'><span>合并物品数</span><strong>", summary.mergedCount || 0, "</strong></div>",
+                "<div class='packmanage-summary-row'><span>执行后剩余</span><strong>", summary.storageRemaining || 0, " 格</strong></div>");
+        } else if (!isResult) {
+            html.push(this.renderOutputs(summary.outputs || []));
+        }
+        if (summary.highRiskCount > 0) {
+            html.push("<div class='packmanage-danger'>包含 ", summary.highRiskCount, " 件紫色及以上高品质物品</div>");
+        }
+        if (!isResult && this.previewData && this.previewData.skipped && this.previewData.skipped.length) {
+            html.push("<details class='packmanage-skipped'><summary>跳过 ", this.previewData.skipped.length, " 项</summary>");
+            for (const item of this.previewData.skipped) html.push("<div>", item.name || item.id, "：", escapeHtml(item.message), "</div>");
+            html.push("</details>");
+        }
+        return html.join("");
+    },
+
+    showConfirmDialog: function () {
         if (!this.token || !this.previewData || this.previewData.phase !== "preview") return;
         const summary = this.previewData.summary || {};
         const highRisk = summary.highRiskCount || 0;
         const content = $("<div class='packmanage-confirm'></div>");
         content.append("<div>确认执行" + ACTION_NAMES[this.action] + "？</div>");
-        content.append("<div>将处理 " + (summary.itemKinds || 0) + " 种物品，共 " + (summary.itemCount || 0) + " 件。</div>");
+        content.append($(this.renderSummaryHtml(summary, false)));
         if (highRisk > 0) {
             content.append("<div class='packmanage-danger'>其中包含 " + highRisk + " 件紫色及以上高品质物品，请确认无误。</div>");
         }
@@ -517,6 +626,7 @@ export default {
         const sendExecute = function () {
             this.executing = true;
             this.token = null;
+            this.awaitingConfirm = false;
             this.render();
             this.saveActionState();
             SendCommand("packmanage execute " + token);
@@ -545,6 +655,16 @@ export default {
         });
     },
 
+    showResultDialog: function (data) {
+        const summary = data.summary || {};
+        const content = $("<div class='packmanage-confirm'></div>");
+        content.append($(this.renderSummaryHtml(summary, true)));
+        if (summary.failed && summary.failed.length) {
+            content.append("<div class='packmanage-danger'>有 " + summary.failed.length + " 项处理失败</div>");
+        }
+        Confirm.Show({ content: content, btn_text: "知道了" });
+    },
+
     refresh: function () {
         if (!this.owner) return;
         this.requestOpen(this.owner);
@@ -554,7 +674,16 @@ export default {
         if (!this.element) return;
         this.element.find(".packmanage-selected-count").text("已选择 " + this.selectedIds.size +
             " 项，排除 " + this.excludedIds.size + " 项");
-        this.element.find(".packmanage-preview-btn").prop("disabled", !this.selectedIds.size || this.executing);
+        const runBtn = this.element.find(".packmanage-run-btn");
+        if (runBtn.length) {
+            const loading = this.previewData && this.previewData.loading;
+            runBtn.prop("disabled", !this.selectedIds.size || this.executing || loading);
+            if (!this.executing) {
+                runBtn.html(loading
+                    ? "<span class='glyphicon glyphicon-refresh'></span> 正在校验..."
+                    : "<span class='glyphicon glyphicon-ok'></span> " + ACTION_NAMES[this.action]);
+            }
+        }
     },
 
     render: function () {
@@ -577,31 +706,40 @@ export default {
                 "' data-action='", action, "'>", ACTION_NAMES[action], "</button>");
         }
         html.push("</div><div class='packmanage-body'>");
-        html.push("<aside class='packmanage-filters'>");
-        html.push("<div class='packmanage-filter-title'>道具分类</div><div class='packmanage-filter-list'>");
+        html.push("<section class='packmanage-items-panel'><div class='packmanage-toolbar'>",
+            "<div class='packmanage-search-wrap'><span class='glyphicon glyphicon-search'></span>",
+            "<input class='packmanage-search' type='search' placeholder='搜索背包物品' value='", escapeHtml(this.searchText), "'></div>",
+            "<div class='packmanage-dropdown' data-filter='category'><button type='button' class='packmanage-dropdown-btn'>",
+            "<span class='glyphicon glyphicon-filter'></span> 分类：<span class='packmanage-dropdown-summary'>",
+            this.filterSummary(this.categories, this.categoryFilters), "</span><span class='caret'></span></button>",
+            "<div class='packmanage-dropdown-panel'>");
         for (const category of this.categories) {
             html.push("<label class='packmanage-category'><input type='checkbox' value='", category.id, "'",
                 this.categoryFilters.has(category.id) ? " checked" : "", "><span>", category.name, "</span></label>");
         }
-        html.push("</div><div class='packmanage-filter-title'>品质</div><div class='packmanage-filter-list qualities'>");
+        html.push("<div class='packmanage-dropdown-foot'>",
+            "<button type='button' class='packmanage-dropdown-all'>全选</button>",
+            "<button type='button' class='packmanage-dropdown-none'>不限</button></div></div></div>");
+        html.push("<div class='packmanage-dropdown' data-filter='quality'><button type='button' class='packmanage-dropdown-btn'>",
+            "<span class='glyphicon glyphicon-filter'></span> 品质：<span class='packmanage-dropdown-summary'>",
+            this.filterSummary(this.qualities, this.qualityFilters, true), "</span><span class='caret'></span></button>",
+            "<div class='packmanage-dropdown-panel'>");
         for (const quality of this.qualities) {
             const key = qualityKey(quality.id);
             html.push("<label class='packmanage-quality grade", quality.id === null ? "-none" : quality.id,
                 "'><input type='checkbox' value='", key, "'", this.qualityFilters.has(key) ? " checked" : "",
                 "><span>", quality.name, "</span></label>");
         }
-        html.push("</div></aside>");
-        html.push("<section class='packmanage-items-panel'><div class='packmanage-toolbar'>",
-            "<div class='packmanage-search-wrap'><span class='glyphicon glyphicon-search'></span>",
-            "<input class='packmanage-search' type='search' placeholder='搜索背包物品' value='", escapeHtml(this.searchText), "'></div>",
-            "<button type='button' class='packmanage-select-all'><span class='glyphicon glyphicon-check'></span> 全选当前</button>",
+        html.push("<div class='packmanage-dropdown-foot'>",
+            "<button type='button' class='packmanage-dropdown-all'>全选</button>",
+            "<button type='button' class='packmanage-dropdown-none'>不限</button></div></div></div>");
+        html.push("<button type='button' class='packmanage-select-all'><span class='glyphicon glyphicon-check'></span> 全选当前</button>",
             "<button type='button' class='packmanage-clear'><span class='glyphicon glyphicon-unchecked'></span> 清空</button></div>");
-        html.push("<div class='packmanage-item-list'>", this.renderItems(), "</div></section>");
-        html.push("<aside class='packmanage-preview'>", this.renderPreview(), "</aside></div>");
+        html.push("<div class='packmanage-item-list'>", this.renderItems(), "</div></section></div>");
         html.push("<div class='packmanage-actions'><span class='packmanage-selected-count'>已选择 ", this.selectedIds.size,
             " 项，排除 ", this.excludedIds.size, " 项</span><button type='button' class='packmanage-refresh-btn'><span class='glyphicon glyphicon-refresh'></span> 刷新</button>",
-            "<button type='button' class='packmanage-preview-btn'", this.selectedIds.size && !this.executing ? "" : " disabled",
-            "><span class='glyphicon glyphicon-list-alt'></span> 生成预览</button></div>");
+            "<button type='button' class='packmanage-run-btn'", this.selectedIds.size && !this.executing ? "" : " disabled",
+            "><span class='glyphicon glyphicon-ok'></span> ", this.executing ? "正在执行..." : ACTION_NAMES[this.action], "</button></div>");
         this.element.html(html.join(""));
     },
 
@@ -629,46 +767,6 @@ export default {
         return html.join("");
     },
 
-    renderPreview: function () {
-        const data = this.previewData;
-        if (!data) {
-            return "<div class='packmanage-preview-title'>操作预览</div><div class='packmanage-preview-empty'>选择物品后生成预览</div>";
-        }
-        if (data.loading) {
-            return "<div class='packmanage-preview-title'>操作预览</div><div class='packmanage-preview-empty'>正在校验物品...</div>";
-        }
-        if (this.executing) {
-            return "<div class='packmanage-preview-title'>正在执行</div><div class='packmanage-preview-empty'>正在逐件核验并整理物品...</div>";
-        }
-        if (data.error) {
-            return "<div class='packmanage-preview-title'>操作失败</div><div class='packmanage-error'>" + escapeHtml(data.error) + "</div>";
-        }
-        if (data.phase === "result") return this.renderResult(data);
-        const summary = data.summary || {};
-        const html = ["<div class='packmanage-preview-title'>操作预览</div>"];
-        html.push("<div class='packmanage-summary-row'><span>物品种类</span><strong>", summary.itemKinds || 0, "</strong></div>",
-            "<div class='packmanage-summary-row'><span>物品数量</span><strong>", summary.itemCount || 0, "</strong></div>");
-        if (this.action === "sell") {
-            html.push("<div class='packmanage-summary-row'><span>预计获得</span><strong>", Util.moneyToStr(summary.money || 0), "</strong></div>");
-        } else if (this.action === "store") {
-            html.push("<div class='packmanage-summary-row'><span>新增仓库格</span><strong>", summary.requiredSlots || 0, "</strong></div>",
-                "<div class='packmanage-summary-row'><span>合并物品数</span><strong>", summary.mergedCount || 0, "</strong></div>",
-                "<div class='packmanage-summary-row'><span>执行后剩余</span><strong>", summary.storageRemaining || 0, " 格</strong></div>");
-        } else {
-            html.push(this.renderOutputs(summary.outputs || []));
-        }
-        if (summary.highRiskCount > 0) {
-            html.push("<div class='packmanage-danger'>包含 ", summary.highRiskCount, " 件紫色及以上高品质物品</div>");
-        }
-        if (data.skipped && data.skipped.length) {
-            html.push("<details class='packmanage-skipped'><summary>跳过 ", data.skipped.length, " 项</summary>");
-            for (const item of data.skipped) html.push("<div>", item.name || item.id, "：", escapeHtml(item.message), "</div>");
-            html.push("</details>");
-        }
-        html.push("<button type='button' class='packmanage-execute-btn'><span class='glyphicon glyphicon-ok'></span> 确认执行</button>");
-        return html.join("");
-    },
-
     renderOutputs: function (outputs) {
         const html = ["<div class='packmanage-output-title'>预计产物</div>"];
         if (!outputs.length) return html.concat("<div class='packmanage-preview-empty'>无可预览产物</div>").join("");
@@ -677,35 +775,11 @@ export default {
                 "</span><strong>", output.count, output.unit || "个", "</strong></div>");
         }
         return html.join("");
-    },
-
-    renderResult: function (data) {
-        const summary = data.summary || {};
-        const html = ["<div class='packmanage-preview-title'>整理完成</div>"];
-        html.push("<div class='packmanage-result-ok'><span class='glyphicon glyphicon-ok-circle'></span> 成功处理 ", summary.succeeded || 0, " 项</div>");
-        if (this.action === "sell") html.push("<div class='packmanage-summary-row'><span>实际获得</span><strong>", Util.moneyToStr(summary.money || 0), "</strong></div>");
-        if (this.action === "store") {
-            html.push("<div class='packmanage-summary-row'><span>新增仓库格</span><strong>", summary.requiredSlots || 0, "</strong></div>",
-                "<div class='packmanage-summary-row'><span>合并物品数</span><strong>", summary.mergedCount || 0, "</strong></div>",
-                "<div class='packmanage-summary-row'><span>仓库剩余</span><strong>", summary.storageRemaining || 0, " 格</strong></div>");
-        }
-        if (this.action === "disassemble") html.push(this.renderOutputs(summary.outputs || []));
-        if (data.skipped && data.skipped.length) {
-            html.push("<details class='packmanage-skipped' open><summary>跳过 ", data.skipped.length, " 项</summary>");
-            for (const item of data.skipped) html.push("<div>", item.name || item.id, "：", escapeHtml(item.message), "</div>");
-            html.push("</details>");
-        }
-        if (data.failed && data.failed.length) {
-            html.push("<details class='packmanage-failed' open><summary>失败 ", data.failed.length, " 项</summary>");
-            for (const item of data.failed) html.push("<div>", item.name || item.id, "：", escapeHtml(item.message), "</div>");
-            html.push("</details>");
-        }
-        html.push("<button type='button' class='packmanage-refresh-btn result'><span class='glyphicon glyphicon-repeat'></span> 继续整理</button>");
-        return html.join("");
     }
 };
 
 const packManageCss = `
+
 .dialog.dialog-packmanage-dialog {
     width: min(46rem, calc(100% - 1rem));
     height: min(38rem, calc(100% - 1rem));
@@ -779,42 +853,14 @@ const packManageCss = `
     flex: 1 1 auto;
     min-height: 0;
     display: grid;
-    grid-template-columns: 9rem minmax(16rem, 1fr) 13rem;
+    grid-template-columns: minmax(16rem, 1fr);
     overflow: hidden;
 }
 
-.packmanage-filters,
-.packmanage-preview {
-    min-width: 0;
-    overflow-y: auto;
-    padding: 0.65rem;
-    background: var(--theme-surface);
-    box-sizing: border-box;
-}
-
-.packmanage-filters {
-    border-right: 1px solid var(--theme-border);
-}
-
-.packmanage-preview {
-    border-left: 1px solid var(--theme-border);
-}
-
-.packmanage-filter-title,
-.packmanage-preview-title,
 .packmanage-output-title {
     margin-bottom: 0.45rem;
     color: var(--theme-accent);
     font-weight: bold;
-}
-
-.packmanage-filter-title:not(:first-child) {
-    margin-top: 0.8rem;
-}
-
-.packmanage-filter-list {
-    display: grid;
-    gap: 0.25rem;
 }
 
 .packmanage-category,
@@ -849,6 +895,85 @@ const packManageCss = `
     gap: 0.4rem;
     padding: 0.5rem;
     border-bottom: 1px solid var(--theme-border);
+    flex-wrap: wrap;
+    position: relative;
+    z-index: 4;
+}
+
+.packmanage-dropdown {
+    position: relative;
+    flex: 0 0 auto;
+}
+
+.packmanage-dropdown-btn {
+    min-height: 2rem;
+    padding: 0 0.55rem;
+    border: 1px solid var(--theme-border);
+    border-radius: var(--popup-radius, 4px);
+    background: var(--theme-surface-2);
+    color: var(--theme-text);
+    cursor: pointer;
+    white-space: nowrap;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    max-width: 11rem;
+}
+
+.packmanage-dropdown-btn>.packmanage-dropdown-summary {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.packmanage-dropdown-btn>.caret {
+    width: 0;
+    height: 0;
+    border-left: 0.25rem solid transparent;
+    border-right: 0.25rem solid transparent;
+    border-top: 0.3rem solid currentColor;
+    flex: 0 0 auto;
+}
+
+.packmanage-dropdown-panel {
+    display: none;
+    position: absolute;
+    top: calc(100% + 0.25rem);
+    left: 0;
+    min-width: 9rem;
+    max-height: 16rem;
+    overflow-y: auto;
+    padding: 0.45rem;
+    border: 1px solid var(--theme-border);
+    border-radius: var(--popup-radius, 4px);
+    background: var(--theme-panel);
+    box-shadow: 0 0.5em 1.4em rgba(36, 31, 24, 0.22);
+    box-sizing: border-box;
+    z-index: 30;
+}
+
+.packmanage-dropdown.open>.packmanage-dropdown-panel {
+    display: block;
+}
+
+.packmanage-dropdown-foot {
+    display: flex;
+    gap: 0.35rem;
+    margin-top: 0.35rem;
+    padding-top: 0.35rem;
+    border-top: 1px solid var(--theme-border);
+}
+
+.packmanage-dropdown-foot button {
+    flex: 1 1 auto;
+    min-height: 1.8rem;
+    padding: 0 0.45rem;
+    border: 1px solid var(--theme-border);
+    border-radius: var(--popup-radius, 4px);
+    background: var(--theme-surface-2);
+    color: var(--theme-text);
+    cursor: pointer;
+    white-space: nowrap;
 }
 
 .packmanage-search-wrap {
@@ -1044,37 +1169,7 @@ const packManageCss = `
         max-height: calc(100% - 0.5rem);
     }
 
-    .packmanage-body {
-        display: flex;
-        flex-direction: column;
-        overflow-y: auto;
-    }
-
-    .packmanage-filters {
-        flex: 0 0 auto;
-        border-right: 0;
-        border-bottom: 1px solid var(--theme-border);
-        overflow: visible;
-    }
-
-    .packmanage-filter-list {
-        grid-template-columns: repeat(3, minmax(0, 1fr));
-    }
-
-    .packmanage-filter-list.qualities {
-        grid-template-columns: repeat(4, minmax(0, 1fr));
-    }
-
     .packmanage-items-panel {
-        flex: 0 0 19rem;
-        min-height: 19rem;
-    }
-
-    .packmanage-preview {
-        flex: 0 0 auto;
-        min-height: 10rem;
-        border-left: 0;
-        border-top: 1px solid var(--theme-border);
         overflow: visible;
     }
 

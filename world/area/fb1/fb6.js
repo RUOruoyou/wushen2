@@ -26,7 +26,7 @@ this.map = [
   { n: "牢房", id: "bj/ao/laofang", p: [0, 1] }
 ];
 this.drops = [
-  "eq/lv2/ao_jia", "eq/lv2/ao_bishou", "book/bc#hunyuanyiqi", "book/bc#feiyanzoubi", "book/bc#fuhuquan",
+  "eq/lv2/ao_jia", "eq/lv2/ao_bishou", "book/bc#mizongxinfa", "book/bc#yixingbufa", "book/bc#dashouyin",
   "book/bc#juemengun", "sp/bj/laofangkey", "sp/bj/jing"
 ];
 
@@ -39,7 +39,7 @@ this.quick_drops = [
     obj: ["eq/lv0/cloth", "eq/lv0/mugun", "eq/lv0/jian"],
     odds: 8000
   }, {
-    obj: ["book/bc#hunyuanyiqi", "book/bc#feiyanzoubi", "book/bc#fuhuquan", "book/bc#juemengun"],
+    obj: ["book/bc#mizongxinfa", "book/bc#yixingbufa", "book/bc#dashouyin", "book/bc#juemengun"],
     odds: 5000
   }, {
     obj: ["eq/lv2/ao_jia", "eq/lv2/ao_bishou"],
@@ -56,4 +56,3 @@ this.quick_drops = [
     max: 3
   }
 ];
-

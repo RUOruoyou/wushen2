@@ -15,6 +15,13 @@ export const Confirm = {
         this.Parameter = Object.assign({}, this.DEFAULT, par);
         this.content.empty().append(this.Parameter.content);
         this.element.show();
+        if (this.Parameter.popup) {
+            this.element.addClass("popup");
+            this.mask.show();
+        } else {
+            this.element.removeClass("popup");
+            this.mask.hide();
+        }
         if (this.Parameter.footer) {
             this.btn.show();
             this.btn.find(".btn-text").html(this.Parameter.btn_text);
@@ -25,12 +32,14 @@ export const Confirm = {
     }, Close: function (isok) {
         if (!Confirm.isShow) return;
         Confirm.element.hide();
+        Confirm.mask.hide();
         Confirm.isShow = false;
         if (!isok && this.Parameter.onCancle)
             this.Parameter.onCancle();
     },
     Init: function () {
         if (this._init) return;
+        this.mask = $(`<div class="dialog-confirm-mask" style="display:none;"></div>`).appendTo(document.body);
         this.element = $(`<div class="dialog-confirm" style="display:none;">
         <div class="dialog-content"></div>
         <span class="dialog-btn btn-ok"><span class="glyphicon glyphicon-ok-circle btn-icon"></span><span
@@ -38,6 +47,12 @@ export const Confirm = {
     </div>`).appendTo(document.body);
         this.content = this.element.find(".dialog-content");
         this.btn = this.element.find(".dialog-btn");
+        this.mask.on("click", function (e) {
+            if (Confirm.Parameter && Confirm.Parameter.popup) {
+                Confirm.Close();
+            }
+            return false;
+        });
         this.element.on("click", ".btn-ok", function (e) {
             if (Confirm.Parameter.content === Confirm.count_element) {
                 var text = Confirm.count_element.find("input");

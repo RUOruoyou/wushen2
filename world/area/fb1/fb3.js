@@ -22,7 +22,7 @@ this.map = [{ n: "小巷子", id: "yz/lmw/xiangzi1", p: [0, 0], exits: ["e"] },
                     { n: "仓库", id: "yz/lmw/cangku", p: [2, -1] }
 ];
 this.drops = ["eq/lv1/lm_head", "eq/lv1/lm_cloth", "eq/lv1/lm_shoes", "eq/lv1/lm_shou",
-    "eq/lv1/lm_jian", "eq/lv1/lm_gun", "eq/lv1/qianjinquan", "book/book#force", "book/book#unarmed", "book/bc#taizuchangquan", "book/book#parry", "book/book#dodge"];
+    "eq/lv1/lm_jian", "eq/lv1/lm_gun", "eq/lv1/qianjinquan", "book/book#force", "book/book#unarmed", "book/bc#houquan", "book/book#parry", "book/book#dodge"];
 
 this.quick_drops = [
     {
@@ -47,7 +47,7 @@ this.quick_drops = [
         odds: 2000
     },
     {
-        obj: ["book/book#force", "book/book#unarmed", "book/bc#taizuchangquan", "book/book#parry", "book/book#dodge"],
+        obj: ["book/book#force", "book/book#unarmed", "book/bc#houquan", "book/book#parry", "book/book#dodge"],
         odds: 2000
     }, {
         obj: "st/xuanjing",

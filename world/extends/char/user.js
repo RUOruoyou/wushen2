@@ -323,4 +323,27 @@ FOLLOWER.prototype.items_changed = function (item, drop_count) {
 };
 FOLLOWER.prototype.send_commands = USER.prototype.send_commands;
 
-
+if (!USER.FB_TIANLONGSI_DEATH_HOOK) {
+    USER.FB_TIANLONGSI_DEATH_HOOK = true;
+    const previousUserDeath = USER.prototype.on_died;
+    USER.prototype.on_died = function (killer) {
+        if (previousUserDeath) previousUserDeath.call(this, killer);
+        const room = this.environment;
+        if (!room || !room.is_fb || !room.is_fb() || !room.parent) return;
+        if (room.parent.id === "piaomiaofeng") {
+            const state = room.query_fb_state && room.query_fb_state(this);
+            if (state && !state.failed && !state.milestones["送童姥"] && room.query_temp(this, "fb/piaomiaofeng/carry_child", 0)) {
+                room.set_temp(this, "fb/piaomiaofeng/carry_child", 0);
+                room.fail_fb_route(this, "护送童姥途中玩家死亡，保护路线中断");
+            }
+            return;
+        }
+        if (room.parent.id !== "tianlongsi") return;
+        const state = room.query_fb_state && room.query_fb_state(this);
+        if (!state || state.failed || !state.milestones["抓段誉"] || state.milestones["护送段誉"]) return;
+        const first = room.query_fb_first && room.query_fb_first(this.query_teamid());
+        const duanyu = first && first.find_obj_bypath("fb/tianlongsi/duanyu");
+        if (duanyu) duanyu.destroy("段誉因护送者战败而殒命。");
+        room.fail_fb_route(this, "护送段誉途中玩家死亡，段誉已随之遇害");
+    };
+}

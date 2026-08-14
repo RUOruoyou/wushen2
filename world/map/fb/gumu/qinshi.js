@@ -1,0 +1,1 @@
+this.inherits(ROOM); this.name = "琴室"; this.desc = "古琴的弦音能开启地下暗河。"; this.exits = { west: "fb/gumu/woshi", east: "fb/gumu/anhe" }; this.add_action("play", "弹琴", function (me) { if (this.query_temp(me, "fb/gumu/music", 0)) return me.notify("暗河机关已经开启。"); this.set_temp(me, "fb/gumu/music", 1); this.grant_fb_milestone(me, "古琴", 10); me.notify("琴声落下，石壁后的暗河入口打开了。"); });

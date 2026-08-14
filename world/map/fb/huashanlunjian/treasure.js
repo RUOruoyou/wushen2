@@ -1,0 +1,1 @@
+this.inherits(ROOM); this.name = "五绝宝箱"; this.desc = "宝箱只提供额外掉落，不影响副本完成度。"; this.exits = { south: "fb/huashanlunjian/juebi" }; this.on_enter = function (me) { this.set_temp(me, "fb/huashanlunjian/active", 0); }; this.set_item("fb/huashanlunjian/treasure_box", "五绝宝箱", "一只封存剑意的宝箱。", [["open", "打开宝箱"]]);

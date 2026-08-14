@@ -1,0 +1,2 @@
+this.inherits(ROOM); this.name = "舍利殿"; this.desc = "舍利殿通向东西两路和尚殿。"; this.exits = { south: "fb/tianlongsi/entry", west: "fb/tianlongsi/wuwo", east: "fb/tianlongsi/wule", north: "fb/tianlongsi/banruotai" };
+this.on_leave = function (me, dir) { if (dir === "north") { const state = this.query_fb_state(me); const diff = this.query_temp(me, "diff", 0) || 0; if (diff === 0 && (!state || !state.milestones["前置和尚"])) { me.notify("普通路线需要先击败两名守殿和尚。"); return false; } if (diff === 1 && !this.query_temp(me, "fb/tianlongsi/disguise", 0)) { me.notify("困难路线需要先完成伪装进入。"); return false; } } };

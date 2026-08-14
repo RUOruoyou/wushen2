@@ -1,0 +1,1 @@
+this.inherits(ROOM); this.name = "洞口"; this.desc = "洞口的守卫等待第二次转移。"; this.exits = { south: "fb/xuedaomen/shandong", north: "fb/xuedaomen/wangyougu" }; this.set_npc("fb/xuedaomen/luohua"); this.on_leave = function (me, dir) { if (dir === "north" && !this.query_temp(me, "fb/xuedaomen/shift2", 0)) { me.notify("第二次转移尚未完成。"); return false; } };

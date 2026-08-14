@@ -1,0 +1,1 @@
+this.inherits(NPC); this.set({ name: "说不得", hp: 105000, max_hp: 105000, mp: 18000, max_mp: 18000, score: 0, prop: { gj: 3800, mz: 3100, ds: 2400, fy: 2900 }, no_refresh: true }); this.skill_map(["dodge", 2100], ["parry", 2100], ["force", 2100], ["unarmed", 2100]);

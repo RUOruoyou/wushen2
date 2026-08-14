@@ -629,8 +629,9 @@ function wrap_name(obj) {
 const skills_css = `
 .dialog.dialog-skills-open>.dialog-footer {
     display: flex;
+    flex-wrap: wrap;
     align-items: stretch;
-    overflow-x: auto;
+    overflow: hidden;
 }
 
 .dialog.dialog-skills-open>.dialog-footer>.skills-footer-tabs,

@@ -37,7 +37,7 @@ const LOOT_TYPES = {
     "0": 0, "item": 0, "misc": 0, "daoju": 0, "道具": 0, "杂物": 0,
     "1": 1, "book": 1, "miji": 1, "秘籍": 1, "书": 1,
     "2": 2, "stone": 2, "baoshi": 2, "宝石": 2,
-    "3": 3, "res": 3, "resource": 3, "ziyuan": 3, "资源": 3, "材料": 3,
+    "3": 3, "res": 3, "resource": 3, "material": 3, "ziyuan": 3, "资源": 3, "材料": 3,
     "4": 4, "equip": 4, "equipment": 4, "zhuangbei": 4, "装备": 4,
     "money": "money", "银两": "money", "钱": "money",
     "cash": "cash", "元宝": "cash",
@@ -70,6 +70,7 @@ function split_loot_values(value) {
     }).filter(Boolean);
 }
 function has_loot_value(value) {
+    if (value === undefined || value === null || value === "") return false;
     return split_loot_values(value).length > 0;
 }
 function compare_loot_number(cur, op, val) {

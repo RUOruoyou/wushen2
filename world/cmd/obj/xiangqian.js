@@ -36,13 +36,22 @@ this.enter = function (player, objid, st) {
     }
     if (!items.length) return player.notify("你身上没有可以镶嵌的宝石。");
     var str = ['{type:"dialog",dialog:"pack",xqdesc:\"',
-        obj.color_name, "\",id:\"", obj.id, "\",stones:["];
+        obj.color_name, "\\n剩余可镶嵌孔位：", obj.hole_count,
+        "\",id:\"", obj.id, "\",stones:["];
     for (var i = 0; i < items.length; i++) {
         if (i > 0) str.push(",");
+        var prop_str = UTIL.prop_toString(items[i].prop, " ");
+        if (!prop_str) prop_str = "无特殊功效";
         str.push("{name:\"");
         str.push(items[i].name);
         str.push("\",id:\"");
         str.push(items[i].id);
+        str.push("\",count:");
+        str.push(items[i].count || 1);
+        str.push(",grade:");
+        str.push(items[i].grade || 0);
+        str.push(",prop:\"");
+        str.push(prop_str);
         str.push("\"}");
     }
     str.push(']}');

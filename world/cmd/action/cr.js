@@ -92,6 +92,10 @@ function fb_saodang(me, path, isdiff, count) {
         return me.notify("没有这个房间");
     }
     if (!next_room.is_fb()) return me.notify(fb.name + "不是副本区域!");
+    var area = next_room.parent;
+
+    if (isdiff && !area.is_diffi)
+        return me.notify(area.name + "没有困难模式!");
 
     var is_admin = is_admin_sweep(me);
     if (!is_admin && !fb.is_unlock(me))
@@ -99,7 +103,6 @@ function fb_saodang(me, path, isdiff, count) {
 
     var has_filter = me.query_setting("auto_get") && WORLD.has_loot_filter && WORLD.has_loot_filter(me);
     if (me.is_full() && !has_filter) return me.notify("你身上东西太多了!");
-    var area = next_room.parent;
     if (!is_admin) {
         const sweepLevel = parseInt(me.query_temp('fb_sao' + area.query_record_index(), 0)) || 0;
         if (sweepLevel < (isdiff ? 2 : 1))

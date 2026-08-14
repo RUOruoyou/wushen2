@@ -1,0 +1,1 @@
+CREATE_FB_EQUIPMENT(this, { name: "金刚伏魔杖", unit: "根", grade: 5, eqType: EQUIP_TYPE.WEAPON, weaponType: WEAPON_TYPE.STAFF, value: 520000, holeCount: 4, prop: { gj: 560, mz: 550, str: 82, sh_per: 6, zj_per: 7 } });

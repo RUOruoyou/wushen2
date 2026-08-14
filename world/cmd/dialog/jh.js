@@ -419,7 +419,11 @@ const FBS = {
     "shenlong": 8, "guanwai": 9, "longmai": 10,
     "wenfu": 11, "wudu": 12, "hengshan": 13, "qingcheng": 14, "hengshan2": 15,
     "taishan": 16, "songshan": 17, "yunmeng": 18,
-    "lcj": 19
+    "taohuadao": 19, "baituo": 20, "xingxiu": 21, "binghuo": 22,
+    "yihuagong": 23, "yanziwu": 24, "heimuya": 25, "piaomiaofeng": 26,
+    "guangmingding": 27, "tianlongsi": 28, "xuedaomen": 29, "gumu": 30,
+    "huashanlunjian": 31, "xiakedao": 32, "jingnian": 33, "cihang": 34,
+    "yinyanggu": 35, "zhanshendian": 36, "lcj": 37
 }
 const FB_AREAS = {};
 const JDS = {

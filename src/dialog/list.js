@@ -190,6 +190,7 @@ export default {
                 html.push('" otype="')
                 html.push(otype);
                 html.push('">');
+                html.push("<span class='obj-name'>");
                 if (otype === 1) {
                     html.push('<span class="grade', item.grade, '">');
                     html.push(item.name);
@@ -197,6 +198,7 @@ export default {
                 } else {
                     html.push(item.name);
                 }
+                html.push("</span>");
                 html.push("<span class='obj-value'>");
                 if (otype == 2) {
                     html.push("每");

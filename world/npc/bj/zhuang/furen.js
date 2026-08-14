@@ -33,7 +33,7 @@ this.set_drop({
     obj: ["eq/lv0/cloth", "eq/lv0/dao", "eq/lv0/jian", "eq/lv0/tiezhang"],
     odds: 8000
 }, {
-    obj: ["book/bc#shenxingbaibian", "book/bc#huashanjianfa", "book/bc#shenlongjian"],
+    obj: ["book/bc#shenxingbaibian", "book/bc#shenlongjian"],
     odds: 3000
 });
 this.set_ask("吴之荣", function (me) {
@@ -53,7 +53,7 @@ this.on_accept = function (me, obj, count) {
             me.set_temp("fb/zhuang/shuang", 1);
         } else {
             me.notify("庄夫人看了你一会，对你说道：这本书是救妾身这群人的恩公给我的，今日就送与恩公。");
-            var obj = me.add_obj("book/bc#huashanjianfa");
+            var obj = me.add_obj("book/bc#shenlongjian");
             if (obj) {
                 me.notify("庄夫人给了你" + obj.unit_name(1) + "。");
             }

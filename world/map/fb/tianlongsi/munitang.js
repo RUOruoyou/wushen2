@@ -1,0 +1,24 @@
+this.inherits(ROOM);
+this.name = "牟尼堂";
+this.desc = "枯荣护着段誉，抓人后寺中和尚会合围。";
+this.exits = { south: "fb/tianlongsi/banruotai" };
+this.set_npc("fb/tianlongsi/kurong", "fb/tianlongsi/duanyu");
+this.add_action("capture", "抓段誉", function (me) {
+    const state = this.query_fb_state(me);
+    if (!state || state.failed) return me.notify("当前路线已经失败。");
+    if (state.milestones["抓段誉"]) return me.notify("段誉已经被你带离牟尼堂。");
+    const duanyu = this.find_obj_bypath("fb/tianlongsi/duanyu");
+    const kurong = this.find_obj_bypath("fb/tianlongsi/kurong");
+    if (!duanyu) return me.notify("段誉不在这里。");
+    if (!kurong) return me.notify("枯荣已经倒下，无法按计划抓住段誉。");
+    const diff = this.query_temp(me, "diff", 0) || 0;
+    const monks = this.query_temp(me, "fb/tianlongsi/monks", 0) || 0;
+    if (diff === 0 && !state.milestones["前置和尚"]) return me.notify("普通路线必须恰好击败两名和尚后再抓段誉。");
+    if (diff === 1 && monks > 0) return this.fail_fb_route(me, "困难路线抓人前击杀了和尚");
+    this.set_temp(me, "fb/tianlongsi/captured", 1);
+    this.grant_fb_milestone(me, "抓段誉", 20);
+    const base = ROOM.Get("fb/tianlongsi/entry");
+    const target = base && base.copy_rooms && base.copy_rooms[this.owner];
+    if (target) duanyu.moveto(target, duanyu.name + "被带离牟尼堂。", duanyu.name + "跟着你回到山门。");
+    me.notify("你趁枯荣分神，带着段誉离开牟尼堂。");
+});
