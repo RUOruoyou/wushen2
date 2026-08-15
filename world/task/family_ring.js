@@ -370,6 +370,7 @@ this.grant_special_reward = function (player, ringIndex, ringStep, streak) {
     const delivered = this.deliver_special_reward(player, reward, slotKey);
     if (!delivered) {
         player.notify("<hiy>特殊奖励暂未发放成功，系统将在下次结算时继续尝试。</hiy>");
+        this.write_rewards(player, rewards);
         return false;
     }
     reward.delivered = true;
@@ -412,21 +413,13 @@ this.write_rewards = function (player, rewards) {
 this.create_special_reward = function (player, ringIndex, ringStep, streak) {
     const type = CONFIG.rollSpecialReward();
     const day = player.query_temp(KEY_DAY) || CONFIG.queryDayKey();
+    // 每个特殊奖励节点都保底附带武学进阶残页
+    const pageCount = CONFIG.rollPageCount();
     if (type === "merit") {
         return {
             type: type,
             amount: CONFIG.queryMeritReward(player, ringIndex, streak),
-            day: day,
-            ringIndex: ringIndex,
-            ringStep: ringStep,
-            delivered: false
-        };
-    }
-    if (type === "page") {
-        return {
-            type: type,
-            path: "book/up",
-            count: CONFIG.rollPageCount(ringIndex, streak),
+            pageCount: pageCount,
             day: day,
             ringIndex: ringIndex,
             ringStep: ringStep,
@@ -441,6 +434,7 @@ this.create_special_reward = function (player, ringIndex, ringStep, streak) {
         partId: partId,
         grade: grade,
         count: 1,
+        pageCount: pageCount,
         day: day,
         ringIndex: ringIndex,
         ringStep: ringStep,
@@ -448,11 +442,43 @@ this.create_special_reward = function (player, ringIndex, ringStep, streak) {
     };
 };
 
+this.deliver_page_reward = function (player, count, slotKey) {
+    if (player.can_add_obj("book/up", count)) {
+        const obj = player.add_obj("book/up", count, true);
+        if (!obj) return false;
+        player.notify("<hiy>师门特殊奖励：保底获得" + obj.unit_name(count) + "。</hiy>");
+        return true;
+    }
+
+    const sendCommand = WORLD.COMMANDS.send;
+    if (!sendCommand) return false;
+    sendCommand.enter(null, player.id, {
+        from: "family_task",
+        from_name: "师门后勤",
+        title: "师门任务特殊奖励",
+        summary: "背包空间不足，奖励已转入邮件附件。",
+        content: "你完成了师门任务的特殊奖励节点。由于背包空间不足，奖励已通过附件发放。",
+        attach: [{ obj: "book/up", count: count }],
+        dedupe: "family_task_" + player.id + "_" + slotKey + "_page"
+    });
+    player.notify("<hiy>你的背包空间不足，武学进阶残页已经发送到邮箱。</hiy>");
+    return true;
+};
+
 this.deliver_special_reward = function (player, reward, slotKey) {
+    let delivered = true;
+    if (reward.pageCount > 0 && !reward.pageDelivered) {
+        if (this.deliver_page_reward(player, reward.pageCount, slotKey)) {
+            reward.pageDelivered = true;
+        } else {
+            delivered = false;
+        }
+    }
+
     if (reward.type === "merit") {
         player.family.add_gongji(player, reward.amount);
         player.notify("<hiy>师门特殊奖励：获得" + reward.amount + "点师门功绩。</hiy>");
-        return true;
+        return delivered;
     }
 
     let obj;

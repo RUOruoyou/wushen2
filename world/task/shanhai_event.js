@@ -23,7 +23,8 @@ const CONFIG = {
         pageCount: [1, 1],
         skillPageOdds: 2000,
         skillPageMax: 3,
-        heartOdds: 500
+        heartOdds: 500,
+        upPageOdds: 1000
     },
     participantReward: {
         gold: [1, 4],
@@ -33,7 +34,8 @@ const CONFIG = {
         pageCount: [1, 1],
         skillPageOdds: 200,
         skillPageMax: 3,
-        heartOdds: 50
+        heartOdds: 50,
+        upPageOdds: 200
     }
 };
 
@@ -655,6 +657,7 @@ this.roll_reward = function (rewardConfig) {
     const hasSkillPage = rewardConfig.skillPageOdds && rewardConfig.skillPageMax
         && randomInt(1, 10000) <= rewardConfig.skillPageOdds;
     const hasHeart = rewardConfig.heartOdds && randomInt(1, 10000) <= rewardConfig.heartOdds;
+    const hasUpPage = rewardConfig.upPageOdds && randomInt(1, 10000) <= rewardConfig.upPageOdds;
 
     const reward = {
         gold: randomInt(rewardConfig.gold[0], rewardConfig.gold[1]),
@@ -662,7 +665,8 @@ this.roll_reward = function (rewardConfig) {
         exp: randomInt(rewardConfig.exp[0], rewardConfig.exp[1]),
         page: hasPage ? randomInt(rewardConfig.pageCount[0], rewardConfig.pageCount[1]) : 0,
         skillPages: [],
-        heart: hasHeart
+        heart: hasHeart,
+        upPage: hasUpPage ? 1 : 0
     };
 
     if (hasSkillPage) {
@@ -697,6 +701,18 @@ this.deliver_reward = function (playerId, reward, eventId, rewardType) {
             this.send_reward_mail(playerId, { gold: 0, pot: 0, exp: 0, page: reward.page, skillPages: [], heart: false },
                 eventId + "_" + rewardType + "_page", rewardType);
             player.notify("<hiy>你的背包空间不足，武道残页已经转入邮箱。</hiy>");
+        }
+    }
+
+    // 武学进阶残页
+    if (reward.upPage > 0) {
+        if (player.can_add_obj("book/up", reward.upPage)) {
+            player.add_obj("book/up", reward.upPage, true);
+            player.notify("<hiy>你在山海异兽奖励中获得了" + reward.upPage + "份武学进阶残页。</hiy>");
+        } else {
+            this.send_reward_mail(playerId, { gold: 0, pot: 0, exp: 0, page: 0, skillPages: [], heart: false, upPage: reward.upPage },
+                eventId + "_" + rewardType + "_uppage", rewardType);
+            player.notify("<hiy>你的背包空间不足，武学进阶残页已经转入邮箱。</hiy>");
         }
     }
 
@@ -744,6 +760,7 @@ this.send_reward_mail = function (playerId, reward, dedupe, rewardType) {
     if (reward.pot > 0) attachments.push({ obj: "money/pot", count: reward.pot });
     if (reward.exp > 0) attachments.push({ obj: "money/shanhai_exp", count: reward.exp });
     if (reward.page > 0) attachments.push({ obj: "book/wudao", count: reward.page });
+    if (reward.upPage > 0) attachments.push({ obj: "book/up", count: reward.upPage });
     if (reward.skillPages && reward.skillPages.length) {
         for (const skillId of reward.skillPages) {
             attachments.push({ obj: "book/bc#" + skillId, count: 1 });

@@ -5,8 +5,11 @@ const FAMILY_TASK = {
     DIFFICULTY_BASE: 0.8,
     DIFFICULTY_STEP: 0.01,
     TASK_TIMEOUT: 10 * 60 * 1000,
-    PAGE_SHOP_PRICE: 2500,
+    PAGE_SHOP_PRICE: 500,
     PAGE_WEEKLY_LIMIT: 10,
+    PAGE_SPECIAL_COUNT: 1,
+    PAGE_SPECIAL_JACKPOT_COUNT: 5,
+    PAGE_SPECIAL_JACKPOT_ODDS: 1000,
     EQUIPMENT_SHOP_PRICES: [150, 250, 450, 750, 1200, 1800, 2800],
     EQUIPMENT_SHOP_GRADES: [1, 1, 2, 2, 3, 3, 4],
     EQUIPMENT_GRADE_SCALE: [0.45, 0.7, 1, 1.35, 1.8, 2.35, 3],
@@ -325,9 +328,9 @@ FAMILY_TASK.queryDifficultyRatio = function (streak) {
 };
 
 FAMILY_TASK.rollSpecialReward = function () {
+    // 残页改为每个特殊奖励节点保底发放，类型判定只剩功绩和装备
     const roll = Math.random() * 100;
-    if (roll < 45) return "merit";
-    if (roll < 75) return "page";
+    if (roll < 75) return "merit";
     return "equipment";
 };
 
@@ -347,12 +350,10 @@ FAMILY_TASK.rollEquipmentGrade = function (player, ringIndex, streak) {
     return 6;
 };
 
-FAMILY_TASK.rollPageCount = function (ringIndex, streak) {
-    let count = 1;
-    if (ringIndex >= 2 && Math.random() < 0.35) count++;
-    const extraChance = Math.min(0.5, Math.max(0, Number(streak) || 0) / 200);
-    if (Math.random() < extraChance) count++;
-    return count;
+FAMILY_TASK.rollPageCount = function () {
+    // 特殊奖励节点保底1份，低概率翻到5份
+    const roll = Math.random() * 10000;
+    return roll < this.PAGE_SPECIAL_JACKPOT_ODDS ? this.PAGE_SPECIAL_JACKPOT_COUNT : this.PAGE_SPECIAL_COUNT;
 };
 
 FAMILY_TASK.queryMeritReward = function (player, ringIndex, streak) {
