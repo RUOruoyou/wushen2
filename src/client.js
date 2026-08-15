@@ -1,5 +1,6 @@
 
 import * as Util from './utils/util.js';
+import { CmdPrompt } from './confirm.js';
 
 let IsConnecting = false;
 let ChangeServer = false;
@@ -86,6 +87,10 @@ export function onLogin() {
 export function ReceiveMessage(x) {
     if (Dialog.extend.message_filter(x)) return;
     if (Dialog.item && Dialog.item.appendPrompt && Dialog.item.appendPrompt(x)) {
+        Dialog.extend.trigger(x);
+        return;
+    }
+    if (CmdPrompt.appendText(x)) {
         Dialog.extend.trigger(x);
         return;
     }

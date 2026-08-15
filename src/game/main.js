@@ -5,7 +5,7 @@ import MAP from '../map.js';
 import * as ToolAction from './tool.js';
 import Dialog from '../dialog/base.js';
 import { Confirm } from '../confirm.js';
-import { Warn } from '../confirm.js';
+import { Warn, CmdPrompt } from '../confirm.js';
 import Process from '../process.js';
 import Setting from '../setting.js';
 import SCRIPT from '../script.js';
@@ -22,6 +22,7 @@ function isCombatCommand(cmd) {
 function closeDialogForCombatCommand() {
     if (Dialog.isShow) Dialog.hide();
     Confirm.Close();
+    CmdPrompt.Close();
 }
 
 class GameMainPage extends Page {
@@ -238,6 +239,7 @@ function ContainerCommand(e) {
     if (Dialog.isShow && elem.is(".container.dialog-open")) {
         Dialog.hide();
         Confirm.Close();
+        CmdPrompt.Close();
         return false;
     }
     var cmd = elem.attr("cmd");
@@ -278,6 +280,8 @@ function ContainerCommand(e) {
             } else if (Dialog.curItem === "item" && Dialog.item && Dialog.item.isShow &&
                 elem.closest(".dialog-item-dialog").length > 0) {
                 Dialog.item.captureNextPrompt();
+            } else if (Dialog.isShow) {
+                CmdPrompt.captureNext();
             }
             SendCommand(cmd);
             if (!elem.closest('.dialog-fb').length &&
@@ -296,6 +300,7 @@ function ContainerCommand(e) {
         }
     }
     Confirm.Close();
+    CmdPrompt.Close();
 }
 
 export default GameMainPage;

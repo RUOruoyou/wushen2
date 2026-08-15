@@ -10,11 +10,12 @@ import { SendCommand, ReceiveMessage } from './client.js';
 globalThis['SendCommand'] = SendCommand;
 globalThis['ReceiveMessage'] = ReceiveMessage;
 
-import { Confirm, Warn } from './confirm.js';
+import { Confirm, Warn, CmdPrompt } from './confirm.js';
 import Dialog from './dialog/base.js';
 import Process from './process.js';
 globalThis['Confirm'] = Confirm;
 globalThis['Warn'] = Warn;
+globalThis['CmdPrompt'] = CmdPrompt;
 globalThis['Process'] = Process;
 globalThis['Dialog'] = Dialog;
 

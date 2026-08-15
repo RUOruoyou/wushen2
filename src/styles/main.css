@@ -604,8 +604,10 @@
     position: fixed;
     left: 50%;
     top: 50%;
+    /* 基础类的 bottom:0 会与 top 同时生效把高度拉满，需显式重置 */
+    bottom: auto;
     transform: translate(-50%, -50%);
-    width: min(24rem, calc(100% - 1rem));
+    width: min(32rem, calc(100% - 1rem));
     height: auto;
     max-height: 80vh;
     line-height: 1.6em;
@@ -695,6 +697,61 @@
     text-align: center;
     font-weight: bold;
     margin-right: 0.625em;
+}
+
+.cmd-prompt {
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: min(32rem, calc(100% - 1rem));
+    max-height: 70vh;
+    z-index: 99;
+    display: flex;
+    flex-direction: column;
+    line-height: 1.6em;
+    background-color: var(--theme-bg, #111);
+    border: 1px solid var(--theme-border, #333);
+    border-left: 4px solid var(--theme-accent, #108ee9);
+    border-radius: var(--popup-radius, 6px);
+    box-shadow: 0 0.4em 1.4em rgba(0, 0, 0, 0.5);
+    user-select: none;
+}
+
+.cmd-prompt-header {
+    flex: 0 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5em 1em;
+    border-bottom: 1px solid var(--theme-border, #333);
+}
+
+.cmd-prompt-title {
+    color: var(--theme-accent, #108ee9);
+    font-weight: bold;
+}
+
+.cmd-prompt-close {
+    cursor: pointer;
+    color: var(--theme-muted, gray);
+}
+
+.cmd-prompt-body {
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow-y: auto;
+    margin: 0;
+    padding: 0.8em 1em;
+    white-space: pre-wrap;
+    color: var(--theme-text, #ababab);
+    font-family: inherit;
+    user-select: text;
+}
+
+.cmd-prompt-actions {
+    flex: 0 0 auto;
+    padding: 0.4em 1em 0.8em;
 }
 
 .room-item>.item-status {

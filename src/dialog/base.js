@@ -298,6 +298,8 @@ const Dialog = {
         $(".container").removeClass("dialog-open");
         $(".content-room").removeClass("hide");
         Dialog.element.addClass("hide");
+        // 弹窗关闭时联动关闭交互弹窗；经 globalThis 引用避免 base 与 confirm 循环依赖
+        if (globalThis.CmdPrompt) globalThis.CmdPrompt.Close();
     },
     injectStyle: function (css) {
         const style = document.createElement("style");

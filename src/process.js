@@ -7,6 +7,7 @@ import MAP from './map.js';
 import SCRIPT from './script.js';
 import { roles } from './login/index.js';
 import { SERVERS } from "./login/server.js";
+import { CmdPrompt } from './confirm.js';
 
 const MessageContent = () => $(".content-message");
 const MessagePage = { append: (div) => $(".content-message").append(div) };
@@ -408,6 +409,11 @@ const Process = {
                 return;
             }
             Dialog.item.appendCommands(data.items);
+            return;
+        }
+        if (Dialog.isShow) {
+            // 弹窗打开时交互按钮改由居中交互弹窗承载，不再落入被遮罩盖住的主面板
+            CmdPrompt.Show(data.items);
             return;
         }
         var html = ["<div class='item-commands'>"];

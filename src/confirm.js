@@ -5,6 +5,8 @@ export const Confirm = {
 
         onOK: function () { },
         footer: true,
+        // 默认以居中弹窗形式展示；需要恢复贴底横条时显式传 popup: false
+        popup: true,
 
         btn_text: "确认"
     },
@@ -63,6 +65,7 @@ export const Confirm = {
             } else {
                 Confirm.Parameter.onOK();
             }
+            if (Dialog.isShow) CmdPrompt.captureNext();
             Confirm.Close(true);
             return false;
         });
@@ -326,5 +329,94 @@ export const Warn = {
             elem.css("bottom", height);
             height += elem.height() + 14;
         }
+    }
+};
+
+
+// 通用交互弹窗：Dialog 弹窗打开期间，承接服务端 cmds 按钮与配对的文字提示，
+// 避免交互内容落入被弹窗遮罩盖住的主信息面板（捕获窗口模式取自 item 弹窗）。
+export const CmdPrompt = {
+    isShow: false,
+    captureUntil: 0,
+    chainUntil: 0,
+
+    Init: function () {
+        if (this._init) return;
+        this.mask = $(`<div class="dialog-confirm-mask" style="display:none;"></div>`).appendTo(document.body);
+        this.element = $(`<div class="cmd-prompt" style="display:none;">
+        <div class="cmd-prompt-header"><span class="cmd-prompt-title">提示</span><span class="cmd-prompt-close">关闭</span></div>
+        <pre class="cmd-prompt-body"></pre>
+        <div class="item-commands cmd-prompt-actions"></div>
+    </div>`).appendTo(document.body);
+        this.body = this.element.find(".cmd-prompt-body");
+        this.actions = this.element.find(".cmd-prompt-actions");
+        this.element.on("click", ".cmd-prompt-close", function () {
+            CmdPrompt.Close();
+            return false;
+        });
+        this.mask.on("click", function () {
+            CmdPrompt.Close();
+            return false;
+        });
+        this.element.on("click", ".cmd-prompt-actions [cmd]", function () {
+            var cmd = $(this).attr("cmd");
+            CmdPrompt.actions.empty();
+            CmdPrompt.captureNext();
+            SendCommand(cmd);
+            return false;
+        });
+        this._init = true;
+    },
+
+    Show: function (items) {
+        this.Init();
+        if (!Array.isArray(items)) items = [items];
+        var html = [];
+        for (var i = 0; i < items.length; i++) {
+            if (!items[i] || !items[i].cmd) continue;
+            html.push("<span cmd='" + items[i].cmd + "'>" + (items[i].name || items[i].cmd) + "</span>");
+        }
+        this.actions.html(html.join(""));
+        this.body.toggle(this.body.html() !== "");
+        this.element.show();
+        this.mask.show();
+        this.isShow = true;
+        this.body[0].scrollTop = this.body[0].scrollHeight;
+    },
+
+    captureNext: function () {
+        if (!(Dialog.isShow || this.isShow)) return;
+        this.captureUntil = Date.now() + 3000;
+    },
+
+    appendText: function (text) {
+        if (!text) return false;
+        if (!(Dialog.isShow || this.isShow)) return false;
+        var now = Date.now();
+        if (now > this.captureUntil && !(this.isShow && now <= this.chainUntil)) return false;
+        if (now <= this.captureUntil) this.captureUntil = 0;
+        this.Init();
+        this.chainUntil = now + 1500;
+        var current = this.body.html();
+        this.body.html(current ? current + "\n" + text : text);
+        this.body.show();
+        if (!this.isShow) {
+            this.element.show();
+            this.mask.show();
+            this.isShow = true;
+        }
+        this.body[0].scrollTop = this.body[0].scrollHeight;
+        return true;
+    },
+
+    Close: function () {
+        if (!this._init) return;
+        this.element.hide();
+        this.mask.hide();
+        this.body.empty();
+        this.actions.empty();
+        this.isShow = false;
+        this.captureUntil = 0;
+        this.chainUntil = 0;
     }
 };
