@@ -155,6 +155,26 @@ function parseLootFilterValue(value) {
     return [];
 }
 
+function themeOptionStyle(colors) {
+    const fields = [
+        ["--opt-bg", "background"],
+        ["--opt-panel", "panel"],
+        ["--opt-surface", "surface"],
+        ["--opt-surface2", "surface2"],
+        ["--opt-text", "text"],
+        ["--opt-muted", "muted"],
+        ["--opt-border", "border"],
+        ["--opt-accent", "accent"],
+        ["--opt-active", "active"],
+        ["--opt-button", "buttonText"]
+    ];
+    return fields.filter(function (field) {
+        return colors[field[1]];
+    }).map(function (field) {
+        return field[0] + ":" + colors[field[1]];
+    }).join(";");
+}
+
 export default {
     footer: [["显示", "setting"], ["<yel>高级</yel>", "custom"]
         , ["快捷键", "keys"], ["扩展", "extend"]
@@ -505,17 +525,17 @@ export default {
         var list = [];
         for (var key in THEME_PRESETS) {
             var item = THEME_PRESETS[key];
-            list.push('<span class="theme-option" theme="', key, '">');
-            list.push('<span class="theme-swatch" style="background:',
-                item.colors.background, '"><i style="background:', item.colors.accent,
-                '"></i><i style="background:', item.colors.active,
-                '"></i><i style="background:', item.colors.text, '"></i></span>');
+            list.push('<span class="theme-option" theme="', key, '" title="',
+                item.desc || item.name, '" style="', themeOptionStyle(item.colors), '">');
+            list.push('<span class="theme-swatch"><i></i><i></i><i></i></span>');
             list.push('<span class="theme-name">', item.name, '</span>');
             list.push('</span>');
         }
         this.settingElement.find(".theme-list").html(list.join(""));
+        var customColors = getThemeColors(Setting.theme, Setting.theme_custom);
         this.settingElement.find(".theme-custom-entry").html(
-            '<span class="theme-option theme-custom-option" theme="custom">' +
+            '<span class="theme-option theme-custom-option" theme="custom" title="自定义配色" style="' +
+            themeOptionStyle(customColors) + '">' +
             '<span class="theme-swatch custom-swatch"><i></i><i></i><i></i></span>' +
             '<span class="theme-name">自定义</span></span>'
         );
@@ -544,11 +564,9 @@ export default {
         this.updateCustomSwatch(colors);
     },
     updateCustomSwatch: function (colors) {
-        var swatch = this.settingElement.find(".custom-swatch>i");
-        if (!swatch.length) return;
-        swatch.eq(0).css("background-color", colors.background);
-        swatch.eq(1).css("background-color", colors.accent);
-        swatch.eq(2).css("background-color", colors.text);
+        var option = this.settingElement.find(".theme-custom-option");
+        if (!option.length) return;
+        option.attr("style", themeOptionStyle(colors));
     },
     readThemeInputs: function () {
         var colors = {};
@@ -1355,46 +1373,83 @@ const setting_css = `
 
 .theme-setting {
     display: block;
-    padding: 0.75em;
+    padding: 0.85em 0.75em;
     overflow-x: visible;
     cursor: default;
 }
 
 .theme-list {
     display: grid;
-    grid-template-columns: repeat(6, minmax(0, 1fr));
-    grid-template-rows: repeat(2, minmax(3.4em, auto));
-    gap: 0.4em;
+    grid-template-columns: repeat(6, minmax(4.2em, 1fr));
+    gap: 0.5em;
     margin: 0;
 }
 
 .theme-option {
-    border: 1px solid var(--theme-border);
-    border-radius: 0.35em;
+    --opt-bg: var(--theme-bg);
+    --opt-panel: var(--theme-panel);
+    --opt-surface: var(--theme-surface);
+    --opt-surface2: var(--theme-surface-2);
+    --opt-text: var(--theme-text);
+    --opt-muted: var(--theme-muted);
+    --opt-border: var(--theme-border);
+    --opt-accent: var(--theme-accent);
+    --opt-active: var(--theme-active);
+    --opt-button: var(--theme-button-text);
+    position: relative;
+    border: 1px solid var(--opt-border);
+    border-radius: 0.5em;
     cursor: pointer;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 0.25em;
-    min-height: 3.4em;
-    padding: 0.32em 0.2em;
-    background-color: var(--theme-surface);
-    color: var(--theme-muted);
+    gap: 0.3em;
+    min-height: 3.5em;
+    padding: 0.4em 0.2em 0.35em;
+    background-color: var(--opt-panel);
+    background-image: linear-gradient(155deg, color-mix(in srgb, var(--opt-bg) 14%, transparent), transparent 68%);
+    color: var(--opt-muted);
     line-height: 1.2em;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease, background-color 0.15s ease;
+    user-select: none;
+}
+
+.theme-option:hover {
+    border-color: var(--opt-accent);
 }
 
 .theme-option.select {
-    border-color: var(--theme-active);
-    color: var(--theme-text);
-    background-color: var(--theme-surface-2);
+    border-color: var(--opt-active);
+    color: var(--opt-text);
+    background-color: var(--opt-surface);
+    box-shadow:
+        inset 0 0 0 1px var(--opt-active),
+        0 0.3em 0.9em color-mix(in srgb, var(--opt-active) 22%, transparent);
+}
+
+.theme-option.select::after {
+    content: "✓";
+    position: absolute;
+    right: 0.22em;
+    top: 0.18em;
+    width: 1.05em;
+    height: 1.05em;
+    line-height: 1.05em;
+    border-radius: 50%;
+    background-color: var(--opt-active);
+    color: var(--opt-button);
+    font-size: 0.72em;
+    font-weight: bold;
+    text-align: center;
 }
 
 .theme-swatch {
     width: 2.8em;
     height: 1.1em;
-    border-radius: 0.25em;
-    border: 1px solid var(--theme-border);
+    border-radius: 0.28em;
+    border: 1px solid var(--opt-border);
+    background-color: var(--opt-bg);
     display: flex;
     overflow: hidden;
     flex: none;
@@ -1403,11 +1458,30 @@ const setting_css = `
 .theme-swatch>i {
     flex: 1;
     display: block;
+    min-width: 0;
+}
+
+.theme-swatch>i:nth-child(1) {
+    background-color: var(--opt-panel);
+    border-right: 1px solid var(--opt-border);
+}
+
+.theme-swatch>i:nth-child(2) {
+    background-color: var(--opt-accent);
+}
+
+.theme-swatch>i:nth-child(3) {
+    background-color: var(--opt-text);
+    opacity: 0.78;
 }
 
 .theme-name {
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
     white-space: nowrap;
     font-size: 0.78em;
+    color: var(--opt-text);
 }
 
 .theme-custom-entry {
@@ -1426,6 +1500,22 @@ const setting_css = `
 .theme-custom-entry .theme-swatch {
     width: 2.6em;
     height: 1em;
+}
+
+@media (max-width: 480px) {
+    .theme-list {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+
+    .theme-option {
+        min-height: 3.25em;
+        padding: 0.35em 0.1em 0.3em;
+    }
+
+    .theme-swatch {
+        width: 2.5em;
+        height: 1em;
+    }
 }
 
 .theme-custom-panel {
