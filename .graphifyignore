@@ -1,0 +1,16 @@
+# 前端构建产物（与 src/ 重复，由 npm run build 生成）
+www/
+
+# 文档与 AI 辅助配置（知识图谱只索引代码）
+docs/
+*.md
+.agents/
+.claude/
+.zcode/
+.codex/
+skills-lock.json
+
+# 依赖锁文件与运行数据归档
+package-lock.json
+data-runtime-*.tgz
+*.tgz

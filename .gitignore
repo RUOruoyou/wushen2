@@ -20,6 +20,9 @@ data/
 # 报告
 reports/
 
+# Graphify 知识图谱构建产物（可用 graphify extract . --code-only 随时重建）
+graphify-out/
+
 # IDE / 编辑器
 .zcode/
 .codex/
