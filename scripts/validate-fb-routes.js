@@ -502,9 +502,42 @@ function validateHeimuyaScenario(areaData) {
 
 function attachStatusStub(me) {
     const statuses = {};
-    me.query_status = function (id) { return statuses[id] ? 1 : 0; };
-    me.add_status = function (status) { statuses[status.id] = status; return true; };
-    me.remove_status = function (id) { delete statuses[id]; };
+    const combatKeys = ["gj", "mz", "fy", "ds", "zj"];
+    const base = {};
+    const propTotals = {};
+    const recount = function () {
+        for (const key of combatKeys) {
+            if (!Number.isFinite(base[key])) continue;
+            const per = propTotals[key + "_per"] || 0;
+            me[key] = Math.floor(base[key] * (100 + per) / 100);
+        }
+    };
+    const applyProps = function (status, sign) {
+        if (!status || !status.prop) return;
+        for (const [key, value] of Object.entries(status.prop)) {
+            if (!key.endsWith("_per") || !Number.isFinite(Number(value))) continue;
+            propTotals[key] = (propTotals[key] || 0) + Number(value) * sign;
+        }
+    };
+    me.query_status = function (id) {
+        const status = statuses[id];
+        return status ? (status.count || 1) : 0;
+    };
+    me.add_status = function (status) {
+        for (const key of combatKeys) {
+            if (!Number.isFinite(base[key]) && Number.isFinite(Number(this[key]))) base[key] = Number(this[key]);
+        }
+        if (statuses[status.id]) applyProps(statuses[status.id], -1);
+        statuses[status.id] = status;
+        applyProps(status, 1);
+        recount();
+        return true;
+    };
+    me.remove_status = function (id) {
+        if (statuses[id]) applyProps(statuses[id], -1);
+        delete statuses[id];
+        recount();
+    };
     return statuses;
 }
 
@@ -517,30 +550,66 @@ function validatePiaomiaofengScenario(areaData) {
     const guardState = guards.room.query_fb_state(guards.me);
     if (guards.room.query_temp(guards.me, "fb/piaomiaofeng/child_guard", 0) !== 2 || guardState.score !== 20 || !guardState.milestones["保护女童"]) return "缥缈峰同一护送敌人重复死亡仍可重复推进";
 
-    const carry = loadActionScenario(areaData, "fb/piaomiaofeng/shizuyan", { diff: 0 });
-    carry.room.owner = "copy";
-    carry.room.grant_fb_milestone(carry.me, "保护女童", 20);
-    attachStatusStub(carry.me);
-    const child = { environment: null };
-    const source = {
-        find_obj_bypath() { return child; },
-        item_changed(item, isIn) { item.environment = isIn ? this : null; }
+    const createCarryScenario = function (diff, stats) {
+        const scenario = loadActionScenario(areaData, "fb/piaomiaofeng/shizuyan", { diff });
+        scenario.room.owner = "copy";
+        scenario.room.grant_fb_milestone(scenario.me, "保护女童", 20);
+        Object.assign(scenario.me, {
+            str: stats.str,
+            dex: stats.dex,
+            gj: stats.gj || 33000,
+            mz: stats.mz || 30000,
+            fy: stats.fy || 18000,
+            ds: stats.ds,
+            zj: stats.zj || 15000
+        });
+        const statuses = attachStatusStub(scenario.me);
+        const child = { environment: null };
+        const source = {
+            find_obj_bypath() { return child; },
+            item_changed(item, isIn) { item.environment = isIn ? this : null; }
+        };
+        child.environment = source;
+        scenario.context.ROOM.Get = function () { return { copy_rooms: { copy: source } }; };
+        scenario.room.actions["背起女童"].call(scenario.room, scenario.me);
+        return { scenario, statuses, child };
     };
-    child.environment = source;
-    carry.context.ROOM.Get = function () { return { copy_rooms: { copy: source } }; };
-    carry.room.actions["背起女童"].call(carry.room, carry.me);
-    let state = carry.room.query_fb_state(carry.me);
-    if (state.score !== 30 || !carry.room.query_temp(carry.me, "fb/piaomiaofeng/carry_child", 0) || !carry.me.query_status("fb_piaomiaofeng_carry") || child.environment) return "背起女童未应用实例状态和背负减益";
 
-    const bridge = loadActionScenario(areaData, "fb/piaomiaofeng/tiesuoqiao", { diff: 0, "fb/piaomiaofeng/carry_child": 1 });
-    bridge.me.str = 25;
-    bridge.me.dex = 45;
-    bridge.me.ds = 8999;
-    if (bridge.room.on_leave(bridge.me, "north") !== false) return "躲闪低于9000仍可通过铁索桥";
-    bridge.me.ds = 9000;
-    if (bridge.room.on_leave(bridge.me, "north") === false) return "达到铁索桥门槛仍被阻断";
-    state = bridge.room.query_fb_state(bridge.me);
-    if (state.score !== 15 || !state.milestones["铁索桥"]) return "铁索桥未按15分完成";
+    const normalCarry = createCarryScenario(0, { str: 25, dex: 25, ds: 9000 });
+    let carry = normalCarry.scenario;
+    let state = carry.room.query_fb_state(carry.me);
+    if (state.score !== 30 || !carry.room.query_temp(carry.me, "fb/piaomiaofeng/carry_child", 0)
+        || !carry.me.query_status("fb_piaomiaofeng_carry") || normalCarry.child.environment) return "背起女童未应用实例状态和背负减益";
+    if (carry.room.query_temp(carry.me, "fb/piaomiaofeng/bridge_base_ds", 0) !== 9000
+        || carry.me.ds !== 6750 || normalCarry.statuses.fb_piaomiaofeng_carry.prop.ds_per !== -25) return "普通背负状态未记录过桥面板或惩罚异常";
+    loadScenarioRoom(carry, "fb/piaomiaofeng/tiesuoqiao");
+    if (carry.room.on_leave(carry.me, "north") === false) return "合法先天属性与背负前躲闪达到普通门槛仍无法过桥";
+    if (state.score !== 45 || !state.milestones["铁索桥"]) return "普通铁索桥未按真实背负流程完成";
+
+    const lowDex = createCarryScenario(0, { str: 25, dex: 24, ds: 9000 }).scenario;
+    loadScenarioRoom(lowDex, "fb/piaomiaofeng/tiesuoqiao");
+    if (lowDex.room.on_leave(lowDex.me, "north") !== false) return "先天身法低于合法门槛仍可通过铁索桥";
+
+    const lowDodge = createCarryScenario(0, { str: 25, dex: 25, ds: 8999 }).scenario;
+    loadScenarioRoom(lowDodge, "fb/piaomiaofeng/tiesuoqiao");
+    if (lowDodge.room.on_leave(lowDodge.me, "north") !== false) return "背负前躲闪低于普通门槛仍可通过铁索桥";
+
+    const hardCarry = createCarryScenario(1, { str: 25, dex: 25, gj: 40000, mz: 36000, ds: 15000 });
+    carry = hardCarry.scenario;
+    state = carry.room.query_fb_state(carry.me);
+    if (carry.me.gj !== 24000 || carry.me.mz !== 21600 || carry.me.ds !== 9000
+        || hardCarry.statuses.fb_piaomiaofeng_carry.prop.ds_per !== -40) return "困难背负状态未保留六成战斗面板";
+    loadScenarioRoom(carry, "fb/piaomiaofeng/tiesuoqiao");
+    if (carry.room.on_leave(carry.me, "north") === false) return "困难推荐面板达到门槛仍无法通过铁索桥";
+    loadScenarioRoom(carry, "fb/piaomiaofeng/xianchoumen");
+    const hardLiqiu = loadNpcScenario("fb/piaomiaofeng/liqiu_shui");
+    hardLiqiu.on_died(carry.me);
+    if (state.failed || state.score !== 75 || !state.milestones["李秋水"]
+        || !carry.me.query_status("fb_piaomiaofeng_carry")) return "困难背负过桥后无法合法击败李秋水";
+
+    const hardLowDodge = createCarryScenario(1, { str: 25, dex: 25, gj: 40000, mz: 36000, ds: 14999 }).scenario;
+    loadScenarioRoom(hardLowDodge, "fb/piaomiaofeng/tiesuoqiao");
+    if (hardLowDodge.room.on_leave(hardLowDodge.me, "north") !== false) return "背负前躲闪低于困难门槛仍可通过铁索桥";
 
     const failedLiqiu = loadActionScenario(areaData, "fb/piaomiaofeng/xianchoumen", { diff: 1, "fb/piaomiaofeng/carry_child": 1 });
     failedLiqiu.room.grant_fb_milestone(failedLiqiu.me, "背女童", 10);

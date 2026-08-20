@@ -49,8 +49,8 @@ module.exports = {
             hard: profile({ gj: 50000, mz: 40000, zj: 23000 }, { gj: 55000, mz: 45000, zj: 47000 })
         },
         piaomiaofeng: {
-            normal: profile({ gj: 33000, mz: 30000, ds: 9100 }, { gj: 36300, mz: 33000, ds: 15000 }, { str: 25, dex: 45, ds: 9000 }),
-            hard: profile({ gj: 40000, mz: 36000, ds: 15000 }, { gj: 45000, mz: 40000, ds: 16500 }, { str: 25, dex: 45, ds: 9000 })
+            normal: profile({ gj: 33000, mz: 30000, ds: 9000 }, { gj: 36300, mz: 33000, ds: 15000 }, { str: 25, dex: 25, ds: 9000 }),
+            hard: profile({ gj: 40000, mz: 36000, ds: 15000 }, { gj: 45000, mz: 40000, ds: 16500 }, { str: 25, dex: 25, ds: 15000 })
         },
         guangmingding: {
             normal: profile({ gj: 43000, mz: 34000, maxHp: 700000 }, { gj: 45000, mz: 39000, maxHp: 770000 })

@@ -361,17 +361,19 @@ function validateFbThresholds() {
 
     for (const config of [
         { key: "str", threshold: 25 },
-        { key: "dex", threshold: 45 },
-        { key: "ds", threshold: 9000 }
+        { key: "dex", threshold: 25 },
+        { key: "bridge_base_ds", threshold: 9000, temp: true }
     ]) {
         for (const value of [config.threshold - 1, config.threshold, config.threshold + 1]) {
             const scenario = createScenario("piaomiaofeng", "fb/piaomiaofeng/tiesuoqiao", {
-                "fb/piaomiaofeng/carry_child": 1
+                "fb/piaomiaofeng/carry_child": 1,
+                "fb/piaomiaofeng/bridge_base_ds": 9000
             }, 0);
-            scenario.user.str = 100;
-            scenario.user.dex = 100;
-            scenario.user.ds = 10000;
-            scenario.user[config.key] = value;
+            scenario.user.str = 25;
+            scenario.user.dex = 25;
+            scenario.user.ds = 1;
+            if (config.temp) scenario.room.set_temp(scenario.user, "fb/piaomiaofeng/bridge_base_ds", value);
+            else scenario.user[config.key] = value;
             const result = scenario.room.on_leave(scenario.user, "north");
             const passed = scenario.room.query_temp(scenario.user, "fb/piaomiaofeng/bridge", 0) === 1;
             assert(passed === (value >= config.threshold), "缥缈峰 " + config.key + "=" + value + " 边界异常");
@@ -380,11 +382,28 @@ function validateFbThresholds() {
             report.piaomiaofeng.cases++;
         }
     }
+    for (const value of [14999, 15000, 15001]) {
+        const scenario = createScenario("piaomiaofeng", "fb/piaomiaofeng/tiesuoqiao", {
+            "fb/piaomiaofeng/carry_child": 1,
+            "fb/piaomiaofeng/bridge_base_ds": value
+        }, 1);
+        scenario.user.str = 25;
+        scenario.user.dex = 25;
+        scenario.user.ds = 1;
+        const result = scenario.room.on_leave(scenario.user, "north");
+        const passed = scenario.room.query_temp(scenario.user, "fb/piaomiaofeng/bridge", 0) === 1;
+        assert(passed === (value >= 15000), "缥缈峰困难 bridge_base_ds=" + value + " 边界异常");
+        assert((result === false) === !passed, "缥缈峰困难 bridge_base_ds=" + value + " 返回值异常");
+        scenario.cleanup();
+        report.piaomiaofeng.cases++;
+    }
     {
-        const scenario = createScenario("piaomiaofeng", "fb/piaomiaofeng/tiesuoqiao", {}, 0);
-        scenario.user.str = 26;
-        scenario.user.dex = 46;
-        scenario.user.ds = 9001;
+        const scenario = createScenario("piaomiaofeng", "fb/piaomiaofeng/tiesuoqiao", {
+            "fb/piaomiaofeng/bridge_base_ds": 9000
+        }, 0);
+        scenario.user.str = 25;
+        scenario.user.dex = 25;
+        scenario.user.ds = 1;
         assert(scenario.room.on_leave(scenario.user, "north") === false
             && !scenario.room.query_temp(scenario.user, "fb/piaomiaofeng/bridge", 0), "缥缈峰未背负女童仍可过桥");
         scenario.cleanup();

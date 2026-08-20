@@ -38,7 +38,7 @@ const finish = () => {
         return;
     }
     const isComplete = report.isolated
-        && report.piaomiaofeng && report.piaomiaofeng.cases === 10
+        && report.piaomiaofeng && report.piaomiaofeng.cases === 13
         && report.jingnian && report.jingnian.cases === 12
         && report.xiakedao && report.xiakedao.cases === 3
         && report.yinyanggu && report.yinyanggu.cases === 6

@@ -11,7 +11,17 @@ this.clear_carry_status = function (me) {
 this.apply_carry_status = function (me) {
     if (me.query_status && me.query_status("fb_piaomiaofeng_carry")) return;
     if (typeof me.add_status === "function") {
-        me.add_status({ id: "fb_piaomiaofeng_carry", name: "背负童姥", desc: "背负童姥时四维战斗属性大幅降低。", duration: 3600000, prop: { gj_per: -100, mz_per: -100, fy_per: -100, ds_per: -100, zj_per: -100 } });
+        const diff = this.query_temp(me, "diff", 0) || 0;
+        const penalty = diff === 1 ? -40 : -25;
+        me.add_status({
+            id: "fb_piaomiaofeng_carry",
+            name: "背负童姥",
+            desc: diff === 1
+                ? "困难护送中必须背负童姥作战，攻击、命中与防御身法大幅降低。"
+                : "背负童姥时攻击、命中与防御身法有所降低。",
+            duration: 3600000,
+            prop: { gj_per: penalty, mz_per: penalty, fy_per: penalty, ds_per: penalty, zj_per: penalty }
+        });
     }
 };
 this.on_enter = function (me) {
