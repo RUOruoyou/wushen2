@@ -14,6 +14,8 @@ this.on_create = function (path, par) {
     this.path = path + "#" + prop;
     this.prop_key = prop;
     let name = PROPERTIES[prop] || prop;
+    // _per 属性与基础属性中文名相同，追加%区分，避免两种晶石同名却不能堆叠
+    if (prop.slice(-4) === "_per") name += "%";
     this.name = name + "晶石";
     this.desc = "一块封存" + name + "属性的晶石，可以作为锻造材料。";
 }
