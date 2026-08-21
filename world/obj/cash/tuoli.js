@@ -13,22 +13,37 @@ this.on_use = function (me) {
         return me.notify_fail("你还没有门派，不需要叛师。");
     var list = [];
     var up_count = 0;
+    var addin_skills = [];
+    var addin_refund = 0;
     for (var key in me.skills) {
         var skill = SKILL.get(key);
         if (skill.family === me.family) {
             let skitem = me.skills[key];
             if (skitem.ref)
                 return me.notify_fail('请先取消' + skill.query_color_name(me) + '融合的绝招。');
-            if (skitem.addin && skitem.addin.length)
-                return me.notify_fail('请先取消' + skill.query_color_name(me) + '的技能进阶。');
 
+            if (skitem.addin && skitem.addin.length) {
+                addin_skills.push(skill);
+                addin_refund += query_addin_refund(skill, skitem);
+            }
             list.push(skill);
             if (skill.source_skill) {
                 up_count += (skill.grade === 4 ? 50 : 100);
             }
         }
     }
+    if (addin_refund > 0 && !me.can_add_obj('book/up', addin_refund))
+        return me.notify_fail('你的背包已满，无法退还武学进阶残页，请清理背包后重试。');
     if (me.query_temp("tuoli")) {
+        if (addin_skills.length) {
+            var addin_names = [];
+            for (var i = 0; i < addin_skills.length; i++) {
+                remove_all_addin(me, addin_skills[i]);
+                addin_names.push(addin_skills[i].query_color_name(me));
+            }
+            if (addin_refund > 0) me.add_obj('book/up', addin_refund);
+            me.notify("<hiy>已自动取消" + addin_names.join("、") + "的技能进阶，取回" + addin_refund + "份<hiz>武学进阶残页</hiz>。</hiy>");
+        }
         var sum = 0;
         for (var i = 0; i < list.length; i++) {
             var needpot = list[i].query_needexp(me.skills[list[i].id].level, me);
@@ -80,6 +95,13 @@ this.on_use = function (me) {
             }
             str.push("");
         }
+        if (addin_skills.length) {
+            str.push('\n以下武功的技能进阶将自动取消，返还' + addin_refund + '份<hiz>武学进阶残页</hiz>（原消耗的一半）：');
+            for (var i = 0; i < addin_skills.length; i++) {
+                str.push("\n");
+                str.push(addin_skills[i].query_color_name(me));
+            }
+        }
         str.push('\n脱离门派期间师门物资将停止发放。');
         if (up_count > 0) {
             str.push('\n退还' + up_count + '份<hiz>武学进阶残页</hiz>。');
@@ -91,4 +113,31 @@ this.on_use = function (me) {
         return false;
     }
 
+}
+
+function query_addin_refund(skillBase, skitem) {
+    // 与 lingwu 手动取消进阶同规则：每重返还原消耗一半，无消耗记录时按品质档位估算
+    var total = 0;
+    var count = skitem.addin.length;
+    for (var i = 0; i < count; i++) {
+        var storedCost = Array.isArray(skitem.addin_costs) ? parseInt(skitem.addin_costs[i]) : 0;
+        var fallbackGrade = Math.min(SKILL.MAX_GRADE, skillBase.grade + count - i);
+        var isKnownCost = SKILL.PROGRESSION_COSTS.indexOf(storedCost) > 0;
+        var fullRefund = isKnownCost ? storedCost : (SKILL.PROGRESSION_COSTS[fallbackGrade] || 0);
+        total += Math.floor(fullRefund / 2);
+    }
+    return total;
+}
+
+function remove_all_addin(me, skillBase) {
+    var skitem = me.skills[skillBase.id];
+    if (!skitem || !Array.isArray(skitem.addin) || !skitem.addin.length) return;
+    var level = me.query_skill(skillBase.id, 0);
+    var oldScore = skillBase.query_score(level, me);
+    skillBase.release_prop(me, level);
+    skitem.addin.length = 0;
+    delete skitem.addin_costs;
+    skillBase.attach_prop(me, level);
+    me.add_score(skillBase.query_score(level, me) - oldScore);
+    me.recount();
 }
