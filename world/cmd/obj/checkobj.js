@@ -61,7 +61,10 @@ function query_obj_desc(player,obj, type) {
             var action = obj.actions[key];
             if (!action || !action.name) continue;
             if (!player.is_player && action.allow_follower !== true && action.allowFollower !== true) continue;
-            json.commands.push({ cmd: key, name: action.name });
+            let command = action.command;
+            if (typeof command === "function") command = command(obj, player);
+            if (command) json.commands.push({ cmd: command, name: action.name, extend: true });
+            else json.commands.push({ cmd: key, name: action.name });
         }
     }
     return JSON.stringify(json);

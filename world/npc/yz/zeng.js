@@ -10,3 +10,7 @@ this.set({
     hp: 1500,
     max_hp: 1500,
 });
+
+this.add_action("custom_equipment", "制作防具", function (me) {
+    return WORLD.COMMANDS.duanzao.enter(me);
+});

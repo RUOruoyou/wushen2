@@ -106,6 +106,11 @@ export default {
             var title = this.get_sub_title(data);
             if (from == "eq") {
                 str.push('<span cmd="' + this.command_before + 'uneq ' + data.id + '">取消装备</span>');
+                var eqCommands = data.commands || [];
+                for (var eqIndex = 0; eqIndex < eqCommands.length; eqIndex++) {
+                    var eqCommand = eqCommands[eqIndex];
+                    if (eqCommand.extend) str.push('<span cmd="', eqCommand.cmd, '">', eqCommand.name, '</span>');
+                }
             } else if (from == "item") {
                 var obj = this.get_item(data.id);
                 SCRIPT.LAST_OBJ = obj;
@@ -719,19 +724,18 @@ const packet_css = `
     -webkit-overflow-scrolling: touch;
 }
 
+/* 自制装备等操作按钮较多时需要自动换行，避免横向溢出 */
 .obj-desc-panel>.obj-desc-footer {
-    flex: 0 0 2.5em;
+    flex: 0 0 auto;
     min-height: 2.5em;
-    padding: 0 0.7em;
+    padding: 0.25em 0.7em;
     border-top: 1px solid var(--theme-border);
     background-color: var(--theme-surface);
     box-sizing: border-box;
     display: flex;
     align-items: center;
     justify-content: flex-end;
-    overflow-x: auto;
-    overflow-y: hidden;
-    white-space: nowrap;
+    overflow: hidden;
 }
 
 .xq-stone-list {
@@ -801,11 +805,12 @@ const packet_css = `
     display: inline-flex;
     align-items: center;
     justify-content: flex-end;
-    flex: 0 0 auto;
+    flex: 0 1 auto;
+    flex-wrap: wrap;
     gap: 0.35em;
     margin: 0;
     padding: 0;
-    white-space: nowrap;
+    white-space: normal;
 }
 
 .obj-desc-panel>.obj-desc-footer>.item-commands>span {

@@ -369,6 +369,7 @@ EQUIPMENT.prototype.clone = function (me) {
             };
         });
     }
+    if (this.is_locked) obj.is_locked = true;
     return obj;
 }
 

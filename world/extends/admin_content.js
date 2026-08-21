@@ -113,7 +113,10 @@ function collectAttachmentPaths() {
     addNumberedPaths(paths, "st/st_s2", 0, 3);
 
     const forgeCommand = WORLD.COMMANDS.duanzao;
-    for (const prop of Object.keys(forgeCommand && forgeCommand.PROPS || {})) paths.add("st/p#" + prop);
+    const customProps = WORLD.CUSTOM_EQUIPMENT && WORLD.CUSTOM_EQUIPMENT.props;
+    for (const prop of Object.keys(customProps || forgeCommand && forgeCommand.PROPS || {})) {
+        paths.add("st/p#" + prop);
+    }
     for (const type of ["sword", "blade", "club", "staff", "whip", "none"]) paths.add("eq/cp#" + type);
     for (const type of ["cloth", "shoes", "head", "cape", "ring", "necklace", "jewels", "wrist", "waist", "throwing"]) {
         paths.add("eq/zb#" + type);

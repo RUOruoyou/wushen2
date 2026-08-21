@@ -7,7 +7,7 @@ this.set({
     eq_type: EQUIP_TYPE.WEAPON,
     weapon_type: WEAPON_TYPE.SWORD,
     value: 1000000,
-    hole_count: 2,
+    hole_count: 4,
     prop: {
         gj: 120
     }
@@ -34,9 +34,8 @@ this.on_reload = function () {
     this.unit = setting.unit;
     this.name = this.query_temp("name", setting.name);
     this.desc = "这是一件由铁匠锻造的自制武器。";
-    if (WORLD.COMMANDS.duanzao) {
-        WORLD.COMMANDS.duanzao.default_template(this, EQUIP_TYPE.WEAPON);
-    }
+    if (WORLD.CUSTOM_EQUIPMENT) return WORLD.CUSTOM_EQUIPMENT.rebuild(this);
+    if (WORLD.COMMANDS.duanzao) WORLD.COMMANDS.duanzao.default_template(this, EQUIP_TYPE.WEAPON);
     let cc = this.query_grade_color();
     this.color_name = "<" + cc + ">" + this.name + "</" + cc + ">";
     this.json = null;

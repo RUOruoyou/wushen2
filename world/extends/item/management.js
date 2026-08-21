@@ -191,22 +191,18 @@ function queryDisassembleOutputs(owner, item) {
         return count > 0 ? [{ path: "st/xuanjing", count: count }] : [];
     }
 
-    const command = WORLD.COMMANDS.duanzao;
-    if (!command || !command.PROPS || !command.DEFAULT_PROPS) return [];
     const index = Math.max(0, Math.min(HIGH_GRADE_COUNTS.length - 1, parseInt(item.level) || 0));
     let count = HIGH_GRADE_COUNTS[index];
     const outputs = [];
     const path = basePath(item.path);
-    if (path === "eq/cp" || path === "eq/zb") {
-        const temp = item.temp || {};
-        for (const key in temp) {
-            const level = temp[key];
-            const prop = command.PROPS[key];
-            if (!level || !prop) continue;
-            outputs.push({ path: "st/p#" + key, count: command.sum_needs(prop, level) });
-        }
-        count += 8 + (item.query_temp ? item.query_temp("sc", 0) : 0);
+    if ((path === "eq/cp" || path === "eq/zb") && WORLD.CUSTOM_EQUIPMENT) {
+        const customOutputs = WORLD.CUSTOM_EQUIPMENT.queryDisassembleOutputs(item);
+        if (!customOutputs || !Array.isArray(customOutputs.materials)) return [];
+        count += customOutputs.yuanjing || 0;
+        outputs.push.apply(outputs, customOutputs.materials);
     } else {
+        const command = WORLD.COMMANDS.duanzao;
+        if (!command || !command.PROPS || !command.DEFAULT_PROPS) return [];
         const props = item.prop;
         if (!props) return [];
         const defaultProp = command.DEFAULT_PROPS[item.eq_type];
@@ -450,6 +446,8 @@ function itemFingerprint(item, action, owner) {
         noDisassemble: !!item.no_fenjie,
         protected: isProtectedItem(item),
         combined: !!item.combined,
+        custom: WORLD.CUSTOM_EQUIPMENT && WORLD.CUSTOM_EQUIPMENT.isCustom(item)
+            ? WORLD.CUSTOM_EQUIPMENT.fingerprint(item) : "",
         outputs: outputs
     });
 }
@@ -510,8 +508,9 @@ function executeStore(context, item) {
     }
 }
 
-function executeDisassemble(context, item) {
-    const allowed = checkDisassemble(context.owner, item, { bulk: true });
+function executeDisassemble(context, item, options) {
+    options = options || { bulk: true };
+    const allowed = checkDisassemble(context.owner, item, options);
     if (!allowed.allowed) return makeError(allowed.reason, allowed.message);
     const outputs = queryDisassembleOutputs(context.owner, item);
     if (!canReceiveOutputs(context.owner, item, outputs)) return makeError("OUTPUT_CAPACITY_FULL");
@@ -519,26 +518,42 @@ function executeDisassemble(context, item) {
     if (!created) return makeError("INTERNAL_ERROR");
     const ownerItems = context.owner.items.slice();
     const ownerCounts = snapshotCounts(ownerItems);
+    const removedCount = item.count || 1;
+    let removed;
+    let added;
     try {
-        const removed = context.owner.remove_item(item, item.count || 1);
+        removed = context.owner.remove_item(item, removedCount);
         if (!removed) return makeError("ITEM_CHANGED");
-        const added = [];
+        added = [];
         for (const output of created) {
             const target = context.owner.push_item(output);
             if (!target) throw new Error("failed to add disassemble output");
             added.push(target);
         }
-        notifyRemovedAction(context.owner, item, removed);
-        for (const output of added) notifyAddedAction(context.owner, output);
-        return makeSuccess({
-            item: { id: item.id, name: item.color_name, count: 1 },
-            outputs: describeOutputs(outputs)
-        });
     } catch (e) {
         context.owner.items = ownerItems;
         restoreCounts(ownerCounts);
         return makeError("INTERNAL_ERROR");
     }
+    notifyRemovedAction(context.owner, item, removed);
+    for (const output of added) notifyAddedAction(context.owner, output);
+    if (typeof context.owner.items_changed === "function") {
+        context.owner.items_changed(removed, removedCount);
+        for (const output of added) context.owner.items_changed(output);
+    }
+    if (WORLD.add_recover_obj) {
+        const recoverItems = [];
+        for (const output of outputs) recoverItems.push(output.path, output.count);
+        try {
+            WORLD.add_recover_obj(context.owner, removed, 2, recoverItems);
+        } catch (error) {
+            console.error("记录装备分解恢复信息失败:", error);
+        }
+    }
+    return makeSuccess({
+        item: { id: item.id, name: item.color_name, count: removedCount },
+        outputs: describeOutputs(outputs)
+    });
 }
 
 WORLD.ITEM_MANAGEMENT = {

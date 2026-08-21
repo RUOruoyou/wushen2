@@ -43,6 +43,8 @@ npm start
 | `npm run dev` | 启动 Vite 前端开发服务器，默认 `3333` |
 | `npm run build` | 构建前端到 `www/` |
 | `npm run preview` | 预览 Vite 构建结果 |
+| `npm run validate:custom-equipment` | 校验自制装备规则、真实资源、存档、事务和禁用模式 |
+| `npm run validate:custom-equipment-ui -- <URL>` | 用 Chromium 校验自制装备弹窗命令和 390px/768px 布局 |
 | `npm run web-debug` | Web 服务断点调试 |
 | `npm run os-debug` | 游戏服务断点调试 |
 
@@ -58,6 +60,7 @@ npm start
 | `SESSION_SECRET` | 会话密钥 |
 | `DESIV` | AES-128-CBC 登录凭证加密向量，必须是 16 字节 |
 | `ADMIN_SOCKET_PATH` | Web 管理 API 与游戏进程通信的本机 Unix Socket 路径，默认 `data/admin.sock` |
+| `WSMUD_CUSTOM_EQUIPMENT_ENABLED` | 自制装备写入口开关；默认开启，设为 `0` 后需重启游戏服务，已有装备仍可读取和穿戴 |
 
 生产环境部署后应更换默认密钥和默认管理员密码。
 
@@ -786,7 +789,18 @@ SendCommand("receive");
 - 残魂生成后自动向当前秘境玩家发起战斗；所有秘境房间均提供“结束挑战”操作，结束后按当前击杀数结算并离开秘境。
 - 秘境区域标记为私有复制区域但不进入通用 `cr` 副本结算，相关命令为 `mijing`，江湖入口为 `jh mj`。任务、区域、地图、命令和门票对象首次生产启用必须重启游戏服务完成完整加载。
 
-### 11.9 推荐扩展方式
+### 11.9 自制装备 3.4
+
+- `world/extends/item/custom_equipment.js` 是统一领域服务，维护 11 个部位、40 个属性、五类槽位、扁平存档、属性重建、预览令牌、制作权限、分解产物和评分。其他命令不应复制这些配置。
+- 玩家从铁匠铺、成衣店和药林东侧鉴宝阁制作装备；装备详情中的“重铸/改名”进入 `src/dialog/custom-equipment.js`，前端只提交装备 ID、选择和服务端签发的 60 秒一次性令牌。
+- 存档版本 1 使用 `custom_version`、`custom_state_version`、`type`、`name`、`wash_count`、`fixed_level`、`affix_<key>`、可选 `affix_legacy_<key>`、`ability_skill`、`ability_base` 等扁平字段。旧武器字段兼容读取，数值按正式边界限幅，`prop` 和 `original_prop` 始终由状态重建。
+- 已穿戴装备养成时先卸载旧属性，事务提交后挂载新属性；材料、黄金、装备状态或挂载后步骤异常时恢复背包、装备和角色属性快照。
+- 能力词条只接受原始等级大于 0 的已学武学，并使用装备原生 `skill` 属性使有效等级 `+1`；单件、批量和自动分解统一经 `WORLD.ITEM_MANAGEMENT` 执行。通用 `EQUIPMENT.clone()` 会保留锁定状态，确保自制装备在克隆链路中不意外解锁。
+- `WSMUD_CUSTOM_EQUIPMENT_ENABLED=0` 只关闭制作和养成写入。开关在游戏服务加载时读取，切换需要重启；旧装备查看、加载、穿戴和分解保持可用。
+- 最终规则与验收记录见 `docs/自制装备3.4.md`、`docs/自制装备3.4开发计划.md`；专项回归使用 `npm run validate:custom-equipment` 和 `npm run validate:custom-equipment-ui -- <URL>`。
+- 自制装备 3.4 已于 2026-08-21 完成生产备份、玩家公告、前后端重启和生产构建验收；此后调整存档、费用、属性或分解规则时，仍需按数据变更流程备份并重新执行专项回归。
+
+### 11.10 推荐扩展方式
 
 优先顺序：
 
@@ -796,7 +810,7 @@ SendCommand("receive");
 
 原因：`world/extends/` 最先加载，可以覆盖原型方法或挂接生命周期钩子，且更容易热更新和回滚。
 
-### 11.10 热更新
+### 11.11 热更新
 
 管理员可以用 `update` 命令热更新 `world/` 下脚本：
 
@@ -935,6 +949,13 @@ npm start
 4. 在游戏内验证命令、战斗、地图、UI 事件。
 5. 必要时重启服务，确认启动加载无报错。
 6. 观察 `journalctl -u wsmud2 -f` 或控制台输出。
+
+自制装备相关改动还应执行：
+
+```bash
+npm run validate:custom-equipment
+npm run validate:custom-equipment-ui -- http://127.0.0.1:3333/
+```
 
 ### 14.4 数据修改
 

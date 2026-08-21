@@ -25,7 +25,8 @@ this.map = [{ n: "中央广场", id: "yz/guangchang", p: [0, 0], exits: ["w2", "
 
 { n: "江边", id: "yz/hanshui", p: [0, -4], exits: ["s"] },
 { n: "矿山", id: "yz/kuang", p: [-5, -0], exits: ["e"] },
-{ n: "药林", id: "yz/yaolin", p: [4, 1], exits: ["n"] },
+{ n: "药林", id: "yz/yaolin", p: [4, 1], exits: ["n", "e"] },
+{ n: "鉴宝阁", id: "yz/jianbaoge", p: [5, 1], exits: ["w"] },
 { n: "工厂", id: "yz/work", p: [-1, 3], exits: ["e"] },
 
 { n: "衙门", id: "yz/yamen", p: [-2, -1], exits: ["s", "n"] },

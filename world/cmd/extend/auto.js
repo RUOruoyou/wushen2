@@ -252,11 +252,10 @@ function sell_loot_direct(me, item) {
     if (WORLD.add_recover_obj) WORLD.add_recover_obj(me, item, 1);
     return item;
 }
-function can_auto_fenjie_loot(item, action) {
-    if (!item || item.is_locked || !item.is_equipment || item.no_fenjie || !item.grade) return false;
-    if (item.st_prop && item.st_prop.length > 0) return false;
+function can_auto_fenjie_loot(me, item, action) {
+    if (!item || !WORLD.ITEM_MANAGEMENT) return false;
     if (item.grade >= 5 && !action.force) return false;
-    return item.grade <= 5;
+    return WORLD.ITEM_MANAGEMENT.checkDisassemble(me, item, { bulk: false }).allowed;
 }
 WORLD.has_loot_filter = function (me) {
     var rules = get_loot_rules(me);
@@ -291,7 +290,7 @@ WORLD.accept_loot_item = function (me, item, options) {
         if (result) result.action = "sell";
         return sell_loot_direct(me, item);
     }
-    if (action.action === "fenjie" && !can_auto_fenjie_loot(item, action)) {
+    if (action.action === "fenjie" && !can_auto_fenjie_loot(me, item, action)) {
         action = { action: "pick" };
     }
     if (result) result.action = action.action;
@@ -304,7 +303,19 @@ WORLD.accept_loot_item = function (me, item, options) {
         var sell_count = item.count || 1;
         WORLD.COMMANDS["sell"].enter(me, sell_count > 1 ? sell_count : "", picked.id);
     } else if (action.action === "fenjie") {
-        WORLD.COMMANDS["fenjie"].enter(me, picked.id, action.force ? "ok" : undefined);
+        const management = WORLD.ITEM_MANAGEMENT;
+        const context = management.resolveOwner(me, { type: "player" }, { requireReady: false });
+        const disassembled = context.ok
+            ? management.executeDisassemble(context, picked, { bulk: false })
+            : context;
+        if (!disassembled.ok) {
+            me.notify(disassembled.message || "自动分解失败，装备已经放入背包。");
+        } else {
+            const names = (disassembled.outputs || []).map(function (output) {
+                return output.name + "×" + output.count;
+            }).join("、");
+            me.send("你自动分解了" + (item.color_name || item.name) + "，获得" + names + "。");
+        }
     }
     return picked;
 }

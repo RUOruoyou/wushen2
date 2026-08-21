@@ -346,9 +346,14 @@ export const CmdPrompt = {
         this.element = $(`<div class="cmd-prompt" style="display:none;">
         <div class="cmd-prompt-header"><span class="cmd-prompt-title">提示</span><span class="cmd-prompt-close">关闭</span></div>
         <pre class="cmd-prompt-body"></pre>
+        <div class="cmd-prompt-input-row" style="display:none; padding:0.4em 1em; gap:0.5em; align-items:center;">
+            <input type="text" class="cmd-prompt-input" maxlength="5" placeholder="请输入2-5个汉字" style="flex:1; min-width:0; min-height:2rem; padding:0.25rem 0.5rem; border:1px solid var(--theme-border,#333); border-radius:4px; background:var(--theme-surface,#222); color:var(--theme-text,#fff);" />
+        </div>
         <div class="item-commands cmd-prompt-actions"></div>
     </div>`).appendTo(document.body);
         this.body = this.element.find(".cmd-prompt-body");
+        this.inputRow = this.element.find(".cmd-prompt-input-row");
+        this.input = this.element.find(".cmd-prompt-input");
         this.actions = this.element.find(".cmd-prompt-actions");
         this.element.on("click", ".cmd-prompt-close", function () {
             CmdPrompt.Close();
@@ -360,10 +365,34 @@ export const CmdPrompt = {
         });
         this.element.on("click", ".cmd-prompt-actions [cmd]", function () {
             var cmd = $(this).attr("cmd");
+            if (CmdPrompt.inputRow.is(":visible") && cmd === "cancle") {
+                CmdPrompt.Close();
+                SendCommand("cancle");
+                return false;
+            }
             CmdPrompt.actions.empty();
             CmdPrompt.captureNext();
             SendCommand(cmd);
             return false;
+        });
+        this.element.on("click", ".cmd-prompt-submit-name", function () {
+            var val = (CmdPrompt.input.val() || "").trim();
+            if (!/^[\u4E00-\u9FA5]{2,5}$/.test(val)) {
+                ReceiveMessage("<hic>装备名称需要是 2-5 个汉字。</hic>");
+                CmdPrompt.input.focus();
+                return false;
+            }
+            CmdPrompt.actions.empty();
+            CmdPrompt.captureNext();
+            SendCommand(val);
+            CmdPrompt.Close();
+            return false;
+        });
+        this.input.on("keydown", function (e) {
+            if (e.key === "Enter") {
+                CmdPrompt.element.find(".cmd-prompt-submit-name").trigger("click");
+                return false;
+            }
         });
         this._init = true;
     },
@@ -371,7 +400,19 @@ export const CmdPrompt = {
     Show: function (items) {
         this.Init();
         if (!Array.isArray(items)) items = [items];
+        var isNaming = false;
+        var bodyText = this.body.text() || "";
+        if (bodyText.includes("取名") || bodyText.includes("汉字")) {
+            isNaming = true;
+        }
         var html = [];
+        if (isNaming) {
+            this.inputRow.show();
+            this.input.val("");
+            html.push("<span class='cmd-prompt-submit-name' style='cursor:pointer;'>确定制作</span>");
+        } else {
+            this.inputRow.hide();
+        }
         for (var i = 0; i < items.length; i++) {
             if (!items[i] || !items[i].cmd) continue;
             html.push("<span cmd='" + items[i].cmd + "'>" + (items[i].name || items[i].cmd) + "</span>");
@@ -381,6 +422,9 @@ export const CmdPrompt = {
         this.element.show();
         this.mask.show();
         this.isShow = true;
+        if (isNaming) {
+            setTimeout(() => this.input.focus(), 100);
+        }
         this.body[0].scrollTop = this.body[0].scrollHeight;
     },
 
@@ -400,12 +444,19 @@ export const CmdPrompt = {
         var current = this.body.html();
         this.body.html(current ? current + "\n" + text : text);
         this.body.show();
+        if ((text.includes("取名") || text.includes("汉字")) && !this.inputRow.is(":visible")) {
+            this.inputRow.show();
+            this.input.val("");
+            if (!this.actions.find(".cmd-prompt-submit-name").length) {
+                this.actions.prepend("<span class='cmd-prompt-submit-name' style='cursor:pointer;'>确定制作</span>");
+            }
+            setTimeout(() => this.input.focus(), 100);
+        }
         if (!this.isShow) {
             this.element.show();
             this.mask.show();
             this.isShow = true;
         }
-        this.body[0].scrollTop = this.body[0].scrollHeight;
         return true;
     },
 
@@ -414,6 +465,8 @@ export const CmdPrompt = {
         this.element.hide();
         this.mask.hide();
         this.body.empty();
+        this.inputRow.hide();
+        this.input.val("");
         this.actions.empty();
         this.isShow = false;
         this.captureUntil = 0;

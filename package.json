@@ -13,6 +13,8 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
+    "validate:custom-equipment": "node scripts/validate-custom-equipment.js && node scripts/validate-custom-equipment-runtime.js && WSMUD_CUSTOM_EQUIPMENT_ENABLED=0 node scripts/validate-custom-equipment-runtime.js",
+    "validate:custom-equipment-ui": "node scripts/validate-custom-equipment-ui.mjs",
     "start": "node scripts/start.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },

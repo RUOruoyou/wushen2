@@ -8,6 +8,9 @@ EQUIPMENT.prototype.query_score = function () {
                 sc += this.st_prop[i].grade * 10;
             }
         }
+        if (WORLD.CUSTOM_EQUIPMENT && WORLD.CUSTOM_EQUIPMENT.isCustom(this)) {
+            sc += WORLD.CUSTOM_EQUIPMENT.queryScore(this);
+        }
         return sc;
     }
     return 0;
