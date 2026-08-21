@@ -1,0 +1,2 @@
+this.inherits(ROOM); this.name = "西·断金台"; this.desc = "西坛断金台，只有一条路返回镇劫中宫。"; this.exits = { east: "fb/qimie/center" }; this.on_enter = function (obj) { const t = TASK.GET("qimie_event"); if (obj && obj.is_player && t) t.touch(obj); }; this.on_leave = function () { return true; };
+this.add_action("qimie_break", "断脉", function (me) { const t = TASK.GET("qimie_event"); return !!(t && t.mechanic_action(me, "yinyang")); }); this.add_action("qimie_share", "共劫", function (me) { const t = TASK.GET("qimie_event"); return !!(t && t.mechanic_action(me, "tiangang")); });

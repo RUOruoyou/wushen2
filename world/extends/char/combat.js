@@ -1,4 +1,10 @@
 
+function qimieDamageGate(target, amount, from, apply) {
+    const event = target && target.qimie_event;
+    if (!event || target._qimieDamageInFlight || typeof event.accept_damage !== "function") return null;
+    return event.accept_damage(target, amount, from, apply);
+}
+
 CHARACTER.prototype.recount = function () {
 
     this.gjsd = 4000 - this.query_prop("gjsd");
@@ -271,6 +277,8 @@ CHARACTER.prototype.do_recover = function (hp) {
 
 CHARACTER.prototype.damage = function (sh, from, diff_fy, par) {
     if (!(sh > 0)) return 0;
+    const gated = qimieDamageGate(this, sh, from, () => CHARACTER.prototype.damage.call(this, sh, from, diff_fy, par));
+    if (gated !== null) return gated;
     let diff_sh_per = this.diff_sh_per;
     let fy = this.fy;
     if (diff_fy > 0) {
@@ -322,7 +330,9 @@ CHARACTER.prototype.damage = function (sh, from, diff_fy, par) {
     return 0;
 }
 CHARACTER.prototype.damage2 = function (sh, from) {
-    if (!sh) return;
+    if (!(sh > 0)) return 0;
+    const gated = qimieDamageGate(this, sh, from, () => CHARACTER.prototype.damage2.call(this, sh, from));
+    if (gated !== null) return gated;
 
     if (this.record_damage && from) {
         if (!this.damages) this.damages = {};
@@ -338,7 +348,9 @@ CHARACTER.prototype.damage2 = function (sh, from) {
     return sh;
 }
 CHARACTER.prototype.damage3 = function (sh, from) {
-    if (!(sh > 0)) return;
+    if (!(sh > 0)) return 0;
+    const gated = qimieDamageGate(this, sh, from, () => CHARACTER.prototype.damage3.call(this, sh, from));
+    if (gated !== null) return gated;
 
     this.add_hp(-sh);
     if (this.force_skill.on_damage) {

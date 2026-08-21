@@ -1,0 +1,10 @@
+this.inherits(ROOM);
+this.name = "镇劫中宫";
+this.desc = "七灭封魔台的中宫，四条单通道分别通往东南西北四坛。";
+this.exits = { east: "fb/qimie/east", south: "fb/qimie/south", west: "fb/qimie/west", north: "fb/qimie/north" };
+this.on_enter = function (obj) { const task = TASK.GET("qimie_event"); if (obj && obj.is_player && task) task.touch(obj); };
+this.on_leave = function (me) { return true; };
+this.add_action("qimie_status", "观劫", function (me) { const task = TASK.GET("qimie_event"); if (!task || !task.query_event()) return me.notify("当前没有正在进行的七灭天劫。"); task.touch(me); me.send(JSON.stringify(task.query_state())); return true; });
+this.add_action("qimie_leave", "离场", function (me) { const task = TASK.GET("qimie_event"); return !task || task.leave(me); });
+this.add_action("qimie_break", "断脉", function (me) { const task = TASK.GET("qimie_event"); return !!(task && task.mechanic_action(me, "yinyang")); });
+this.add_action("qimie_share", "共劫", function (me) { const task = TASK.GET("qimie_event"); return !!(task && task.mechanic_action(me, "tiangang")); });

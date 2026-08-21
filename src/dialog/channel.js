@@ -1,7 +1,7 @@
 
 
 export default {
-    footer: [["全部", ""], ["世界", "chat"], ["队伍", "tm"], ["门派", "fam"], ["全区", "es"], ["帮派", "pty"], ["系统", "sys"]],
+    footer: [["全部", ""], ["世界", "chat"], ["队伍", "tm"], ["门派", "fam"], ["战团", "raid"], ["全区", "es"], ["帮派", "pty"], ["系统", "sys"]],
     isScroll: true,
     last_click: 0,
     show: function () {
@@ -59,6 +59,10 @@ export default {
             case "fam":
                 color = "hiy";
                 name = data.fam || "门派";
+                break;
+            case "raid":
+                color = "hio";
+                name = "战团";
                 break;
             case "rumor":
                 color = "him";

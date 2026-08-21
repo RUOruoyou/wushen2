@@ -3,6 +3,9 @@ WORLD.on_startup = function () {
     init_fams();
     WORLD.COMMANDS.jh.init();
     if (WORLD.ADMIN_BRIDGE) WORLD.ADMIN_BRIDGE.start();
+    WORLD.__qimie_runtime_started = true;
+    const qimie = typeof TASK !== "undefined" && TASK.GET && TASK.GET("qimie_event");
+    if (qimie && qimie.on_world_startup) qimie.on_world_startup();
 }
 
 function init_fams() {

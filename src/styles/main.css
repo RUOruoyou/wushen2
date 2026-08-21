@@ -838,3 +838,441 @@
     border-radius: 0.25em;
     border-radius: 0.25em;
 }
+
+/* ========================================
+   Qimie World Boss Status Bar Styles
+   ======================================== */
+
+.qimie-status-bar {
+    background-color: var(--theme-surface, #1e1e1e);
+    border: 1px solid var(--theme-border, #3c3c3c);
+    border-radius: var(--popup-radius, 4px);
+    margin: 4px 6px;
+    padding: 4px 8px;
+    color: var(--theme-text, #d4d4d4);
+    font-size: 13px;
+    line-height: 1.4;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+    transition: all 0.2s ease-in-out;
+    z-index: 10;
+}
+
+.qimie-bar-summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    flex-wrap: wrap;
+    cursor: pointer;
+}
+
+.qimie-summary-left {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-shrink: 0;
+}
+
+.qimie-phase-badge {
+    display: inline-block;
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-weight: bold;
+    font-size: 12px;
+    line-height: 1.2;
+}
+
+.phase-rally {
+    background-color: var(--theme-surface-2, #333);
+    color: var(--theme-grade-2, #5bc0de);
+    border: 1px solid var(--theme-grade-2, #5bc0de);
+}
+
+.phase-normal {
+    background-color: var(--theme-surface-2, #333);
+    color: var(--theme-text, #fff);
+    border: 1px solid var(--theme-border, #555);
+}
+
+.phase-side {
+    background-color: #3b2804;
+    color: var(--theme-grade-3, #f0ad4e);
+    border: 1px solid var(--theme-grade-3, #f0ad4e);
+}
+
+.phase-aspect {
+    background-color: #380a1c;
+    color: var(--theme-grade-4, #d9534f);
+    border: 1px solid var(--theme-grade-4, #d9534f);
+}
+
+.phase-vulnerability {
+    background-color: #0d381c;
+    color: var(--theme-grade-1, #5cb85c);
+    border: 1px solid var(--theme-grade-1, #5cb85c);
+}
+
+.phase-enrage {
+    background-color: #4a0d0d;
+    color: var(--theme-grade-6, #ff4d4f);
+    border: 1px solid var(--theme-grade-6, #ff4d4f);
+    animation: qimie-pulse 1.5s infinite;
+}
+
+.phase-terminal {
+    background-color: #222;
+    color: var(--theme-muted, #888);
+    border: 1px solid #444;
+}
+
+@keyframes qimie-pulse {
+    0% { opacity: 0.8; }
+    50% { opacity: 1; }
+    100% { opacity: 0.8; }
+}
+
+.qimie-timer {
+    font-family: monospace;
+    font-size: 13px;
+    color: var(--theme-accent, #e67e22);
+    font-weight: bold;
+}
+
+.qimie-stacks {
+    padding: 1px 5px;
+    border-radius: 3px;
+    font-size: 12px;
+}
+
+.stacks-normal {
+    background-color: rgba(255, 255, 255, 0.08);
+    color: var(--theme-text, #ccc);
+}
+
+.stacks-warn {
+    background-color: rgba(240, 173, 78, 0.2);
+    color: var(--theme-grade-3, #f0ad4e);
+    border: 1px solid var(--theme-grade-3, #f0ad4e);
+}
+
+.stacks-danger {
+    background-color: rgba(217, 83, 79, 0.3);
+    color: var(--theme-grade-6, #d9534f);
+    border: 1px solid var(--theme-grade-6, #d9534f);
+    font-weight: bold;
+}
+
+.qimie-summary-mid {
+    flex: 1 1 200px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-width: 0;
+    flex-wrap: wrap;
+}
+
+.qimie-boss-hp-wrap {
+    flex: 1 1 140px;
+    min-width: 120px;
+    height: 18px;
+    background-color: #111;
+    border: 1px solid var(--theme-border, #444);
+    border-radius: 3px;
+    position: relative;
+    overflow: hidden;
+}
+
+.qimie-boss-hp-bar {
+    height: 100%;
+    background: linear-gradient(90deg, #d9534f 0%, #c9302c 100%);
+    transition: width 0.3s ease;
+}
+
+.qimie-boss-hp-text {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    text-align: center;
+    font-size: 11px;
+    line-height: 18px;
+    color: #fff;
+    text-shadow: 1px 1px 2px #000;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding: 0 4px;
+}
+
+.qimie-mech-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 1px 6px;
+    background-color: rgba(91, 192, 222, 0.15);
+    border: 1px solid var(--theme-grade-2, #5bc0de);
+    border-radius: 3px;
+    font-size: 11px;
+    color: var(--theme-grade-2, #5bc0de);
+}
+
+.qimie-mech-pill.mech-danger {
+    background-color: rgba(217, 83, 79, 0.3);
+    border-color: var(--theme-grade-6, #d9534f);
+    color: #ff6b6b;
+    animation: qimie-pulse 1s infinite;
+}
+
+.qimie-target-me {
+    color: #ff4d4f;
+    font-weight: bold;
+}
+
+.qimie-mech-timer {
+    font-weight: bold;
+    color: var(--theme-accent, #e67e22);
+}
+
+.qimie-summary-right {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    flex-shrink: 0;
+}
+
+.qimie-raid-btn,
+.qimie-bar-toggle {
+    background-color: var(--theme-surface-2, #2c2c2c);
+    color: var(--theme-text, #ccc);
+    border: 1px solid var(--theme-border, #444);
+    border-radius: 3px;
+    padding: 2px 6px;
+    font-size: 12px;
+    cursor: pointer;
+    outline: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+}
+
+.qimie-raid-btn:hover,
+.qimie-bar-toggle:hover {
+    background-color: var(--theme-surface-3, #3a3a3a);
+    color: #fff;
+}
+
+/* Expandable Details */
+.qimie-bar-detail {
+    display: none;
+    margin-top: 6px;
+    padding-top: 6px;
+    border-top: 1px dashed var(--theme-border, #3c3c3c);
+}
+
+.qimie-status-bar.expanded .qimie-bar-detail {
+    display: block;
+}
+
+.qimie-detail-section {
+    margin-bottom: 6px;
+}
+
+.qimie-section-title {
+    font-size: 12px;
+    font-weight: bold;
+    color: var(--theme-muted, #aaa);
+    margin-bottom: 4px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.qimie-raid-tip code {
+    background-color: #111;
+    color: var(--theme-grade-2, #5bc0de);
+    padding: 1px 4px;
+    border-radius: 2px;
+}
+
+/* Aspects Grid */
+.qimie-aspects-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 6px;
+}
+
+.qimie-aspect-card {
+    background-color: rgba(0, 0, 0, 0.25);
+    border: 1px solid var(--theme-border, #3c3c3c);
+    border-radius: 3px;
+    padding: 4px 6px;
+    font-size: 11px;
+}
+
+.qimie-aspect-card.aspect-alive {
+    border-color: var(--theme-grade-2, #5bc0de);
+}
+
+.qimie-aspect-card.aspect-dead {
+    border-color: #444;
+    opacity: 0.5;
+}
+
+.aspect-header {
+    display: flex;
+    justify-content: space-between;
+    font-weight: bold;
+    margin-bottom: 2px;
+}
+
+.aspect-dir {
+    color: var(--theme-accent, #e67e22);
+}
+
+.aspect-status {
+    font-size: 10px;
+}
+
+.aspect-alive .aspect-status {
+    color: var(--theme-grade-1, #5cb85c);
+}
+
+.aspect-dead .aspect-status {
+    color: var(--theme-muted, #777);
+}
+
+.aspect-bar-box {
+    height: 6px;
+    background-color: #111;
+    border-radius: 2px;
+    overflow: hidden;
+    margin-bottom: 3px;
+}
+
+.aspect-hp-bar {
+    height: 100%;
+    background-color: var(--theme-grade-2, #5bc0de);
+    transition: width 0.3s;
+}
+
+.aspect-details {
+    display: flex;
+    justify-content: space-between;
+    font-size: 10px;
+    color: var(--theme-muted, #888);
+}
+
+/* Raid Messages Box */
+.qimie-raid-messages {
+    max-height: 120px;
+    overflow-y: auto;
+    background-color: rgba(0, 0, 0, 0.3);
+    border: 1px solid var(--theme-border, #333);
+    border-radius: 3px;
+    padding: 4px;
+    font-size: 12px;
+    line-height: 1.35;
+}
+
+.qimie-raid-msg-item {
+    margin-bottom: 2px;
+    word-break: break-word;
+}
+
+.raid-msg-time {
+    color: var(--theme-muted, #777);
+    font-size: 10px;
+    margin-right: 2px;
+}
+
+.raid-msg-sender {
+    color: var(--theme-grade-5, #e67e22);
+    font-weight: bold;
+}
+
+.raid-msg-body {
+    color: var(--theme-text, #ddd);
+}
+
+.qimie-raid-empty,
+.qimie-no-aspects {
+    color: var(--theme-muted, #777);
+    text-align: center;
+    padding: 6px 0;
+    font-size: 11px;
+}
+/* Responsive Breakpoints */
+@media (min-width: 768px) {
+    .qimie-status-bar {
+        margin: 4px auto;
+        width: 100%;
+        max-width: 100%;
+        box-sizing: border-box;
+    }
+    .qimie-aspects-grid {
+        grid-template-columns: repeat(4, 1fr);
+        gap: 8px;
+    }
+}
+
+@media (max-width: 767px) {
+    .qimie-status-bar {
+        margin: 3px 2px;
+        padding: 3px 6px;
+        box-sizing: border-box;
+    }
+    .qimie-bar-summary {
+        gap: 4px;
+    }
+    .qimie-aspects-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 4px;
+    }
+    .qimie-summary-mid {
+        flex: 1 1 100%;
+        order: 3;
+        margin-top: 3px;
+        gap: 4px;
+    }
+    .qimie-boss-hp-wrap {
+        flex: 1 1 100%;
+        min-width: 0;
+    }
+    .qimie-summary-left,
+    .qimie-summary-right {
+        flex-shrink: 0;
+    }
+    .qimie-mech-pill {
+        max-width: 100%;
+        flex-wrap: wrap;
+    }
+}
+
+@media (max-width: 480px) {
+    .qimie-status-bar {
+        margin: 2px 0;
+        padding: 3px 4px;
+        font-size: 12px;
+    }
+    .qimie-summary-left {
+        gap: 4px;
+    }
+    .qimie-aspect-card {
+        padding: 2px 4px;
+        font-size: 10px;
+    }
+    .qimie-phase-badge {
+        font-size: 11px;
+        padding: 1px 4px;
+    }
+    .qimie-stacks {
+        font-size: 11px;
+        padding: 0 3px;
+    }
+    .qimie-raid-btn,
+    .qimie-bar-toggle {
+        padding: 1px 4px;
+        font-size: 11px;
+    }
+}

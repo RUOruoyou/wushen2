@@ -347,3 +347,12 @@ if (!USER.FB_TIANLONGSI_DEATH_HOOK) {
         room.fail_fb_route(this, "护送段誉途中玩家死亡，段誉已随之遇害");
     };
 }
+if (!USER.QIMIE_COMMAND_GATE) {
+    USER.QIMIE_COMMAND_GATE = true;
+    const previousCheckCommand = USER.prototype.check_command;
+    USER.prototype.check_command = function (cmd) {
+        const task = typeof TASK !== "undefined" && TASK.GET && TASK.GET("qimie_event");
+        if (task && task.command_allowed && task.command_allowed(this, cmd && cmd.command, cmd) === false) return false;
+        return previousCheckCommand ? previousCheckCommand.call(this, cmd) : true;
+    };
+}

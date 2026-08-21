@@ -8,6 +8,7 @@ import SCRIPT from './script.js';
 import { roles } from './login/index.js';
 import { SERVERS } from "./login/server.js";
 import { CmdPrompt } from './confirm.js';
+import QimieEvent from './qimie-event.js';
 
 const MessageContent = () => $(".content-message");
 const MessagePage = { append: (div) => $(".content-message").append(div) };
@@ -31,6 +32,7 @@ const Process = {
         Combat.dis_pfms = [];
 
         this.state(null);
+        QimieEvent.clear();
     },
     init: function () {
         Process.itemsElement = $(".room_items");
@@ -551,7 +553,13 @@ const Process = {
         Combat.AddObj(data.id, data.name, data.distime);
     }, removeAction: function (data) {
         Combat.DisObj({ id: data.id, remove: true });
-    }
+    },
+    boss_event: function (data) {
+        QimieEvent.onBossEvent(data, Process.player);
+    },
+    raid: function (data) {
+        QimieEvent.onRaid(data);
+    },
 };
 function ReceiveMessage(x) {
     Process.message.push(x);

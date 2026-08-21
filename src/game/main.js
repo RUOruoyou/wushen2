@@ -97,6 +97,7 @@ class GameMainPage extends Page {
                 <span class="selected" channel="chat">世界</span>
                 <span channel="tm">组队</span>
                 <span channel="fam">门派</span>
+                <span channel="raid">战团</span>
                 <span channel="say">房间</span>
                 <span channel="es">全区</span>
                 <span channel="pty">帮派</span>
@@ -192,13 +193,17 @@ function OnSendBoxKeyDown(e) {
     }
 }
 function SendChatMessage() {
-    var value = $(".sender-box").val();
-    if (!value) return;
+    var box = $(".sender-box");
+    var raw = box.val();
+    var value = raw ? String(raw).trim() : "";
+    if (!value) {
+        box.val("").focus();
+        return;
+    }
     if (value.length > 100) return ReceiveMessage("<hir>你输入的内容太多了。</hir>");
-    var channel = $(".channel-box").attr("channel");
-    $(".sender-box").val("").focus();
-    SendCommand(channel + " " + value + "");
-
+    var channel = $(".channel-box").attr("channel") || "chat";
+    box.val("").focus();
+    SendCommand(channel + " " + value);
 }
 
 function ChannelChanged() {
