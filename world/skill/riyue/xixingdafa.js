@@ -39,6 +39,7 @@ this.do_force_attack = function (me, target, par) {
     if (drain <= 0) return 0;
     target.add_mp(-drain);
     me.add_mp(parseInt(drain * 0.6));
+    me.send_combat("<hic>$N五指微张暗运吸星大法，$n的内力丝丝缕缕地涌入$P体内。</hic>", target);
     me.set_temp("xixing_xi", 1, 8000);
     return 0;
 };
@@ -49,6 +50,7 @@ this.on_parry_over = function (me, target, par) {
     if (drain > 0) {
         target.add_mp(-drain);
         me.add_mp(parseInt(drain * 0.4));
+        me.send_combat("<hic>$N卸力之际顺势牵引，$n的内力顺着攻势丝丝泄入$P经脉。</hic>", target);
     }
     me.set_temp("xixing_parry", 1, 10000);
 };
@@ -83,7 +85,8 @@ this.pfm = {
         query_desc: function (me, lv) {
             var per = 120 + parseInt(lv / 35);
             if (per > 165) per = 165;
-            return "造成" + per + "%攻击伤害；命中后吸取目标当前内力，并恢复其中75%。";
+            var drain = lv * 3 + parseInt(me.max_mp * 0.02);
+            return "造成" + per + "%攻击伤害；命中后吸取目标" + drain + "点内力，并恢复其中75%。";
         }
     },
     sangong: {
