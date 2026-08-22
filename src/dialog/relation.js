@@ -1,5 +1,14 @@
 
 
+function format_time_span(time) {
+    if (!time || time < 0) time = 0;
+    var hours = Math.floor(time / 3600000);
+    var mins = Math.floor((time % 3600000) / 60000);
+    if (hours > 0) return hours + "小时" + mins + "分";
+    if (mins > 0) return mins + "分钟";
+    return "片刻";
+}
+
 export default {
     init: function () { },
     createElement: function () {
@@ -10,6 +19,7 @@ export default {
         this.isShow = true;
         Dialog.title("关系");
         Dialog.icon("heart");
+        this.element.off("click.household").on("click.household", ".household-open", function () { SendCommand("household view"); });
     },
     onData: function (data) {
         var str = [];
@@ -67,6 +77,7 @@ export default {
             str.push("</div>");
         }
         str.push("</div>");
+        str.push("<div class='relation-item'><div class='relation-desc'>武道家族</div><div class='relation-cmd household-open'>打开家族面板</div></div>");
         if (data.fls) {
             for (let item of data.fls) {
                 if (!item) continue;
@@ -78,9 +89,10 @@ export default {
                     str.push("<div class='relation-cmd' cmd='rel ", item[1], " stop'>停止</div>");
                 } else {
                     str.push('空闲中</div>');
-                    str.push("<div class='relation-cmd' cmd='rel ", item[1], " caiyao'><hic>采药</hic></div>");
-                    str.push("<div class='relation-cmd' cmd='rel ", item[1], " diaoyu'><hic>钓鱼</hic></div>");
-                    str.push("<div class='relation-cmd' cmd='rel ", item[1], " wk'><hic>挖矿</hic></div>");
+                    str.push("<div class='relation-cmd' cmd='household assign ", item[1], " planting'>种植</div>");
+                    str.push("<div class='relation-cmd' cmd='household assign ", item[1], " alchemy'>炼药</div>");
+                    str.push("<div class='relation-cmd' cmd='household assign ", item[1], " teaching'>授课</div>");
+                    str.push("<div class='relation-cmd' cmd='household assign ", item[1], " mining'>挖矿</div>");
                 }
                 str.push("</div>");
             }

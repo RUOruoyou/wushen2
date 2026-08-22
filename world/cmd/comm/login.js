@@ -89,6 +89,7 @@ this.loginIn = async function (user, id) {
 
 
 this.on_user_login = function (user) {
+    if (typeof HOUSEHOLD !== "undefined") HOUSEHOLD.tick(user, Date.now());
     user.send("欢迎登陆<HIW>MUD游戏</HIW>");
 
 

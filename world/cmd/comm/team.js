@@ -59,6 +59,9 @@ this.team_set = function (me, arg) {
 this.team_with = function (me, user) {
     var player = me.find_obj(user, me.environment);
     if (!player) return me.notify("没有这个玩家，或者不在线");
+    if (player.family_member || (player.master === me.id && FOLLOWER.GET(me, { id: player.id }))) {
+        return me.notify("家族成员不参与战斗，请在家族面板安排工作。");
+    }
     if (player.master != me.id) return me.notify(player.name + "拒绝了你的组队邀请。");
     if (player.team) return me.notify(player.name + "已加入组队，无法接受你的请求。");
     if (me.environment.is_fb()) return me.notify("你正在副本，无法邀请别人。");
@@ -81,6 +84,9 @@ this.team_add = function (me, user) {
         //}
 
         return me.notify("没有这个玩家，或者不在线");
+    }
+    if (player.family_member || (player.master === me.id && FOLLOWER.GET(me, { id: player.id }))) {
+        return me.notify("家族成员不参与战斗，请在家族面板安排工作。");
     }
     if (player.serverid !== me.serverid) return me.notify("你不能组他。");
     if (player === me) return;
@@ -107,9 +113,11 @@ this.team_add = function (me, user) {
     me.send("<hig>已经发送对" + player.name + "的组队邀请。</hig>");
 }
 this.team_reply = function (me, act) {
+    if (me.family_member) return me.notify("家族成员不参与战斗，请在家族面板安排工作。");
     var p = me.query_temp("team");
     if (!p) return me.send("没有人邀请你组队，或邀请已过期。");
     var player = WORLD.getUser(p);
+    if (player && player.family_member) return me.notify("家族成员不参与战斗，请在家族面板安排工作。");
     if (!player) me.send("没有人邀请你组队，或邀请已过期。");
     if (act == "ok") {
         if (me.team) return me.send("你已经有队伍了。");

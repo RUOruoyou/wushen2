@@ -5,10 +5,8 @@ this.desc = "这是你的卧室，房间不大陈设也不多，但是收拾的�
 this.exits = { "out": "yz/home" };
 
 this.on_enter = function (me) {
-    if (me.follower) {
-        for (var i = 0; i < me.follower.length; i++) {
-            FOLLOWER.CREATE(me, me.follower[i], this.on_npc_create.bind(this, me));
-        }
+    if (me.follower && typeof HOUSEHOLD !== "undefined" && HOUSEHOLD.placeMembers) {
+        HOUSEHOLD.placeMembers(me);
     }
     if (me.master) {
         me.actions = [
@@ -39,15 +37,6 @@ this.add_action("store", "打开仓库");
 this.add_action("xiulian", "修炼", null);
 this.add_action("fenpei", "分配属性", null);
 this.allow_store = true;
-this.on_npc_create = function (me, npc) {
-    if (!npc) return;
-    if (npc.environment && npc.environment.parent.id == "home") return;
-    if (!npc.hp) npc.hp = 1;
-    if (npc.state) npc.set_state(null);
-    npc.moveto(this, npc.name + "离开了。", npc.name + "走了过来。");
-
-    npc.on_master_enter && npc.on_master_enter(me);
-}
 
 this.add_action("sleep", "睡觉", function (me) {
 

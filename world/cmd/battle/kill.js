@@ -11,6 +11,9 @@ this.enter = function (me, argid) {
     if (!target || !target.do_kill) {
         return me.notify("你要攻击谁？");
     }
+    if (target.family_member || (target.master === me.id && FOLLOWER.GET(me, { id: target.id }))) {
+        return me.notify("家族成员永久退出战斗，请在家族面板安排工作。");
+    }
     if (target === me) return me.notify("你要攻击谁？");
     if (target.is_player) {
 
@@ -63,24 +66,8 @@ this.enter = function (me, argid) {
 
     if (target.on_kill && target.on_kill(me) == false) return;
 
-    if (me.team) {
-        for (var i = 0; i < me.team.length; i++) {
-            var item = me.team[i];
-            if (item.master == me.id && item.query_setting("auto_kill") == 2 && item.is_here(me)) {
-                item.do_kill(target);
-            }
-        }
-    }
     me.do_kill(target);
     target.begin_kill && target.begin_kill(me);
-    if (me.team) {
-        for (var i = 0; i < me.team.length; i++) {
-            var item = me.team[i];
-            if (item.master == me.id && item.query_setting("auto_kill") == 1 && item.is_here(me)) {
-                item.do_kill(target);
-            }
-        }
-    }
 
     WORLD.auto_pfm(me, target);
 

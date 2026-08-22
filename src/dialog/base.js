@@ -24,6 +24,7 @@ import DialogList from './list.js';
 import DialogItem from './item.js';
 import DialogPackManage from './packmanage.js';
 import DialogCustomEquipment from './custom-equipment.js';
+import DialogHousehold from './household.js';
 
 const dialogThemeOverrideCss = `
 .dialog,
@@ -220,6 +221,7 @@ const Dialog = {
     item: DialogItem,
     packmanage: DialogPackManage,
     customEquipment: DialogCustomEquipment,
+    household: DialogHousehold,
     themeStyleElement: null,
 
     show: function (name, data) {

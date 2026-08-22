@@ -16,6 +16,9 @@ this.enter = function (me, argid) {
     if (!target) {
         return me.notify("你要攻击谁？");
     }
+    if (target.family_member || (target.master === me.id && FOLLOWER.GET(me, { id: target.id }))) {
+        return me.notify("家族成员不参与战斗，请在家族面板安排工作。");
+    }
     if (target.can_speek == false) return me.notify("看起来它并不想跟你较量。");
     if (target == me) return me.notify("你不能和自己比试。");
     if (target.hp < target.max_hp * 0.95) {

@@ -30,12 +30,17 @@ WORLD.on_user_quit = function (user) {
 }
 WORLD.on_user_save = function (user) {
     //在玩家退出游戏，或者游戏关闭时候调用
+    if (typeof HOUSEHOLD !== "undefined") HOUSEHOLD.tick(user, Date.now());
 
 }
 
 
 WORLD.on_heart_beat = function (now) {
-
+    if (typeof HOUSEHOLD !== "undefined" && Array.isArray(WORLD.USERS)) {
+        for (const user of WORLD.USERS) {
+            if (user && user.socket) HOUSEHOLD.tick(user, now);
+        }
+    }
 }
 
 // Cold-load audit for copy NPCs. This is intentionally opt-in so normal

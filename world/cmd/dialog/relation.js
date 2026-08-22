@@ -79,8 +79,22 @@ this.enter = function (me, arg) {
             let follower = FOLLOWER.GET(me, item);
             if (follower) {
                 str.push('["', follower.long_name(), '","', follower.id, '"');
-                if (follower.state) {
-                    str.push(',"', follower.state.title, '",', now - follower.state.stime);
+                // 家族成员的岗位状态以家族数据为准，旧实时工作状态仅作回退。
+                let title = null;
+                let since = 0;
+                if (typeof HOUSEHOLD !== "undefined" && HOUSEHOLD.memberStateInfo) {
+                    let info = HOUSEHOLD.memberStateInfo(me, follower.id);
+                    if (info) {
+                        title = String(info.title || "").replace(/中$/, "");
+                        since = now - info.since;
+                    }
+                }
+                if (!title && follower.state) {
+                    title = follower.state.title;
+                    since = now - follower.state.stime;
+                }
+                if (title) {
+                    str.push(',"', title, '",', Math.max(0, since));
                 }
                 str.push('],');
             }

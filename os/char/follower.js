@@ -9,6 +9,8 @@ FOLLOWER = function () {
     this.master = null;
     this.level = 3;
     this.master_name = null;
+    // 家族成员保留住宅展示与互动能力，但不再进入任何战斗链路。
+    this.family_member = true;
     this.max_item_count = 10;
     this.settings = {
         auto_kill: 1,
@@ -349,10 +351,6 @@ FOLLOWER.prototype.query_mastercommands = function () {
         name: "查看"
     });
     json.commands.push({
-        cmd: "fight " + this.id,
-        name: "比试"
-    });
-    json.commands.push({
         cmd: "score " + this.id,
         name: "属性"
     });
@@ -363,10 +361,6 @@ FOLLOWER.prototype.query_mastercommands = function () {
     json.commands.push({
         cmd: "cha " + this.id,
         name: "技能"
-    });
-    json.commands.push({
-        cmd: "team with " + this.id,
-        name: "组队"
     });
     json.commands.push({
         cmd: "trade " + this.id,
@@ -404,15 +398,6 @@ FOLLOWER.prototype.query_commands = function (player) {
         cmd: "look " + this.id,
         name: "查看"
     });
-    if (!this.no_fight)
-        json.commands.push({
-            cmd: "fight " + this.id,
-            name: "比试"
-        });
-    json.commands.push({
-        cmd: "kill " + this.id,
-        name: "击杀"
-    });
     json.commands.push({
         cmd: "ask " + this.id + " about 主人",
         name: "询问主人"
@@ -428,13 +413,12 @@ FOLLOWER.prototype.on_ask = function (me, par) {
     }
 }
 FOLLOWER.prototype.on_teamin = function (me) {
-    if (!this.team) return;
-    for (var i = 0; i < this.team.length; i++) {
-        var tm = this.team[i];
-        if (this.master == tm.id) {
-            this.do_follow(tm);
-        }
+    if (!this.family_member) return;
+    if (this.team) {
+        this.team.remove && this.team.remove(this);
+        this.team = null;
     }
+    this.send("家族成员不参与战斗，请在家族面板安排工作。");
 }
 FOLLOWER.prototype.on_teamout = function (me) {
     if (!this.team) return;
@@ -468,6 +452,11 @@ FOLLOWER.prototype.on_enter = function (me) {
     }
 }
 FOLLOWER.prototype.on_master_leave = function (me, nextrm) {
+    if (this.family_member) {
+        // 有家族任务的成员留守岗位（hh_ 前缀的展示状态），空闲成员只在住宅内跟随。
+        if (this.state && String(this.state.id || "").indexOf("hh_") === 0) return false;
+        return !!(nextrm && nextrm.parent && nextrm.parent.id === "home");
+    }
     if (this.state || !this.team || this.team != me.team) return false;
     if (this.hp <= 0) return false;
     if (me.environment === this.environment) return false;
