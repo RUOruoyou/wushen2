@@ -258,10 +258,10 @@ this.groups = [
             path: "cash/guixuzhong", desc: "开启江湖-秘境中的断剑冢，进入一次消耗一枚。", value: 100
         },
         {
-            name: "<hio>月卡</hio>", unit: "张", grade: 5,
-            path: "cash/month_card",
-            desc: "激活后30天内每日通过社交邮箱发放100元宝，学习、练习、打坐效率+100%，经验获得率+20%，获得30日称号【月下听雨】。",
-            value: 980, limit: 1, limit_time: 2, limit_key: "shp_month_card"
+            name: "<hio>随从契约</hio>", unit: "张", grade: 5,
+            path: "cash/qiyue",
+            desc: "在自己家使用后随机召唤一名江湖人士加入随从（不可指定）；抽到已拥有的角色时可为家中同名随从改名；随从满员时可继承原随从的经验、装备和物品。",
+            value: 3000
         },
         {
             name: "<hig>背包扩充</hig>", unit: "块", grade: 1,

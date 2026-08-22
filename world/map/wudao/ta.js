@@ -95,7 +95,15 @@ this.on_die2 = function (me) {
         if (count > 60) {
             let speed = me.add_temp('wd_lim', 1, 120000);
             if (speed >= 3) {
-                me.is_busy = 1000;
+                //裸赋值 is_busy 没有到期清理，会永久卡住玩家，必须走状态系统
+                me.add_status({
+                    id: "wd_lim",
+                    name: "忙乱",
+                    duration: 1000,
+                    is_busy: true,
+                    downside: true,
+                    desc: "连番激斗，你气息微乱。"
+                });
             }
         }
     }

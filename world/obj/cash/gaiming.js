@@ -50,12 +50,15 @@ async function update_name(me, name, obj) {
         me.commands_json = null;
         me.environment.item_changed(me, true);
         me.remove_obj(obj, 1);
-        var pt = me.query_party();
-        if (pt) {
-            for (var i = 0; i < pt.roles.length; i++) {
-                if (pt.roles[i].id == me.id) {
-                    pt.roles[i].name = me.name;
-                    break;
+        // 帮派与婚姻称号属于可选联动，老引擎的 query_party 已不存在，缺方法时跳过即可。
+        if (typeof me.query_party === "function") {
+            var pt = me.query_party();
+            if (pt) {
+                for (var i = 0; i < pt.roles.length; i++) {
+                    if (pt.roles[i].id == me.id) {
+                        pt.roles[i].name = me.name;
+                        break;
+                    }
                 }
             }
         }
@@ -86,10 +89,11 @@ async function update_name(me, name, obj) {
 
 
     } catch (err) {
-        if (err.errno == 1062) {
+        if (err.errno == 1062 || err.code === "SQLITE_CONSTRAINT_UNIQUE") {
             return me.send('这个名字已经有人使用了。');
         } else {
             me.wait_input = null;
+            console.error("改名失败 role=" + me.id + " name=" + name, err);
             return me.send('名称更改失败，请联系管理员');
         }
     }
